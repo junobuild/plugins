@@ -9,14 +9,8 @@ const {yellow, cyan} = kleur;
 const JUNO_JSON = join(process.cwd(), 'juno.json');
 const DFX_LOCAL_CANISTER_IDS = join(process.cwd(), '.dfx', 'local', 'canister_ids.json');
 
-export const satelliteId = ({
-  params: {junolator},
-  mode
-}: {
-  params: JunoParams;
-  mode: string;
-}): string => {
-  if (junolator === true && mode === 'development') {
+export const satelliteId = ({params, mode}: {params?: JunoParams; mode: string}): string => {
+  if (params?.junolator === true && mode === 'development') {
     return junolatorSatelliteId();
   }
 
