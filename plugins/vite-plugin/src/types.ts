@@ -1,5 +1,5 @@
 export interface JunoParams {
   profile?: string;
-  cli: 'dev' | 'prod';
+  cli?: 'dev' | 'prod';
   junolator?: boolean;
 }
