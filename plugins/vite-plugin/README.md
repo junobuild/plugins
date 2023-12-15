@@ -12,9 +12,9 @@ A Vite plugin for [Juno].
 
 ## Environment variables
 
-The plugin automatically loads the Satellite ID from your project's `juno.json`. If you are using analytics, it also fetches the Orbiter ID from your CLI configuration.
+The plugin automatically loads the Satellite ID from your project's `juno.json`. If you are using analytics, it also loads the Orbiter ID.
 
-With these loaded values, you can instantiate Juno in your code without the need to manually define environment variables.
+With these values, you can instantiate Juno in your code without the need to manually define environment variables.
 
 ```javascript
 await Promise.all([
