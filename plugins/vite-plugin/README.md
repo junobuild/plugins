@@ -31,7 +31,7 @@ await Promise.all([
 ## Installation
 
 ```bash
-npm i @junobuild/vite-plugin
+npm i @junobuild/vite-plugin -D
 ```
 
 ## Usage
