@@ -3,12 +3,12 @@ import {orbiterId as orbiterIdConfig, satelliteId as satelliteIdConfig} from './
 import {JunoPluginError} from './error';
 import type {JunoParams} from './types';
 
-export default function Juno(params: JunoParams = {config: 'prod'}): Plugin {
+export default function Juno(params: JunoParams = {cli: 'prod'}): Plugin {
   return {
     name: 'vite-plugin-juno',
-    config({envPrefix}: UserConfig, _env: {mode: string; command: string}) {
+    config({envPrefix}: UserConfig, {mode}: {mode: string; command: string}) {
       try {
-        const satelliteId = satelliteIdConfig();
+        const satelliteId = satelliteIdConfig({params, mode});
         const orbiterId = orbiterIdConfig(params);
 
         return {

@@ -50,17 +50,21 @@ export default defineConfig({
 The plugins can be initialized with the following options:
 
 - `profile`: Specifies a particular profile of the CLI (a `string`).
-- `config`: Useful when developing new features in the CLI (`dev` or `prod`).
+- `cli`: Useful when developing new features in the CLI (`dev` or default `prod`).
+- `junolator`: If set to `true`, the satellite ID will resolve to the locally deployed satellite if the mode is set to development.
 
 ```javascript
 // vite.config.js
 import juno from '@junobuild/vite-plugin';
 
 export default defineConfig({
-  plugins: [juno({
-    profile: "david",
-    config: "dev"
-  })]
+  plugins: [
+    juno({
+      profile: 'david',
+      cli: 'dev',
+      junolator: true
+    })
+  ]
 });
 ```
 

@@ -24,12 +24,9 @@ const isDefaultProfile = (profile: string | undefined | null): boolean =>
 const getProfiles = (config: Conf): Record<string, AuthConfigData> | undefined =>
   config.get('profiles');
 
-export const getOrbiters = ({
-  config: paramsConfig,
-  profile
-}: JunoParams): AuthOrbiterConfig[] | undefined => {
+export const getOrbiters = ({cli, profile}: JunoParams): AuthOrbiterConfig[] | undefined => {
   const config = new Conf({
-    projectName: paramsConfig === 'dev' ? AUTH_PROJECT_NAME_DEV : AUTH_PROJECT_NAME
+    projectName: cli === 'dev' ? AUTH_PROJECT_NAME_DEV : AUTH_PROJECT_NAME
   });
 
   if (!isDefaultProfile(profile)) {
