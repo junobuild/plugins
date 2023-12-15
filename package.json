@@ -1,0 +1,32 @@
+{
+  "name": "@junobuild/plugins",
+  "version": "0.0.1",
+  "description": "This repository provides a collection of plugins useful do developing dapps with [Juno](https://juno.build).",
+  "main": "index.js",
+  "workspaces": [
+    "plugins/vite-plugin"
+  ],
+  "scripts": {
+    "build": "npm run build --workspaces",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "lint": "eslint --max-warnings 0 **/src/**/*"
+  },
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^20.10.4",
+    "@typescript-eslint/eslint-plugin": "^6.14.0",
+    "esbuild": "^0.19.9",
+    "eslint": "^8.55.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-config-standard-with-typescript": "^42.0.0",
+    "eslint-plugin-import": "^2.29.1",
+    "eslint-plugin-n": "^16.4.0",
+    "eslint-plugin-prettier": "^5.0.1",
+    "eslint-plugin-promise": "^6.1.1",
+    "prettier": "^3.1.1",
+    "prettier-plugin-organize-imports": "^3.2.4",
+    "typescript": "^5.3.3"
+  }
+}
