@@ -50,7 +50,6 @@ export default defineConfig({
 The plugins can be initialized with the following options:
 
 - `profile`: Specifies a particular profile of the CLI (a `string`).
-- `cli`: Useful when developing new features in the CLI (`dev` or default `prod`).
 - `junolator`: If set to `true`, the satellite ID will resolve to the locally deployed satellite if the mode is set to development.
 
 ```javascript
@@ -61,7 +60,6 @@ export default defineConfig({
   plugins: [
     juno({
       profile: 'david',
-      cli: 'dev',
       junolator: true
     })
   ]

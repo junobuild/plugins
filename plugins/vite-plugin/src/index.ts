@@ -9,7 +9,7 @@ export default function Juno(params: JunoParams): Plugin {
     config({envPrefix}: UserConfig, {mode}: {mode: string; command: string}) {
       try {
         const satelliteId = satelliteIdConfig({params, mode});
-        const orbiterId = orbiterIdConfig(params);
+        const orbiterId = orbiterIdConfig();
 
         return {
           define: {
