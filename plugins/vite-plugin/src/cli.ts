@@ -13,32 +13,27 @@ interface AuthOrbiterConfig {
   n?: string; // name
 }
 
-type AuthProfile = 'default' | string;
-
 // Subset of CLI configuration
 interface AuthConfigData {
   orbiters?: AuthOrbiterConfig[];
 }
 
-const getUse = (config: Conf): AuthProfile | undefined => config.get('use');
-
-const isDefaultProfile = (use: AuthProfile | undefined | null): boolean =>
-  use === null || use === undefined || use === 'default';
+const isDefaultProfile = (profile: string | undefined | null): boolean =>
+  profile === null || profile === undefined || profile === 'default';
 
 const getProfiles = (config: Conf): Record<string, AuthConfigData> | undefined =>
   config.get('profiles');
 
 export const getOrbiters = ({
-  config: paramsConfig
+  config: paramsConfig,
+  profile
 }: JunoParams): AuthOrbiterConfig[] | undefined => {
   const config = new Conf({
     projectName: paramsConfig === 'dev' ? AUTH_PROJECT_NAME_DEV : AUTH_PROJECT_NAME
   });
 
-  const use = getUse(config);
-
-  if (!isDefaultProfile(use)) {
-    return getProfiles(config)?.[use!]?.orbiters;
+  if (!isDefaultProfile(profile)) {
+    return getProfiles(config)?.[profile!]?.orbiters;
   }
 
   return config.get('orbiters');

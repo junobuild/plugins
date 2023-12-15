@@ -45,6 +45,25 @@ export default defineConfig({
 });
 ```
 
+## Options
+
+The plugins can be initialized with the following options:
+
+- `profile`: Specifies a particular profile of the CLI (a `string`).
+- `config`: Useful when developing new features in the CLI (`dev` or `prod`).
+
+```javascript
+// vite.config.js
+import juno from '@junobuild/vite-plugin';
+
+export default defineConfig({
+  plugins: [juno({
+    profile: "david",
+    config: "dev"
+  })]
+});
+```
+
 ## License
 
 MIT © [David Dal Busco](mailto:david.dalbusco@outlook.com)
