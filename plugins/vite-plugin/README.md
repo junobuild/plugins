@@ -49,7 +49,9 @@ export default defineConfig({
 
 The plugins can be initialized with the following options:
 
-- `junolator`: If set to `true`, the satellite ID will resolve to the locally deployed satellite if the mode is set to development.
+- `container`: `true` to use [Juno Docker](https://github.com/junobuild/juno-docker) with default options or a `string` representing the container URL including port - e.g. `http://127.0.0.1:8000`
+
+Note that those options are only considered when the build mode is not `production`.
 
 ```javascript
 // vite.config.js
@@ -58,7 +60,7 @@ import juno from '@junobuild/vite-plugin';
 export default defineConfig({
   plugins: [
     juno({
-      junolator: true
+      container: true
     })
   ]
 });
