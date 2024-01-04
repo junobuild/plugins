@@ -1,3 +1,3 @@
 export interface JunoParams {
-  junolator?: boolean;
+  container?: boolean | string;
 }
