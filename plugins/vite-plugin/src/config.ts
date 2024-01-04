@@ -58,7 +58,13 @@ export const internetIdentityId = (args: {
   return undefined;
 };
 
-export const host = ({params, mode}: {params?: JunoParams; mode: string}): string | undefined => {
+export const container = ({
+  params,
+  mode
+}: {
+  params?: JunoParams;
+  mode: string;
+}): string | undefined => {
   if (useDockerContainer({params, mode})) {
     return params?.container === true
       ? DOCKER_CONTAINER_URL

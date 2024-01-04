@@ -1,6 +1,6 @@
 import {type Plugin, type UserConfig} from 'vite';
 import {
-  host as hostConfig,
+  container as containerConfig,
   internetIdentityId as internetIdentityIdConfig,
   orbiterId as orbiterIdConfig,
   satelliteId as satelliteIdConfig
@@ -16,7 +16,7 @@ export default function Juno(params?: JunoParams): Plugin {
         const satelliteId = satelliteIdConfig({params, mode});
         const orbiterId = orbiterIdConfig();
         const internetIdentityId = internetIdentityIdConfig({params, mode});
-        const host = hostConfig({params, mode});
+        const container = containerConfig({params, mode});
 
         return {
           define: {
@@ -28,8 +28,8 @@ export default function Juno(params?: JunoParams): Plugin {
               [`import.meta.env.${envPrefix ?? 'VITE_'}INTERNET_IDENTITY_ID`]:
                 JSON.stringify(internetIdentityId)
             }),
-            ...(host !== undefined && {
-              [`import.meta.env.${envPrefix ?? 'VITE_'}HOST`]: JSON.stringify(host)
+            ...(container !== undefined && {
+              [`import.meta.env.${envPrefix ?? 'VITE_'}CONTAINER`]: JSON.stringify(container)
             })
           }
         };
