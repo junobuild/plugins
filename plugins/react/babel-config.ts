@@ -3,8 +3,4 @@ module.exports = {
       ['@babel/preset-env', {targets: {node: 'current'}}],
       '@babel/preset-typescript',
     ],
-    transform: {
-        '\\.[jt]sx?$': 'babel-jest',
-        
-      },
   };
