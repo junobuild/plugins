@@ -1,14 +1,26 @@
+const path = require('path');
+const ts = require('typescript');
 const babel = require('@babel/core');
-const  babelOptions  = require('./babel-config.ts');
 
 module.exports = {
-  process(src, filename, options) {
-    if (filename.endsWith('.ts') || filename.endsWith('.tsx')) {
-      return babel.transformAsync(src, babelOptions)
-      .then((result) => result.code);
+  process(sourceText, sourcePath, options) {
+    if (sourcePath.endsWith('.ts') || sourcePath.endsWith('.tsx')) {
+      // Define babelOptions with the necessary Babel configuration
+      
+      const babelOptions = {
+        compilerOptions: {
+          jsx: ts.JsxEmit.React,
+          esModuleInterop: true,
+          module: ts.ModuleKind.CommonJS,
+        },
+       "presets": ["ts-jest"], // ... your babel options here
+      };
+      return babel.transformAsync(sourceText, babelOptions).then((result) => ({
+        code: result.code // Return the transformed code as a string
+      }));
     }
     return {
-      code: `module.exports = ${JSON.stringify(filename.basename(src))};`,
+      code: sourceText // Return the original source text for non-TypeScript files
     };
-  }
+  },
 };

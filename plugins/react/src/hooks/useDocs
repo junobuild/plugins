@@ -1,48 +1,5 @@
-//import { useState } from 'react';
-//import { setDoc, setManyDocs } from '@junobuild/core';
-
-//function useCollection(collectionName) {
-
-//  const [docs, setDocs] = useState([]);
-
-//  const addDoc = (doc) => {
-//    setDocs(prevDocs => [...prevDocs, doc]);
-//    setDoc({
-//      collection: collectionName,
-//      doc
-//    });
-//  }
-
-//  const updateDoc = (id, updates) => {
-//    setDocs(prevDocs => {
-//      return prevDocs.map(doc => {
-//        if (doc.id === id) {
-//          return {...doc, ...updates};
-//        }
-//        return doc;
-//      });
-//    });
-//    
-//    setDoc({
-//      collection: collectionName, 
-//      doc: {
-//        id, 
-//        ...updates
-//      }
-//    });
-//  }
-
-//  return {
-//    docs,
-//    addDoc,
-//    updateDoc
-    // other CRUD methods
-//  }
-
-//}
-
 import { useState } from 'react';
-import { setDoc } from '@junobuild/core';
+import { setDoc, setManyDocs } from '@junobuild/core';
 import { nanoid } from "nanoid";
 
 interface Doc {

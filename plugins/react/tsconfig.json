@@ -22,6 +22,6 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true
   },
-  "include": ["src", "src/__test__/fileTransformer.cjs"],
+  "include": ["src", "test/fileTransformer.cjs"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }
