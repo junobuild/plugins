@@ -3,7 +3,7 @@ import useJuno from './useJuno';
 
 export default function useCollection(collectionName: string) {
   const [docs, setDocs] = useState([]);
-  const juno = useJuno('tezz6-5iaaa-aaaal-ado3a-cai');
+  const juno = useJuno("");
 
   useEffect(() => {
     // Subscribe to the collection and update the state with new docs

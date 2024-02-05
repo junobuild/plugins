@@ -1,7 +1,8 @@
 import {renderHook} from '@testing-library/react';
 import {describe, it, expect, vi } from "vitest";
 import useCollection from '../src/hooks/useCollection';
-import { type subscribeCollection } from '../src/hooks/useCollection';
+import  subscribeCollection  from '../src/hooks/useCollection';
+
 
 // Mock the @junobuild/core library
 vi.mock('@junobuild/core', () => {
@@ -22,13 +23,15 @@ vi.mock('./useCollection', () => ({
   ...vi.importActual('./useCollection'), 
   subscribeCollection: vi.fn()
 }));
-describe('useCollection', () => {
 
+describe('useCollection', () => {
   it('should subscribe to collection', () => {
-    const mockSubscribe = subscribeCollection as vi.mocked<typeof subscribeCollection>;
+
+    const mockSubscribe = subscribeCollection as vi.isMockFuncxtion<typeof subscribeCollection>;
+    
     expect(mockSubscribe).toHaveBeenCalled();
 
-)},
+  }),
 
 });
 
