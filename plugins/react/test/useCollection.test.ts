@@ -1,49 +1,83 @@
-import { renderHook, act } from '@testing-library/react';
-import useCollection from '../src/hooks/useCollection';
-import {useJuno} from '../src/hooks/useJuno';
-import { vi, describe, expect, it } from 'vitest';
+import {renderHook} from "@testing-library/react";
+import { test,  expect, vi } from "vitest";
+import useCollection from "../src/hooks/useCollection";
+import useJuno from "../src/hooks/useJuno";
 
-// Mock the useJuno hook
-vi.mock('./useJuno', () => ({
-  __esModule: true,
-  default: () => ({
-    satelliteId: 'mockSatelliteId',
-    orbiterId: 'mockOrbiterId',
-    subscribeCollection: vi.fn((collectionName, callback) => {
-      // Simulate a subscription callback
-      const docs = [{ id: '1', data: 'test' }];
-      callback(docs);
-      return {
-        unsubscribe: vi.fn(),
-  };
-  }),
-}),
-  }));
+test('useCollection hook should subscribe and Load', () => {
 
-describe('useCollection', () => { it('should subscribe to collection and update docs', () => { const { result } = renderHook(() => useCollection("mockSatelliteId"));
+  // Simulate usage by rendering the hook
+  const { result } = renderHook(() => useCollection('yourCollectionName'));
 
-// Initially, docs should be an empty array
-expect(result.current.docs).toEqual([]);
-
-// After the effect runs, docs should be updated
-act(() => {
-  vi.useFakeTimers();
-});
-expect(result.current.docs).toEqual([{ id: '1', data: 'test' }]);
+  // Assert that the hook subscribes to the collection
+  // You can use your own custom assertions based on the behavior of your subscription mechanism
+  // For example:
+  expect(result.current.isLoading).toBe(true); // Simulate loading state
+  // ... more assertions based on your specific subscription mechanism
 });
 
 
-it('should clean up the subscription on unmount', () => { const { unmount } = renderHook(() => useCollection('mockSatelliteId'));
+test('useCollection hook should subscribe to the collection', () => {
+    // Mock the subscribeCollection function
+    const subscribeCollectionMock = vi.fn();
+    vi.mock('yourAuthContextFile', () => ({
+      subscribeCollection: subscribeCollectionMock,
+    }));
+  
+    // Simulate usage by rendering the hook
+    const { result } = renderHook(() => useCollection('yourCollectionName'));
+  
+    // Assert that the hook subscribes to the collection
+    // You can use your own custom assertions based on the behavior of your subscription mechanism
+    // For example:
+    expect(subscribeCollectionMock).toHaveBeenCalled(); // Verify that subscribeCollection was called
+    // ... more assertions based on your specific subscription mechanism
+  });
+  
+  test('useCollection hook should unsubscribe from the collection', () => {
+    // Mock the unsubscribe function
+    const unsubscribeMock = vi.fn();
+   // const unsubscribe = useJuno
+    vi.mock('./useJuno', () => ({
+         unsubscribe:  useJuno(),
+      
+    }));
+  
+    // Simulate usage by rendering the hook
+    const { result, unmount } = renderHook(() => useCollection('yourCollectionName'));
+  
+    // Simulate unmounting the component
+    unmount();
+  
+    // Assert that the hook unsubscribes from the collection
+    // You can use your own custom assertions based on the behavior of your unsubscribe mechanism
+    // For example:
+    expect(unsubscribeMock).toHaveBeenCalled(); // Verify that unsubscribe was called on component unmount
+    // ... more assertions based on your specific unsubscribe mechanism
+  });
 
-// Mock the unsubscribe function
-const unsubscribe = vi.fn();
-// Get the return value of useJuno
-const juno = useJuno();
 
+test('useCollection hook should add documents', () => {
+  // Simulate usage by rendering the hook
+  const { result } = renderHook(() => useCollection('yourCollectionName'));
 
-// Unmount the component
-unmount();
+  // Simulate adding a document
+  result.current.addDoc({ id: 'yourId', data: { yourData: 'yourValue' } });
 
-// The unsubscribe function should have been called
-expect(unsubscribe).toHaveBeenCalled();
-}); });
+  // Assert that the document is added
+  expect(result.current.docs).toHaveLength(1); // Assuming the added document is reflected in the docs state
+  // ... more assertions based on your specific addDoc implementation
+});
+
+test('useCollection hook should update the documents', () => {
+  // Simulate usage by rendering the hook
+  const { result } = renderHook(() => useCollection('yourCollectionName'));
+
+  // Simulate updating a document
+  result.current.updateDoc('yourDocumentId', { updatedField: 'newValue' });
+
+  // Assert that the document is updated
+  // You can use your own custom assertions based on the behavior of your updateDoc function
+  // For example:
+  expect(result.current.docs[0].updatedField).toBe('newValue'); // Assuming the document is updated correctly
+  // ... more assertions based on your specific updateDoc implementation
+});

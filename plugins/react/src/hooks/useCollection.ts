@@ -35,7 +35,9 @@ type DocType = {
       collection: collectionName,
       doc: {
         key : myId,
-        data: docs,
+        data: {
+          docs
+        }
       },
     });
   }
@@ -54,7 +56,7 @@ type DocType = {
       collection: collectionName, 
       doc: {
         key: id,
-        data: {},
+        data: docs,
         ...updates
       }
     });

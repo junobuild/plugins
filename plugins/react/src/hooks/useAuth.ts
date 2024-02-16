@@ -1,7 +1,7 @@
 import {useState, useEffect,} from "react";
 import { authSubscribe, User } from "@junobuild/core";
 
-export default function useAuth() {
+ function useAuth() {
 
     const [user, setUser] = useState<User | undefined | null>(undefined);
 
@@ -13,3 +13,4 @@ export default function useAuth() {
     }, []);
     return user;
 }
+export default useAuth;
