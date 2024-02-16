@@ -1,10 +1,10 @@
 import { useContext, useEffect, useState } from 'react';
 import { AuthContext } from "../context/authContext";
-import { setDoc } from '@junobuild/core';
+import { Satellite, setDoc } from '@junobuild/core';
 import { nanoid } from "nanoid";
 
 type DocType = {
-  id: string;
+  satellite?: Satellite | undefined;
   data: any;
   [key: string]: any;
 } // 
@@ -35,9 +35,7 @@ type DocType = {
       collection: collectionName,
       doc: {
         key : myId,
-        data: {
-          docs
-        }
+        data: docs
       },
     });
   }
