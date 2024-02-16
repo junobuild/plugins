@@ -35,7 +35,7 @@ type DocType = {
       collection: collectionName,
       doc: {
         key : myId,
-        data: docs
+        data: doc
       },
     });
   }
