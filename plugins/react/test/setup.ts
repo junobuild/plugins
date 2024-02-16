@@ -3,6 +3,7 @@ import * as matches from "@testing-library/jest-dom/matchers";
 //import "ts-node/register";
 import { expect } from "vitest";
 import { afterEach } from "node:test";
+import "fake-indexeddb/auto";
 
 expect.extend(matches);
 afterEach(() => {

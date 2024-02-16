@@ -4,7 +4,7 @@ import useCollection from "../src/hooks/useCollection";
 
 describe('useCollection', () => {
 
-    const {result} = renderHook(() => useCollection());
+    const {result} = renderHook(() => useCollection(""));
 
-    expect(result.current.subscribe).toEqual([]);
+    expect(result.current.docs).toEqual([]);
 })

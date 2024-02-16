@@ -1,12 +1,18 @@
-import { useContext } from "react";
-import { AuthContext  } from "./context/authContext";
+import  { JunoProvider }  from "./components/junoProvider";
+import { initJuno } from "@junobuild/core";
 //import AuthContext from "./components/junoProvider";
+
+initJuno({
+  satelliteId: ''
+})
 
 function App() {
   
-  const  user = useContext(AuthContext);
-  
-  return  <div>[user]</div>
+  return (
+  <JunoProvider satelliteId={"myId"}>
+  <App />
+  </JunoProvider>
+  );
   
 }
 export default App;

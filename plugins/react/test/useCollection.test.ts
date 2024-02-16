@@ -1,52 +1,49 @@
-import {renderHook} from '@testing-library/react';
-import {describe, it, expect, vi } from "vitest";
+import { renderHook, act } from '@testing-library/react';
 import useCollection from '../src/hooks/useCollection';
-import  subscribeCollection  from '../src/hooks/useCollection';
+import {useJuno} from '../src/hooks/useJuno';
+import { vi, describe, expect, it } from 'vitest';
 
-
-// Mock the @junobuild/core library
-vi.mock('@junobuild/core', () => {
-  return {
-    initJuno: vi.fn().mockImplementation(() => {
-      let data = [];
+// Mock the useJuno hook
+vi.mock('./useJuno', () => ({
+  __esModule: true,
+  default: () => ({
+    satelliteId: 'mockSatelliteId',
+    orbiterId: 'mockOrbiterId',
+    subscribeCollection: vi.fn((collectionName, callback) => {
       // Simulate a subscription callback
-      process.nextTick(() => data);
+      const docs = [{ id: '1', data: 'test' }];
+      callback(docs);
       return {
         unsubscribe: vi.fn(),
-        getDocs: vi.fn(() => data),
-    };
+  };
   }),
-};
+}),
+  }));
+
+describe('useCollection', () => { it('should subscribe to collection and update docs', () => { const { result } = renderHook(() => useCollection("mockSatelliteId"));
+
+// Initially, docs should be an empty array
+expect(result.current.docs).toEqual([]);
+
+// After the effect runs, docs should be updated
+act(() => {
+  vi.useFakeTimers();
+});
+expect(result.current.docs).toEqual([{ id: '1', data: 'test' }]);
 });
 
-vi.mock('./useCollection', () => ({
-  ...vi.importActual('./useCollection'), 
-  subscribeCollection: vi.fn()
-}));
 
-describe('useCollection', () => {
-  it('should subscribe to collection', () => {
+it('should clean up the subscription on unmount', () => { const { unmount } = renderHook(() => useCollection('mockSatelliteId'));
 
-    const mockSubscribe = subscribeCollection as vi.isMockFuncxtion<typeof subscribeCollection>;
-    
-    expect(mockSubscribe).toHaveBeenCalled();
+// Mock the unsubscribe function
+const unsubscribe = vi.fn();
+// Get the return value of useJuno
+const juno = useJuno();
 
-  }),
 
-});
+// Unmount the component
+unmount();
 
-  
-
-describe('useCollection', () => {
-  it('should return an object with docs property', () => {
-    const {result } = renderHook(() => useCollection("user"));
-    expect(result.current).toHaveProperty("docs");
-    expect(result.current.docs).toEqual([]);
-  });
-
-  it('should call subscribeCollection when the hook is used', () => {
-    renderHook(() => useCollection("user"));
-    
-    expect(vi.mocked(vi.mock.call[0][0].initJuno).toHaveBeenCalledWith('posts', expect.any(Function)));
-});
-});
+// The unsubscribe function should have been called
+expect(unsubscribe).toHaveBeenCalled();
+}); });

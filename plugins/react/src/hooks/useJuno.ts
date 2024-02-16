@@ -1,20 +1,11 @@
-import { initJuno } from "@junobuild/core";
-import { useContext, useEffect } from "react";
-import { AuthContext } from "../context/authContext";
+import { useContext } from "react";
+import  { junoContext } from "../components/junoProvider";
 
-export default function useJuno(satelliteId: string)  {
-
-  if(!satelliteId) {
-    throw new Error('satelliteId is required');
+function useJuno() {
+  const authContext = useContext(junoContext);
+  if (!authContext) {
+    throw new Error("is not valid");
   }
-  const auth = useContext(AuthContext)!;
-  
-  useEffect(() => {
-    initJuno({satelliteId});
-   }, [satelliteId]);// auth context values 
-
-  return auth;
+  return authContext;
 }
-// Should consider handling initialization asynchronusly too
-// for in case the @dev wants to keep the same instance's 
-// in fixed state.
+export default useJuno;

@@ -1,14 +1,21 @@
 import  useAuth  from "./hooks/useAuth";
+import Layout from "./Layout";
 
-export default function Wrapper({children}: {
+
+interface Props {
+  user?:any;
   children: React.ReactNode;
+}
+
+ function Wrapper({children}: Props, {
 }) {
 
-  const  user  = useAuth();
+  const user = useAuth();
 
   return (
-    <>
+    <Layout user={user}>
       {children}
-    </>
+    </Layout>
   ); 
 }
+export default Wrapper;

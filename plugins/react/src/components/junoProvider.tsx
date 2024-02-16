@@ -1,24 +1,20 @@
-import { User } from "@junobuild/core";
-import { createContext, useState } from "react";
-//import  AuthContext  from "../context/authContext";
+import user from "../hooks/useAuth";
+import React from "react";
 
-interface AuthState {
-    user: User | null;
+interface junoProviderProps {
+   satelliteId: string;
+   children: React.ReactNode;
 }
 
-export const AuthContext = createContext<AuthState | null>(null);
+export const junoContext = React.createContext(user);
 
-export default function AuthProvider({ children }: {
-    children: React.ReactNode
-}) {
-    const [state, setState] = useState<AuthState>({
-        user: null
-      });
-
+export function JunoProvider({ satelliteId, children }: junoProviderProps) {
+     satelliteId
 
     return (
-        <AuthContext.Provider value={state}>
+        <junoContext.Provider value={user}>
             {children}
-        </AuthContext.Provider>
+        </junoContext.Provider>
+        
     );
-}
+};
