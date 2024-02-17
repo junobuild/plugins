@@ -70,10 +70,10 @@ test('useCollection hook should add documents', () => {
 
 test('useCollection hook should update the documents', () => {
   // Simulate usage by rendering the hook
-  const { result } = renderHook(() => useCollection('yourCollectionName'));
+  const { result } = renderHook(() => useCollection('post'));
 
   // Simulate updating a document
-  result.current.updateDoc('yourDocumentId', { updatedField: 'newValue' });
+  result.current.updatedDoc('yourDocumentId', { updatedField: 'newValue' });
 
   // Assert that the document is updated
   // You can use your own custom assertions based on the behavior of your updateDoc function

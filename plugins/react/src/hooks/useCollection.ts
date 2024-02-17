@@ -1,10 +1,9 @@
 import { useContext, useEffect, useState } from 'react';
 import { AuthContext } from "../context/authContext";
-import { Satellite, setDoc } from '@junobuild/core';
+import { setDoc } from '@junobuild/core';
 import { nanoid } from "nanoid";
 
 type DocType = {
-  satellite?: Satellite | undefined;
   data: any;
   [key: string]: any;
 } // 
@@ -40,22 +39,24 @@ type DocType = {
     });
   }
   const myId = nanoid();
-  const updateDoc = (id: string, updates: object) => {
+  const updatedDoc = (id: string, updates: object) => {
+    const index = docs.findIndex(doc => doc.id === myId);
+    const updatedDoc = {
+      ...docs[index],
+      ...updates
+    };
+
     setDocs(prevDocs => {
-      return prevDocs.map(doc => {
-        if (doc.id === myId) {
-          return {...doc, ...updates};
-        }
-        return doc;
-      });
+      const newDocs = [...prevDocs];
+      newDocs[index] = updatedDoc;
+      return newDocs;
     });
     
     setDoc({
       collection: collectionName, 
       doc: {
         key: id,
-        data: docs,
-        ...updates
+        data: updates
       }
     });
   }
@@ -65,7 +66,7 @@ type DocType = {
     isLoading,
     error,
     addDoc,
-    updateDoc
+    updatedDoc
    };
 };
 export default useCollection;
