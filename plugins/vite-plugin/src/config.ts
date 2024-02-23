@@ -15,7 +15,7 @@ import {
 import {JunoPluginError} from './error';
 import type {ConfigArgs, JunoParams} from './types';
 
-const {yellow, cyan} = kleur;
+const {cyan} = kleur;
 
 const useDockerContainer = ({params, mode}: ConfigArgs): boolean =>
   params?.container !== undefined && params?.container !== false && mode !== 'production';
