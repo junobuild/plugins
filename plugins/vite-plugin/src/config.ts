@@ -18,7 +18,11 @@ import type {ConfigArgs, JunoParams} from './types';
 const {cyan} = kleur;
 
 const useDockerContainer = ({params, mode}: ConfigArgs): boolean =>
-  params?.container !== undefined && params?.container !== false && mode === 'development';
+  params?.container !== undefined &&
+  params?.container !== false &&
+  (params?.container === true
+    ? mode === 'development'
+    : (params?.container?.modes ?? ['development']).includes(mode));
 
 export const satelliteId = async (args: ConfigArgs): Promise<string> => {
   if (useDockerContainer(args)) {
@@ -78,7 +82,7 @@ export const container = ({
     return params?.container === true
       ? DOCKER_CONTAINER_URL
       : params?.container !== false
-        ? params?.container
+        ? params?.container?.url ?? DOCKER_CONTAINER_URL
         : undefined;
   }
 
