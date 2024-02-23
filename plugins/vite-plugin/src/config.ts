@@ -1,7 +1,13 @@
 import kleur from 'kleur';
 import {existsSync, readFileSync} from 'node:fs';
 import {join} from 'node:path';
-import {DOCKER_CONTAINER_URL, DOCKER_INTERNET_IDENTITY_ID, DOCKER_SATELLITE_ID} from './constants';
+import {
+  DOCKER_CONTAINER_URL,
+  DOCKER_ICP_INDEX_ID,
+  DOCKER_ICP_LEDGER_ID,
+  DOCKER_INTERNET_IDENTITY_ID,
+  DOCKER_SATELLITE_ID
+} from './constants';
 import {JunoPluginError} from './error';
 import type {JunoParams} from './types';
 
@@ -47,12 +53,16 @@ export const orbiterId = (): string | undefined => {
   return orbiter?.orbiterId;
 };
 
-export const internetIdentityId = (args: {
+export const icpIds = (args: {
   params?: JunoParams;
   mode: string;
-}): string | undefined => {
+}): {internetIdentityId: string; icpLedgerId: string; icpIndexId: string} | undefined => {
   if (useDockerContainer(args)) {
-    return DOCKER_INTERNET_IDENTITY_ID;
+    return {
+      internetIdentityId: DOCKER_INTERNET_IDENTITY_ID,
+      icpLedgerId: DOCKER_ICP_LEDGER_ID,
+      icpIndexId: DOCKER_ICP_INDEX_ID
+    };
   }
 
   return undefined;

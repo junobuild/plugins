@@ -38,6 +38,7 @@
     "vite": ">=4.0.0"
   },
   "dependencies": {
+    "@junobuild/cli-tools": "^0.0.3",
     "kleur": "^4.1.5"
   }
 }
