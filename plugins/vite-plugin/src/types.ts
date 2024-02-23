@@ -1,5 +1,10 @@
+export interface JunoContainerParams {
+  url?: string;
+  modes?: string[];
+}
+
 export interface JunoParams {
-  container?: boolean | string;
+  container?: boolean | JunoContainerParams;
 }
 
 export interface ConfigArgs {
