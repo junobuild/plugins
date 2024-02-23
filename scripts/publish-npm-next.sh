@@ -3,11 +3,11 @@
 function publish_npm() {
   local lib=$1
 
-  npm publish --workspace=packages/"$lib" --provenance --access public --tag next
+  npm publish --workspace=plugins/"$lib" --provenance --access public --tag next
 }
 
 # Tips: libs use by other libs first
-LIBS=utils,cli-tools,config,core,admin,ledger,analytics,core-peer
+LIBS=vite-plugin
 
 for lib in $(echo $LIBS | sed "s/,/ /g"); do
   publish_npm "$lib"
