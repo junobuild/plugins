@@ -1,22 +1,26 @@
 import {type Plugin, type UserConfig} from 'vite';
 import {
   container as containerConfig,
-  icpIds as internetIdentityIdConfig,
+  icpIds as icpIdsConfig,
   orbiterId as orbiterIdConfig,
   satelliteId as satelliteIdConfig
 } from './config';
 import {JunoPluginError} from './error';
-import type {JunoParams} from './types';
+import type {ConfigArgs, JunoParams} from './types';
 
 export default function Juno(params?: JunoParams): Plugin {
   return {
     name: 'vite-plugin-juno',
-    config({envPrefix}: UserConfig, {mode}: {mode: string; command: string}) {
+    async config({envPrefix}: UserConfig, {mode}: {mode: string; command: string}) {
       try {
-        const satelliteId = satelliteIdConfig({params, mode});
-        const orbiterId = orbiterIdConfig();
-        const icpIds = internetIdentityIdConfig({params, mode});
-        const container = containerConfig({params, mode});
+        const args: ConfigArgs = {params, mode};
+
+        const [satelliteId, orbiterId, icpIds, container] = await Promise.all([
+          satelliteIdConfig(args),
+          orbiterIdConfig(args),
+          Promise.resolve(icpIdsConfig(args)),
+          Promise.resolve(containerConfig(args))
+        ]);
 
         const prefix = `import.meta.env.${envPrefix ?? 'VITE_'}`;
 

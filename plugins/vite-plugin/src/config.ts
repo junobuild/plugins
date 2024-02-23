@@ -1,6 +1,10 @@
+import {
+  junoConfigExist as junoConfigExistTools,
+  readJunoConfig as readJunoConfigTools,
+  type ConfigFilename
+} from '@junobuild/cli-tools';
+import type {JunoConfig, JunoConfigFnOrObject} from '@junobuild/config';
 import kleur from 'kleur';
-import {existsSync, readFileSync} from 'node:fs';
-import {join} from 'node:path';
 import {
   DOCKER_CONTAINER_URL,
   DOCKER_ICP_INDEX_ID,
@@ -9,32 +13,28 @@ import {
   DOCKER_SATELLITE_ID
 } from './constants';
 import {JunoPluginError} from './error';
-import type {JunoParams} from './types';
+import type {ConfigArgs, JunoParams} from './types';
 
 const {yellow, cyan} = kleur;
 
-const JUNO_JSON = join(process.cwd(), 'juno.json');
-
-const useDockerContainer = ({params, mode}: {params?: JunoParams; mode: string}): boolean =>
+const useDockerContainer = ({params, mode}: ConfigArgs): boolean =>
   params?.container !== undefined && params?.container !== false && mode !== 'production';
 
-export const satelliteId = (args: {params?: JunoParams; mode: string}): string => {
+export const satelliteId = async (args: ConfigArgs): Promise<string> => {
   if (useDockerContainer(args)) {
     return DOCKER_SATELLITE_ID;
   }
 
-  return junoJsonSatelliteId();
+  return await junoJsonSatelliteId(args);
 };
 
-const junoJsonSatelliteId = (): string => {
-  assertJunoJson();
+const junoJsonSatelliteId = async (args: ConfigArgs): Promise<string> => {
+  await assertJunoConfig();
 
-  const {
-    satellite: {satelliteId}
-  } = readJunoJson();
+  const config = await readJunoConfig(args);
 
-  // Type wise cannot be null but given that we are reading from a JSON file, better be sure.
-  if (satelliteId === undefined) {
+  // Type wise cannot be null but given that we might be reading from a JSON file, better be sure.
+  if (config?.satellite.satelliteId === undefined) {
     throw new JunoPluginError(
       `Your configuration is invalid. Cannot resolved a ${yellow('satelliteId')} in your ${cyan(
         'juno.json'
@@ -42,15 +42,19 @@ const junoJsonSatelliteId = (): string => {
     );
   }
 
+  const {
+    satellite: {satelliteId}
+  } = config;
+
   return satelliteId;
 };
 
-export const orbiterId = (): string | undefined => {
-  assertJunoJson();
+export const orbiterId = async (args: ConfigArgs): Promise<string | undefined> => {
+  await assertJunoConfig();
 
-  const {orbiter} = readJunoJson();
+  const config = await readJunoConfig(args);
 
-  return orbiter?.orbiterId;
+  return config?.orbiter?.orbiterId;
 };
 
 export const icpIds = (args: {
@@ -86,16 +90,24 @@ export const container = ({
   return undefined;
 };
 
-// TODO: Use the same types as those defined in the CLI.
-const readJunoJson = (): {satellite: {satelliteId: string}; orbiter?: {orbiterId: string}} => {
-  const buffer = readFileSync(JUNO_JSON);
-  return JSON.parse(buffer.toString('utf-8'));
+const JUNO_CONFIG_FILE: {filename: ConfigFilename} = {filename: 'juno.config'};
+
+export const readJunoConfig = async ({mode}: ConfigArgs): Promise<JunoConfig> => {
+  const config = (userConfig: JunoConfigFnOrObject): JunoConfig =>
+    typeof userConfig === 'function' ? userConfig({mode}) : userConfig;
+
+  return await readJunoConfigTools({
+    ...JUNO_CONFIG_FILE,
+    config
+  });
 };
 
-const assertJunoJson = () => {
-  if (!existsSync(JUNO_JSON)) {
+const assertJunoConfig = async () => {
+  const exist = await junoConfigExistTools(JUNO_CONFIG_FILE);
+
+  if (!exist) {
     throw new JunoPluginError(
-      `No ${yellow('juno.json')} found. Run ${cyan('juno init')} to configure your dapp.`
+      `No Juno configuration found. Run ${cyan('juno init')} to configure your dapp.`
     );
   }
 };
