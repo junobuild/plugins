@@ -10,7 +10,7 @@
     "build": "npm run build --workspaces",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "lint": "eslint --max-warnings 0 **/src/**/*"
+    "lint": "eslint --max-warnings 0 '**/src/**/*'"
   },
   "author": "",
   "license": "MIT",
