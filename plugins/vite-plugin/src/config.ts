@@ -4,7 +4,6 @@ import {
   type ConfigFilename
 } from '@junobuild/cli-tools';
 import type {JunoConfig, JunoConfigFnOrObject} from '@junobuild/config';
-import kleur from 'kleur';
 import {
   DOCKER_CONTAINER_URL,
   DOCKER_SATELLITE_ID,
@@ -14,8 +13,6 @@ import {
 } from './constants';
 import {JunoPluginError} from './error';
 import type {ConfigArgs, JunoParams} from './types';
-
-const {cyan} = kleur;
 
 const useDockerContainer = ({params, mode}: ConfigArgs): boolean =>
   params?.container !== undefined &&
@@ -105,7 +102,7 @@ const assertJunoConfig = async () => {
 
   if (!exist) {
     throw new JunoPluginError(
-      `No Juno configuration found. Run ${cyan('juno init')} to configure your dapp.`
+      `No Juno configuration found. Run "juno init" to configure your dapp.`
     );
   }
 };
