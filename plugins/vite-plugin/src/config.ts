@@ -62,10 +62,9 @@ export const orbiterId = async (args: ConfigArgs): Promise<string | undefined> =
   return config?.orbiter?.orbiterId;
 };
 
-export const icpIds = (args: {
-  params?: JunoParams;
-  mode: string;
-}): {internetIdentityId: string; icpLedgerId: string; icpIndexId: string} | undefined => ({
+export const icpIds = ():
+  | {internetIdentityId: string; icpLedgerId: string; icpIndexId: string}
+  | undefined => ({
   internetIdentityId: INTERNET_IDENTITY_ID,
   icpLedgerId: ICP_LEDGER_ID,
   icpIndexId: ICP_INDEX_ID
