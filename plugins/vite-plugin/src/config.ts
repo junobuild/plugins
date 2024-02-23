@@ -28,23 +28,20 @@ export const satelliteId = async (args: ConfigArgs): Promise<string> => {
   return await junoJsonSatelliteId(args);
 };
 
-const junoJsonSatelliteId = async (args: ConfigArgs): Promise<string> => {
+const junoJsonSatelliteId = async ({mode}: ConfigArgs): Promise<string> => {
   await assertJunoConfig();
 
-  const config = await readJunoConfig(args);
+  const {
+    satellite: {satellitesIds, satelliteId: satelliteIdUser}
+  } = await readJunoConfig({mode});
 
-  // Type wise cannot be null but given that we might be reading from a JSON file, better be sure.
-  if (config?.satellite.satelliteId === undefined) {
+  const satelliteId = satellitesIds?.[mode] ?? satelliteIdUser;
+
+  if (satelliteId === undefined) {
     throw new JunoPluginError(
-      `Your configuration is invalid. Cannot resolved a ${yellow('satelliteId')} in your ${cyan(
-        'juno.json'
-      )} file.`
+      `Your configuration is invalid. A satellite ID for ${mode} must be set in your configuration file.`
     );
   }
-
-  const {
-    satellite: {satelliteId}
-  } = config;
 
   return satelliteId;
 };
