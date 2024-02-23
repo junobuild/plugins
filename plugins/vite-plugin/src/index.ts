@@ -1,35 +1,46 @@
 import {type Plugin, type UserConfig} from 'vite';
 import {
   container as containerConfig,
-  internetIdentityId as internetIdentityIdConfig,
+  icpIds as icpIdsConfig,
   orbiterId as orbiterIdConfig,
   satelliteId as satelliteIdConfig
 } from './config';
 import {JunoPluginError} from './error';
-import type {JunoParams} from './types';
+import type {ConfigArgs, JunoParams} from './types';
 
 export default function Juno(params?: JunoParams): Plugin {
   return {
     name: 'vite-plugin-juno',
-    config({envPrefix}: UserConfig, {mode}: {mode: string; command: string}) {
+    async config({envPrefix}: UserConfig, {mode}: {mode: string; command: string}) {
       try {
-        const satelliteId = satelliteIdConfig({params, mode});
-        const orbiterId = orbiterIdConfig();
-        const internetIdentityId = internetIdentityIdConfig({params, mode});
-        const container = containerConfig({params, mode});
+        const args: ConfigArgs = {params, mode};
+
+        const [satelliteId, orbiterId, icpIds, container] = await Promise.all([
+          satelliteIdConfig(args),
+          orbiterIdConfig(args),
+          Promise.resolve(icpIdsConfig(args)),
+          Promise.resolve(containerConfig(args))
+        ]);
+
+        const prefix = `import.meta.env.${envPrefix ?? 'VITE_'}`;
 
         return {
           define: {
-            [`import.meta.env.${envPrefix ?? 'VITE_'}SATELLITE_ID`]: JSON.stringify(satelliteId),
+            [`${prefix}SATELLITE_ID`]: JSON.stringify(satelliteId),
             ...(orbiterId !== undefined && {
-              [`import.meta.env.${envPrefix ?? 'VITE_'}ORBITER_ID`]: JSON.stringify(orbiterId)
+              [`${prefix}ORBITER_ID`]: JSON.stringify(orbiterId)
             }),
-            ...(internetIdentityId !== undefined && {
-              [`import.meta.env.${envPrefix ?? 'VITE_'}INTERNET_IDENTITY_ID`]:
-                JSON.stringify(internetIdentityId)
+            ...(icpIds?.internetIdentityId !== undefined && {
+              [`${prefix}INTERNET_IDENTITY_ID`]: JSON.stringify(icpIds.internetIdentityId)
+            }),
+            ...(icpIds?.icpLedgerId !== undefined && {
+              [`${prefix}ICP_LEDGER_ID`]: JSON.stringify(icpIds.icpLedgerId)
+            }),
+            ...(icpIds?.icpIndexId !== undefined && {
+              [`${prefix}ICP_INDEX_ID`]: JSON.stringify(icpIds.icpIndexId)
             }),
             ...(container !== undefined && {
-              [`import.meta.env.${envPrefix ?? 'VITE_'}CONTAINER`]: JSON.stringify(container)
+              [`${prefix}CONTAINER`]: JSON.stringify(container)
             })
           }
         };

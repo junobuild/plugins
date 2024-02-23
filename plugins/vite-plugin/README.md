@@ -10,9 +10,9 @@
 
 A Vite plugin for [Juno].
 
-## Environment variables
+## Getting started
 
-The plugin automatically loads the Satellite ID from your project's `juno.json`. If you are using analytics, it also loads the Orbiter ID.
+The plugin automatically loads your Satellite and Orbiter IDs.
 
 With these values, you can instantiate Juno in your code without the need to manually define environment variables.
 
@@ -27,6 +27,21 @@ await Promise.all([
   })
 ]);
 ```
+
+## Environment variables
+
+Those following environment variables are injected by this plugin:
+
+| Environment variable      | Value in mode `development`          | Value for other modes                                                                |
+|---------------------------|--------------------------------------|--------------------------------------------------------------------------------------|
+| VITE_SATELLITE_ID         | `jx5yt-yyaaa-aaaal-abzbq-cai`        | The Satellite ID for the `mode` from your Juno configuration file.                   |
+| VITE_ORBITER_ID           | `undefined`                          | The Orbiter ID from your Juno configuration file.                                    |
+| VITE_CONTAINER            | `boolean` or `string` or `undefined` | `undefined` given that the Docker container can only be use for development purpose. |
+| VITE_INTERNET_IDENTITY_ID | `rdmx6-jaaaa-aaaaa-aaadq-cai`        | `rdmx6-jaaaa-aaaaa-aaadq-cai`                                                        |
+| VITE_ICP_LEDGER_ID        | `ryjl3-tyaaa-aaaaa-aaaba-cai`        | `ryjl3-tyaaa-aaaaa-aaaba-cai`                                                        |
+| VITE_ICP_INDEX_ID         | `qhbym-qaaaa-aaaaa-aaafq-cai`        | `qhbym-qaaaa-aaaaa-aaafq-cai`                                                        |
+
+> `VITE_` is the default prefix used by Vite. It can be customized as described in Vite's [documentation](https://vitejs.dev/guide/env-and-mode).
 
 ## Installation
 
