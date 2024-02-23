@@ -1,1 +1,3 @@
 dist
+# Ignore React for now
+plugins/react/**/*

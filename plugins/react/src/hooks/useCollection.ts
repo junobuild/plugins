@@ -1,75 +1,70 @@
-import { useContext, useEffect, useState } from 'react';
-import { AuthContext } from "../context/authContext";
-import { setDoc } from '@junobuild/core';
-import { nanoid } from "nanoid";
+import {setDoc} from '@junobuild/core';
+import {nanoid} from 'nanoid';
+import {useContext, useEffect, useState} from 'react';
+import {AuthContext} from '../context/authContext';
 
 type DocType = {
   data: any;
   [key: string]: any;
-} // 
+}; //
 
- function useCollection(collectionName: string) { 
-  const [ docs, setDocs ] = useState<DocType[]>([]);
-  const [ isLoading, setLoading ] = useState(false);
-  const [ error ] = useState(null);
-  const juno =  useContext(AuthContext); // 
+function useCollection(collectionName: string) {
+  const [docs, setDocs] = useState<DocType[]>([]);
+  const [isLoading, setLoading] = useState(false);
+  const [error] = useState(null);
+  const juno = useContext(AuthContext); //
 
   useEffect(() => {
     setLoading(true);
     // Subscribe to the collection and update the state with new docs
-    const unsubscribe = juno.subscribeCollection(collectionName, (newDocs) => { 
+    const unsubscribe = juno.subscribeCollection(collectionName, (newDocs) => {
       setDocs(newDocs);
       setLoading(false);
-      }
-    );
+    });
 
     // Cleanup subscription on component unmount
-    return unsubscribe
-    
+    return unsubscribe;
   }, [collectionName, juno]);
 
   const addDoc = (doc: DocType) => {
-    setDocs(prevDocs => [...prevDocs, doc]);
+    setDocs((prevDocs) => [...prevDocs, doc]);
     setDoc({
       collection: collectionName,
       doc: {
-        key : myId,
+        key: myId,
         data: doc
-      },
+      }
     });
-  }
+  };
   const myId = nanoid();
   const updatedDoc = (id: string, updates: object) => {
-    const index = docs.findIndex(doc => doc.id === myId);
+    const index = docs.findIndex((doc) => doc.id === myId);
     const updatedDoc = {
       ...docs[index],
       ...updates
     };
 
-    setDocs(prevDocs => {
+    setDocs((prevDocs) => {
       const newDocs = [...prevDocs];
       newDocs[index] = updatedDoc;
       return newDocs;
     });
-    
+
     setDoc({
-      collection: collectionName, 
+      collection: collectionName,
       doc: {
         key: id,
         data: updates
       }
     });
-  }
+  };
 
-  return { 
+  return {
     docs,
     isLoading,
     error,
     addDoc,
     updatedDoc
-   };
-};
+  };
+}
 export default useCollection;
-
- 
-
