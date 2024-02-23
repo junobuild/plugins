@@ -7,10 +7,10 @@ import type {JunoConfig, JunoConfigFnOrObject} from '@junobuild/config';
 import kleur from 'kleur';
 import {
   DOCKER_CONTAINER_URL,
-  DOCKER_ICP_INDEX_ID,
-  DOCKER_ICP_LEDGER_ID,
-  DOCKER_INTERNET_IDENTITY_ID,
-  DOCKER_SATELLITE_ID
+  DOCKER_SATELLITE_ID,
+  ICP_INDEX_ID,
+  ICP_LEDGER_ID,
+  INTERNET_IDENTITY_ID
 } from './constants';
 import {JunoPluginError} from './error';
 import type {ConfigArgs, JunoParams} from './types';
@@ -18,7 +18,7 @@ import type {ConfigArgs, JunoParams} from './types';
 const {cyan} = kleur;
 
 const useDockerContainer = ({params, mode}: ConfigArgs): boolean =>
-  params?.container !== undefined && params?.container !== false && mode !== 'production';
+  params?.container !== undefined && params?.container !== false && mode === 'development';
 
 export const satelliteId = async (args: ConfigArgs): Promise<string> => {
   if (useDockerContainer(args)) {
@@ -47,6 +47,10 @@ const junoJsonSatelliteId = async ({mode}: ConfigArgs): Promise<string> => {
 };
 
 export const orbiterId = async (args: ConfigArgs): Promise<string | undefined> => {
+  if (useDockerContainer(args)) {
+    return undefined;
+  }
+
   await assertJunoConfig();
 
   const config = await readJunoConfig(args);
@@ -57,17 +61,11 @@ export const orbiterId = async (args: ConfigArgs): Promise<string | undefined> =
 export const icpIds = (args: {
   params?: JunoParams;
   mode: string;
-}): {internetIdentityId: string; icpLedgerId: string; icpIndexId: string} | undefined => {
-  if (useDockerContainer(args)) {
-    return {
-      internetIdentityId: DOCKER_INTERNET_IDENTITY_ID,
-      icpLedgerId: DOCKER_ICP_LEDGER_ID,
-      icpIndexId: DOCKER_ICP_INDEX_ID
-    };
-  }
-
-  return undefined;
-};
+}): {internetIdentityId: string; icpLedgerId: string; icpIndexId: string} | undefined => ({
+  internetIdentityId: INTERNET_IDENTITY_ID,
+  icpLedgerId: ICP_LEDGER_ID,
+  icpIndexId: ICP_INDEX_ID
+});
 
 export const container = ({
   params,
