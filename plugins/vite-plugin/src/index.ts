@@ -18,7 +18,7 @@ export default function Juno(params?: JunoParams): Plugin {
         const [satelliteId, orbiterId, icpIds, container] = await Promise.all([
           satelliteIdConfig(args),
           orbiterIdConfig(args),
-          Promise.resolve(icpIdsConfig(args)),
+          Promise.resolve(icpIdsConfig()),
           Promise.resolve(containerConfig(args))
         ]);
 
