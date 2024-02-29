@@ -33,10 +33,10 @@ const junoJsonSatelliteId = async ({mode}: ConfigArgs): Promise<string> => {
   await assertJunoConfig();
 
   const {
-    satellite: {satellitesIds, satelliteId: satelliteIdUser}
+    satellite: {ids, satelliteId: deprecatedSatelliteId, id}
   } = await readJunoConfig({mode});
 
-  const satelliteId = satellitesIds?.[mode] ?? satelliteIdUser;
+  const satelliteId = ids?.[mode] ?? id ?? deprecatedSatelliteId;
 
   if (satelliteId === undefined) {
     throw new JunoPluginError(
@@ -56,7 +56,7 @@ export const orbiterId = async (args: ConfigArgs): Promise<string | undefined> =
 
   const config = await readJunoConfig(args);
 
-  return config?.orbiter?.orbiterId;
+  return config?.orbiter?.id ?? config?.orbiter?.orbiterId;
 };
 
 export const icpIds = ():
