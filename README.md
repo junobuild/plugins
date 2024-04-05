@@ -1,5 +1,8 @@
 # Juno Plugins
 
-This repository provides a collection of plugins useful for developing dapps with [Juno](https://juno.build).
+This repository hosts plugins for developing dapps with [Juno](https://juno.build).
 
-- [vite-plugin](plugins/vite-plugin/README.md): A vite plugin for Juno
+- [nextjs-plugin](plugins/nextjs-plugin/README.md): A Next.js plugin
+- [vite-plugin](plugins/vite-plugin/README.md): A Vite plugin
+
+For installation and usage, see each plugin's README.
