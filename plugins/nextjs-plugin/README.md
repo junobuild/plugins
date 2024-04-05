@@ -40,7 +40,7 @@ Those following environment variables are injected by this plugin:
 | NEXT_PUBLIC_ICP_LEDGER_ID        | `ryjl3-tyaaa-aaaaa-aaaba-cai` | `ryjl3-tyaaa-aaaaa-aaaba-cai`                                      |
 | NEXT_PUBLIC_ICP_INDEX_ID         | `qhbym-qaaaa-aaaaa-aaafq-cai` | `qhbym-qaaaa-aaaaa-aaafq-cai`                                      |
 
-> Variables prefixed with NEXT*PUBLIC* are clearly marked for browser availability, but they are injected into the environment ([documentation](https://nextjs.org/docs/pages/api-reference/next-config-js/env)) by the plugin. If you prefer to remove or change this prefix, it is possible.
+> Variables prefixed with `NEXT_PUBLIC_` are clearly marked for browser availability, but they are injected into the environment ([documentation](https://nextjs.org/docs/pages/api-reference/next-config-js/env)) by the plugin. If you prefer to remove or change this prefix, it is possible using the option `prefix`.
 
 ## Installation
 
@@ -65,7 +65,7 @@ export default withJuno({nextConfig});
 
 The plugins can be initialized with the following options:
 
-- `container`: `true` to use [Juno Docker](https://github.com/junobuild/juno-docker) with default options, or specify an object.
+- `juno.container`: `true` to use [Juno Docker](https://github.com/junobuild/juno-docker) with default options, or specify an object.
 
 The object accepts the following parameters:
 
