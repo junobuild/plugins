@@ -4,7 +4,8 @@
   "description": "This repository provides a collection of plugins useful do developing dapps with [Juno](https://juno.build).",
   "main": "index.js",
   "workspaces": [
-    "plugins/vite-plugin"
+    "plugins/vite-plugin",
+    "plugins/nextjs-plugin"
   ],
   "scripts": {
     "build": "npm run build --workspaces",
@@ -13,23 +14,5 @@
     "lint": "eslint --max-warnings 0 '**/src/**/*'"
   },
   "author": "",
-  "license": "MIT",
-  "devDependencies": {
-    "@types/node": "^20.10.4",
-    "@typescript-eslint/eslint-plugin": "^6.14.0",
-    "esbuild": "^0.19.9",
-    "eslint": "^8.55.0",
-    "eslint-config-prettier": "^9.1.0",
-    "eslint-config-standard-with-typescript": "^42.0.0",
-    "eslint-plugin-import": "^2.29.1",
-    "eslint-plugin-n": "^16.4.0",
-    "eslint-plugin-prettier": "^5.0.1",
-    "eslint-plugin-promise": "^6.1.1",
-    "eslint-plugin-react-hooks": "^4.6.0",
-    "eslint-plugin-react-refresh": "^0.4.5",
-    "node-fetch": "^3.3.2",
-    "prettier": "^3.1.1",
-    "prettier-plugin-organize-imports": "^3.2.4",
-    "typescript": "^5.3.3"
-  }
+  "license": "MIT"
 }

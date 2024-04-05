@@ -1,0 +1,44 @@
+{
+  "name": "@junobuild/nextjs-plugin",
+  "version": "0.0.1",
+  "description": "A Nextjs config wrapper for Juno",
+  "author": "David Dal Busco (https://daviddalbusco.com)",
+  "license": "MIT",
+  "type": "module",
+  "main": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "rmdir": "node ../../scripts/rmdir.mjs",
+    "ts-declaration": "tsc --emitDeclarationOnly --outDir dist",
+    "build": "tsc --noEmit && npm run rmdir && mkdir -p dist && node esbuild.mjs && npm run ts-declaration"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/junobuild/plugins.git",
+    "directory": "plugins/vite-plugin"
+  },
+  "bugs": {
+    "url": "https://github.com/junobuild/plugins"
+  },
+  "keywords": [
+    "env",
+    "environment",
+    "variables",
+    "vite",
+    "vite-plugin",
+    "vitejs"
+  ],
+  "homepage": "https://juno.build",
+  "peerDependencies": {
+    "next": "^12.0.10 || ^13.0.0 || ^14.0.0"
+  },
+  "dependencies": {
+    "@junobuild/cli-tools": "^0.0.5",
+    "@junobuild/config": "^0.0.4"
+  }
+}
