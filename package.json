@@ -5,7 +5,8 @@
   "main": "index.js",
   "workspaces": [
     "plugins/vite-plugin",
-    "plugins/nextjs-plugin"
+    "plugins/nextjs-plugin",
+    "plugins/plugin-tools"
   ],
   "scripts": {
     "build": "npm run build --workspaces",
