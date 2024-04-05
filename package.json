@@ -4,9 +4,9 @@
   "description": "This repository provides a collection of plugins useful do developing dapps with [Juno](https://juno.build).",
   "main": "index.js",
   "workspaces": [
+    "plugins/plugin-tools",
     "plugins/vite-plugin",
-    "plugins/nextjs-plugin",
-    "plugins/plugin-tools"
+    "plugins/nextjs-plugin"
   ],
   "scripts": {
     "build": "npm run build --workspaces",
