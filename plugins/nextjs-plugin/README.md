@@ -50,6 +50,16 @@ npm i @junobuild/nextjs-plugin -D
 
 ## Usage
 
+In your `next.config.mjs` file:
+
+```javascript
+import {withJuno} from '@junobuild/nextjs-plugin';
+
+export default withJuno();
+```
+
+The plugin sets the build output to `export` by default. You can override the option or provide additional options as follows:
+
 ```javascript
 import {withJuno} from '@junobuild/nextjs-plugin';
 
