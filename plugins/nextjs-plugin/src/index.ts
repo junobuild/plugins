@@ -1,12 +1,11 @@
+import type {ConfigArgs, JunoParams} from '@junobuild/plugin-tools';
 import {
   container as containerConfig,
   icpIds as icpIdsConfig,
   orbiterId as orbiterIdConfig,
   satelliteId as satelliteIdConfig
-} from '@junobuild/vite-plugin/src/config';
-import type {ConfigArgs} from '@junobuild/vite-plugin/src/types';
+} from '@junobuild/plugin-tools';
 import type {NextConfig} from 'next';
-import type {JunoParams} from './types';
 
 export const withJuno = async ({
   nextConfig,

@@ -39,6 +39,7 @@
   },
   "dependencies": {
     "@junobuild/cli-tools": "^0.0.5",
-    "@junobuild/config": "^0.0.4"
+    "@junobuild/config": "^0.0.4",
+    "@junobuild/plugin-tools": "^0.0.1"
   }
 }

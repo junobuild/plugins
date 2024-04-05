@@ -1,11 +1,11 @@
-import {type Plugin, type UserConfig} from 'vite';
+import type {ConfigArgs, JunoParams} from '@junobuild/plugin-tools';
 import {
   container as containerConfig,
   icpIds as icpIdsConfig,
   orbiterId as orbiterIdConfig,
   satelliteId as satelliteIdConfig
-} from './config';
-import type {ConfigArgs, JunoParams} from './types';
+} from '@junobuild/plugin-tools';
+import {type Plugin, type UserConfig} from 'vite';
 
 export default function Juno(params?: JunoParams): Plugin {
   return {
