@@ -18,7 +18,7 @@ function publish_npm() {
 }
 
 # Tips: libs use by other libs first
-LIBS=vite-plugin
+LIBS=plugin-tools,nextjs-plugin,vite-plugin
 
 for lib in $(echo $LIBS | sed "s/,/ /g"); do
   publish_npm "$lib"
