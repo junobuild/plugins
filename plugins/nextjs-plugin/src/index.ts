@@ -7,16 +7,22 @@ import {
 } from '@junobuild/plugin-tools';
 import type {NextConfig} from 'next';
 
-export const withJuno = async ({
-  nextConfig,
-  juno: params,
-  prefix: prefixParam
-}: {
+export const withJuno = async (params?: {
   nextConfig: NextConfig;
   juno?: JunoParams;
   prefix?: string;
 }): Promise<NextConfig> => {
-  const args: ConfigArgs = {params, mode: process.env.NODE_ENV};
+  const {
+    nextConfig,
+    juno: junoParams,
+    prefix: prefixParam
+  } = params ?? {
+    nextConfig: {
+      output: 'export'
+    }
+  };
+
+  const args: ConfigArgs = {params: junoParams, mode: process.env.NODE_ENV};
 
   const [satelliteId, orbiterId, icpIds, container] = await Promise.all([
     satelliteIdConfig(args),
