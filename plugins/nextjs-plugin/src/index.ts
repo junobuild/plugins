@@ -8,18 +8,14 @@ import {
 import type {NextConfig} from 'next';
 
 export const withJuno = async (params?: {
-  nextConfig: NextConfig;
+  nextConfig?: NextConfig;
   juno?: JunoParams;
   prefix?: string;
 }): Promise<NextConfig> => {
-  const {
-    nextConfig,
-    juno: junoParams,
-    prefix: prefixParam
-  } = params ?? {
-    nextConfig: {
-      output: 'export'
-    }
+  const {nextConfig: nextConfigParams, juno: junoParams, prefix: prefixParam} = params ?? {};
+
+  const nextConfig = nextConfigParams ?? {
+    output: 'export'
   };
 
   const args: ConfigArgs = {params: junoParams, mode: process.env.NODE_ENV};
