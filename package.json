@@ -1,6 +1,6 @@
 {
   "name": "@junobuild/plugins",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "description": "This repository provides a collection of plugins useful do developing dapps with [Juno](https://juno.build).",
   "main": "index.js",
   "workspaces": [

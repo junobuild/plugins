@@ -1,7 +1,7 @@
 {
   "name": "@junobuild/nextjs-plugin",
-  "version": "0.0.1",
-  "description": "A Nextjs config wrapper for Juno",
+  "version": "0.0.2",
+  "description": "A Next.js config wrapper for Juno",
   "author": "David Dal Busco (https://daviddalbusco.com)",
   "license": "MIT",
   "type": "module",
