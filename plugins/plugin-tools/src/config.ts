@@ -14,7 +14,7 @@ import {
 import {JunoPluginError} from './error';
 import type {ConfigArgs, IcpIds, JunoParams} from './types';
 
-const useDockerContainer = ({params, mode}: ConfigArgs): boolean =>
+export const useDockerContainer = ({params, mode}: ConfigArgs): boolean =>
   params?.container !== undefined &&
   params?.container !== false &&
   (params?.container === true
