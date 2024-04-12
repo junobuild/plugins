@@ -11,3 +11,9 @@ export interface ConfigArgs {
   params?: JunoParams;
   mode: string;
 }
+
+export interface IcpIds {
+  internetIdentityId: string;
+  icpLedgerId: string;
+  icpIndexId: string;
+}

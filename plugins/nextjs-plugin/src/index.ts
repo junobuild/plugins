@@ -1,10 +1,4 @@
-import type {ConfigArgs, JunoParams} from '@junobuild/plugin-tools';
-import {
-  container as containerConfig,
-  icpIds as icpIdsConfig,
-  orbiterId as orbiterIdConfig,
-  satelliteId as satelliteIdConfig
-} from '@junobuild/plugin-tools';
+import {ConfigArgs, JunoParams, JunoPluginError, initConfig} from '@junobuild/plugin-tools';
 import type {NextConfig} from 'next';
 
 export const withJuno = async (params?: {
@@ -18,37 +12,45 @@ export const withJuno = async (params?: {
     output: 'export'
   };
 
-  const args: ConfigArgs = {params: junoParams, mode: process.env.NODE_ENV};
+  const mode = process.env.NODE_ENV;
 
-  const [satelliteId, orbiterId, icpIds, container] = await Promise.all([
-    satelliteIdConfig(args),
-    orbiterIdConfig(args),
-    Promise.resolve(icpIdsConfig()),
-    Promise.resolve(containerConfig(args))
-  ]);
+  try {
+    const args: ConfigArgs = {params: junoParams, mode};
 
-  const prefix = prefixParam ?? 'NEXT_PUBLIC_';
+    const {satelliteId, orbiterId, icpIds, container} = await initConfig(args);
 
-  return {
-    ...(nextConfig ?? {}),
-    env: {
-      ...(nextConfig.env ?? {}),
-      [`${prefix}SATELLITE_ID`]: satelliteId,
-      ...(orbiterId !== undefined && {
-        [`${prefix}ORBITER_ID`]: orbiterId
-      }),
-      ...(icpIds?.internetIdentityId !== undefined && {
-        [`${prefix}INTERNET_IDENTITY_ID`]: icpIds.internetIdentityId
-      }),
-      ...(icpIds?.icpLedgerId !== undefined && {
-        [`${prefix}ICP_LEDGER_ID`]: icpIds.icpLedgerId
-      }),
-      ...(icpIds?.icpIndexId !== undefined && {
-        [`${prefix}ICP_INDEX_ID`]: icpIds.icpIndexId
-      }),
-      ...(container !== undefined && {
-        [`${prefix}CONTAINER`]: container
-      })
+    const prefix = prefixParam ?? 'NEXT_PUBLIC_';
+
+    return {
+      ...(nextConfig ?? {}),
+      env: {
+        ...(nextConfig.env ?? {}),
+        [`${prefix}SATELLITE_ID`]: satelliteId,
+        ...(orbiterId !== undefined && {
+          [`${prefix}ORBITER_ID`]: orbiterId
+        }),
+        ...(icpIds?.internetIdentityId !== undefined && {
+          [`${prefix}INTERNET_IDENTITY_ID`]: icpIds.internetIdentityId
+        }),
+        ...(icpIds?.icpLedgerId !== undefined && {
+          [`${prefix}ICP_LEDGER_ID`]: icpIds.icpLedgerId
+        }),
+        ...(icpIds?.icpIndexId !== undefined && {
+          [`${prefix}ICP_INDEX_ID`]: icpIds.icpIndexId
+        }),
+        ...(container !== undefined && {
+          [`${prefix}CONTAINER`]: container
+        })
+      }
+    };
+  } catch (err: unknown) {
+    if (err instanceof JunoPluginError && mode !== 'production') {
+      console.warn(err.message);
+      return {
+        ...(nextConfig ?? {})
+      };
     }
-  };
+
+    throw err;
+  }
 };
