@@ -1,6 +1,6 @@
 {
   "name": "@junobuild/nextjs-plugin",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "A Next.js config wrapper for Juno",
   "author": "David Dal Busco (https://daviddalbusco.com)",
   "license": "MIT",
@@ -38,8 +38,8 @@
     "next": "^12.0.10 || ^13.0.0 || ^14.0.0"
   },
   "dependencies": {
-    "@junobuild/cli-tools": "^0.0.5",
-    "@junobuild/config": "^0.0.4",
-    "@junobuild/plugin-tools": "^0.0.1"
+    "@junobuild/cli-tools": "^0.0.7",
+    "@junobuild/config": "^0.0.5",
+    "@junobuild/plugin-tools": "^0.0.2"
   }
 }
