@@ -12,7 +12,7 @@ import {
   INTERNET_IDENTITY_ID
 } from './constants';
 import {JunoPluginError} from './error';
-import type {ConfigArgs, JunoParams} from './types';
+import type {ConfigArgs, IcpIds, JunoParams} from './types';
 
 const useDockerContainer = ({params, mode}: ConfigArgs): boolean =>
   params?.container !== undefined &&
@@ -59,9 +59,7 @@ export const orbiterId = async (args: ConfigArgs): Promise<string | undefined> =
   return config?.orbiter?.id ?? config?.orbiter?.orbiterId;
 };
 
-export const icpIds = ():
-  | {internetIdentityId: string; icpLedgerId: string; icpIndexId: string}
-  | undefined => ({
+export const icpIds = (): IcpIds | undefined => ({
   internetIdentityId: INTERNET_IDENTITY_ID,
   icpLedgerId: ICP_LEDGER_ID,
   icpIndexId: ICP_INDEX_ID
@@ -97,7 +95,7 @@ export const readJunoConfig = async ({mode}: ConfigArgs): Promise<JunoConfig> =>
   });
 };
 
-const assertJunoConfig = async () => {
+export const assertJunoConfig = async () => {
   const exist = await junoConfigExistTools(JUNO_CONFIG_FILE);
 
   if (!exist) {
