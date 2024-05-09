@@ -35,8 +35,7 @@
   ],
   "homepage": "https://juno.build",
   "dependencies": {
-    "@junobuild/cli-tools": "^0.0.7",
-    "@junobuild/config": "^0.0.5"
-  },
-  "devDependencies": {}
+    "@junobuild/cli-tools": "^0.0.9",
+    "@junobuild/config": "^0.0.6"
+  }
 }

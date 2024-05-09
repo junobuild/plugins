@@ -38,8 +38,6 @@
     "vite": ">=4.0.0"
   },
   "dependencies": {
-    "@junobuild/cli-tools": "^0.0.7",
-    "@junobuild/config": "^0.0.5",
-    "@junobuild/plugin-tools": "^0.0.3"
+    "@junobuild/plugin-tools": "*"
   }
 }
