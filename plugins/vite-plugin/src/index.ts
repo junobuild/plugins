@@ -10,26 +10,46 @@ export default function Juno(params?: JunoParams): Plugin {
 
         const {satelliteId, orbiterId, icpIds, container} = await initConfig(args);
 
-        const prefix = `import.meta.env.${envPrefix ?? 'VITE_'}`;
+        const vitePrefix = `import.meta.env.${envPrefix ?? 'VITE_'}`;
+        const processPrefix = `process.env.${envPrefix ?? 'VITE_'}`;
+
+        const config: Record<string, string> = {
+          SATELLITE_ID: JSON.stringify(satelliteId),
+          ...(orbiterId !== undefined && {
+            ORBITER_ID: JSON.stringify(orbiterId)
+          }),
+          ...(icpIds?.internetIdentityId !== undefined && {
+            INTERNET_IDENTITY_ID: JSON.stringify(icpIds.internetIdentityId)
+          }),
+          ...(icpIds?.icpLedgerId !== undefined && {
+            ICP_LEDGER_ID: JSON.stringify(icpIds.icpLedgerId)
+          }),
+          ...(icpIds?.icpIndexId !== undefined && {
+            ICP_INDEX_ID: JSON.stringify(icpIds.icpIndexId)
+          }),
+          ...(container !== undefined && {
+            CONTAINER: JSON.stringify(container)
+          })
+        };
 
         return {
           define: {
-            [`${prefix}SATELLITE_ID`]: JSON.stringify(satelliteId),
-            ...(orbiterId !== undefined && {
-              [`${prefix}ORBITER_ID`]: JSON.stringify(orbiterId)
-            }),
-            ...(icpIds?.internetIdentityId !== undefined && {
-              [`${prefix}INTERNET_IDENTITY_ID`]: JSON.stringify(icpIds.internetIdentityId)
-            }),
-            ...(icpIds?.icpLedgerId !== undefined && {
-              [`${prefix}ICP_LEDGER_ID`]: JSON.stringify(icpIds.icpLedgerId)
-            }),
-            ...(icpIds?.icpIndexId !== undefined && {
-              [`${prefix}ICP_INDEX_ID`]: JSON.stringify(icpIds.icpIndexId)
-            }),
-            ...(container !== undefined && {
-              [`${prefix}CONTAINER`]: JSON.stringify(container)
-            })
+            // import.meta.env.
+            ...Object.entries(config).reduce(
+              (acc, [key, value]) => ({
+                ...acc,
+                [`${vitePrefix}${key}`]: value
+              }),
+              {}
+            ),
+            // process.env.
+            ...Object.entries(config).reduce(
+              (acc, [key, value]) => ({
+                ...acc,
+                [`${processPrefix}${key}`]: value
+              }),
+              {}
+            )
           }
         };
       } catch (err: unknown) {
