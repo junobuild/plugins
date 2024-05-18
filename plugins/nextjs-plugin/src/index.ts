@@ -1,6 +1,16 @@
 import {ConfigArgs, JunoParams, JunoPluginError, initConfig} from '@junobuild/plugin-tools';
 import type {NextConfig} from 'next';
 
+/**
+ * Enhances the Next.js configuration with Juno integration.
+ * @param {Object} [params] - The parameters for the Juno integration.
+ * @param {NextConfig} [params.nextConfig] - The existing Next.js configuration.
+ * @param {JunoParams} [params.juno] - The Juno configuration parameters.
+ * @param {string} [params.prefix='NEXT_PUBLIC_'] - The prefix for the environment variables.
+ * @returns {Promise<NextConfig>} A promise that resolves to the enhanced Next.js configuration.
+ * @throws {JunoPluginError} If there is an error initializing the Juno configuration in non-production mode.
+ * @throws {Error} If there is an unknown error.
+ */
 export const withJuno = async (params?: {
   nextConfig?: NextConfig;
   juno?: JunoParams;

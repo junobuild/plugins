@@ -1,6 +1,11 @@
 import {ConfigArgs, JunoParams, JunoPluginError, initConfig} from '@junobuild/plugin-tools';
 import {type Plugin, type UserConfig} from 'vite';
 
+/**
+ * A Vite plugin to integrate Juno.
+ * @param {JunoParams} [params] - The Juno configuration parameters.
+ * @returns {Plugin} The Vite plugin.
+ */
 export default function Juno(params?: JunoParams): Plugin {
   return {
     name: 'vite-plugin-juno',
