@@ -1,9 +1,9 @@
+import type {JunoConfig, JunoConfigFnOrObject} from '@junobuild/config';
 import {
   junoConfigExist as junoConfigExistTools,
   readJunoConfig as readJunoConfigTools,
   type ConfigFilename
-} from '@junobuild/cli-tools';
-import type {JunoConfig, JunoConfigFnOrObject} from '@junobuild/config';
+} from '@junobuild/config-loader';
 import {
   DOCKER_CONTAINER_URL,
   DOCKER_SATELLITE_ID,
@@ -76,7 +76,7 @@ export const container = ({
     return params?.container === true
       ? DOCKER_CONTAINER_URL
       : params?.container !== false
-        ? params?.container?.url ?? DOCKER_CONTAINER_URL
+        ? (params?.container?.url ?? DOCKER_CONTAINER_URL)
         : undefined;
   }
 
