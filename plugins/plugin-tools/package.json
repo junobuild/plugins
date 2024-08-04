@@ -35,7 +35,7 @@
   ],
   "homepage": "https://juno.build",
   "dependencies": {
-    "@junobuild/config": "^0.0.11",
+    "@junobuild/config": "^0.0.14",
     "@junobuild/config-loader": "^0.0.5"
   }
 }
