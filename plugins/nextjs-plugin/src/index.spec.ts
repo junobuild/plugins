@@ -60,9 +60,9 @@ describe('withJuno', () => {
       container: undefined
     });
 
-    const result = await withJuno({prefix: 'CUSTOM_'});
+    const result = await withJuno({prefix: 'TEST_'});
 
-    expect(result.env?.CUSTOM_SATELLITE_ID).toBe('sat-id');
+    expect(result.env?.TEST_SATELLITE_ID).toBe('sat-id');
     expect(result.env?.NEXT_PUBLIC_SATELLITE_ID).toBeUndefined();
   });
 
