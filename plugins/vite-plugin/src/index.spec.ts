@@ -3,16 +3,6 @@ import type {UserConfig} from 'vite';
 import {beforeEach, describe, expect, it, vi} from 'vitest';
 import Juno from './index';
 
-vi.mock('@junobuild/plugin-tools', async () => {
-  const actual =
-    await vi.importActual<typeof import('@junobuild/plugin-tools')>('@junobuild/plugin-tools');
-
-  return {
-    ...actual,
-    initConfig: vi.fn()
-  };
-});
-
 describe('vite-plugin-juno', () => {
   beforeEach(() => {
     vi.clearAllMocks();
