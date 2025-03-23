@@ -3,16 +3,6 @@ import {JunoPluginError} from '@junobuild/plugin-tools';
 import {beforeEach, describe, expect, it, vi} from 'vitest';
 import {withJuno} from './index';
 
-vi.mock('@junobuild/plugin-tools', async () => {
-  const actual =
-    await vi.importActual<typeof import('@junobuild/plugin-tools')>('@junobuild/plugin-tools');
-
-  return {
-    ...actual,
-    initConfig: vi.fn()
-  };
-});
-
 describe('withJuno', () => {
   beforeEach(() => {
     vi.clearAllMocks();
