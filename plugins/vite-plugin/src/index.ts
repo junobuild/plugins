@@ -9,6 +9,7 @@ import {type Plugin, type UserConfig} from 'vite';
 export default function Juno(params?: JunoParams): Plugin {
   return {
     name: 'vite-plugin-juno',
+    // eslint-disable-next-line local-rules/prefer-object-params
     async config({envPrefix}: UserConfig, {mode}: {mode: string; command: string}) {
       try {
         const args: ConfigArgs = {params, mode};
