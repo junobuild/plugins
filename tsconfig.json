@@ -11,5 +11,6 @@
     "resolveJsonModule": true,
     "skipLibCheck": true,
     "declaration": true
-  }
+  },
+  "exclude": ["**/src/**/*.test.ts", "**/src/**/*.spec.ts", "**/src/**/*.mock.ts"]
 }

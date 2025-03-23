@@ -11,13 +11,15 @@
   "scripts": {
     "build": "npm run build --workspaces",
     "format": "prettier --write .",
-    "format:check": "prettier --check ."
+    "format:check": "prettier --check .",
+    "test": "vitest"
   },
   "author": "",
   "license": "MIT",
   "devDependencies": {
     "@types/node": "^22.13.10",
     "prettier": "^3.5.3",
-    "prettier-plugin-organize-imports": "^4.1.0"
+    "prettier-plugin-organize-imports": "^4.1.0",
+    "vitest": "^3.0.9"
   }
 }
