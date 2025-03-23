@@ -16,7 +16,7 @@ vi.mock('@junobuild/plugin-tools', async () => {
 describe('withJuno', () => {
   beforeEach(() => {
     vi.clearAllMocks();
-    // @ts-expect-error
+    // @ts-expect-error we want to mock development env
     process.env.NODE_ENV = 'development';
   });
 
