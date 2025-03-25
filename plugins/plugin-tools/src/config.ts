@@ -15,9 +15,8 @@ import {JunoPluginError} from './error';
 import type {ConfigArgs, IcpIds, JunoParams} from './types';
 
 export const useDockerContainer = ({params, mode}: ConfigArgs): boolean =>
-  params?.container !== undefined &&
   params?.container !== false &&
-  (params?.container === true
+  (params?.container === undefined || params?.container === true
     ? mode === 'development'
     : (params?.container?.modes ?? ['development']).includes(mode));
 
@@ -97,6 +96,8 @@ export const readJunoConfig = async ({mode}: ConfigArgs): Promise<JunoConfig> =>
 
 export const assertJunoConfig = async () => {
   const exist = await junoConfigExistTools(JUNO_CONFIG_FILE);
+
+  console.log(exist);
 
   if (!exist) {
     throw new JunoPluginError(
