@@ -97,8 +97,6 @@ export const readJunoConfig = async ({mode}: ConfigArgs): Promise<JunoConfig> =>
 export const assertJunoConfig = async () => {
   const exist = await junoConfigExistTools(JUNO_CONFIG_FILE);
 
-  console.log(exist);
-
   if (!exist) {
     throw new JunoPluginError(
       `No Juno configuration found. Run "juno init" to configure your dapp.`

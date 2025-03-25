@@ -19,7 +19,7 @@ vi.mock('@junobuild/config-loader', async () => {
 describe('init', () => {
   const args: ConfigArgs = {
     params: {},
-    mode: 'development'
+    mode: 'production'
   };
 
   let spyJunoConfigExist: MockInstance;
@@ -30,13 +30,16 @@ describe('init', () => {
 
     spyJunoConfigExist = vi.spyOn(configLoader, 'junoConfigExist').mockResolvedValue(true);
     spyReadJunoConfig = vi.spyOn(configLoader, 'readJunoConfig').mockResolvedValue({
-      satellite: {ids: {development: 'mock-satellite-id'}},
+      satellite: {ids: {production: 'mock-satellite-id'}},
       orbiter: {id: 'mock-orbiter-id'}
     });
   });
 
-  it('returns config', async () => {
-    const result = await initConfig(args);
+  it('returns config for development', async () => {
+    const result = await initConfig({
+      params: {},
+      mode: 'development'
+    });
 
     expect(result).toEqual({
       orbiterId: undefined,
@@ -54,10 +57,7 @@ describe('init', () => {
   });
 
   it('returns config without container for production', async () => {
-    const result = await initConfig({
-      ...args,
-      mode: 'production'
-    });
+    const result = await initConfig(args);
 
     expect(result).toEqual({
       satelliteId: 'mock-satellite-id',
@@ -97,10 +97,25 @@ describe('init', () => {
     expect(spyReadJunoConfig).not.toHaveBeenCalled();
   });
 
-  it('throws if config does not exist', async () => {
+  it('throws if config does not exist and mode is production', async () => {
     vi.spyOn(configLoader, 'junoConfigExist').mockResolvedValue(false);
 
     await expect(initConfig(args)).rejects.toThrow(/No Juno configuration found/);
+  });
+
+  it('throws if satelliteId is missing in config if container is set to false', async () => {
+    vi.spyOn(configLoader, 'readJunoConfig').mockResolvedValueOnce({
+      satellite: {}
+    } as unknown as JunoConfig);
+
+    await expect(
+      initConfig({
+        params: {
+          container: false
+        },
+        mode: 'development'
+      })
+    ).rejects.toThrow(/A satellite ID for development must be set/);
   });
 
   it('throws if satelliteId is missing in config', async () => {
@@ -108,6 +123,8 @@ describe('init', () => {
       satellite: {}
     } as unknown as JunoConfig);
 
-    await expect(initConfig(args)).rejects.toThrow(/A satellite ID for development must be set/);
+    await expect(initConfig(args)).rejects.toThrow(
+      /Your configuration is invalid. A satellite ID for production must be set in your configuration file./
+    );
   });
 });
