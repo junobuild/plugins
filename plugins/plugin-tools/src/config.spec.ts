@@ -75,6 +75,39 @@ describe('config', () => {
         })
       ).toBe(true);
     });
+
+    it('returns true if container is undefined and mode is development', () => {
+      expect(useDockerContainer({params: {}, mode: 'development'})).toBe(true);
+    });
+
+    it('returns false if container is undefined and mode is production', () => {
+      expect(useDockerContainer({params: {}, mode: 'production'})).toBe(false);
+    });
+
+    it('returns true if params is undefined and mode is development', () => {
+      expect(useDockerContainer({params: undefined, mode: 'development'})).toBe(true);
+    });
+
+    it('returns false if params is undefined and mode is production', () => {
+      expect(useDockerContainer({params: undefined, mode: 'production'})).toBe(false);
+    });
+
+    it('returns true if container is an empty object and mode is development', () => {
+      expect(useDockerContainer({params: {container: {}}, mode: 'development'})).toBe(true);
+    });
+
+    it('returns false if container has empty modes[]', () => {
+      expect(
+        useDockerContainer({
+          params: {
+            container: {
+              modes: []
+            }
+          },
+          mode: 'development'
+        })
+      ).toBe(false);
+    });
   });
 
   describe('satelliteId', () => {

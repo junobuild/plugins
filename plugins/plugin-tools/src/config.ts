@@ -15,9 +15,8 @@ import {JunoPluginError} from './error';
 import type {ConfigArgs, IcpIds, JunoParams} from './types';
 
 export const useDockerContainer = ({params, mode}: ConfigArgs): boolean =>
-  params?.container !== undefined &&
   params?.container !== false &&
-  (params?.container === true
+  (params?.container === undefined || params?.container === true
     ? mode === 'development'
     : (params?.container?.modes ?? ['development']).includes(mode));
 
