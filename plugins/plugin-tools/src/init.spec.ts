@@ -74,6 +74,46 @@ describe('init', () => {
     expect(spyReadJunoConfig).toHaveBeenCalled();
   });
 
+  it('returns config for development when params is not passed', async () => {
+    const result = await initConfig({
+      mode: 'development'
+    });
+
+    expect(result).toEqual({
+      satelliteId: 'jx5yt-yyaaa-aaaal-abzbq-cai',
+      orbiterId: undefined,
+      icpIds: {
+        internetIdentityId: 'rdmx6-jaaaa-aaaaa-aaadq-cai',
+        icpLedgerId: 'ryjl3-tyaaa-aaaaa-aaaba-cai',
+        icpIndexId: 'qhbym-qaaaa-aaaaa-aaafq-cai'
+      },
+      container: 'http://127.0.0.1:5987'
+    });
+
+    expect(spyJunoConfigExist).not.toHaveBeenCalled();
+    expect(spyReadJunoConfig).not.toHaveBeenCalled();
+  });
+
+  it('returns config for production when params is not passed', async () => {
+    const result = await initConfig({
+      mode: 'production'
+    });
+
+    expect(result).toEqual({
+      satelliteId: 'mock-satellite-id',
+      orbiterId: 'mock-orbiter-id',
+      icpIds: {
+        internetIdentityId: 'rdmx6-jaaaa-aaaaa-aaadq-cai',
+        icpLedgerId: 'ryjl3-tyaaa-aaaaa-aaaba-cai',
+        icpIndexId: 'qhbym-qaaaa-aaaaa-aaafq-cai'
+      },
+      container: undefined
+    });
+
+    expect(spyJunoConfigExist).toHaveBeenCalled();
+    expect(spyReadJunoConfig).toHaveBeenCalled();
+  });
+
   it('skips assertJunoConfig when using Docker container', async () => {
     const dockerArgs: ConfigArgs = {
       params: {container: true},
