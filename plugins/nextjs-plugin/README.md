@@ -17,15 +17,7 @@ The plugin automatically loads your Satellite and Orbiter IDs.
 With these values, you can instantiate Juno in your code without the need to manually define environment variables.
 
 ```javascript
-await Promise.all([
-  initJuno({
-    satelliteId: process.env.NEXT_PUBLIC_SATELLITE_ID
-  }),
-  initOrbiter({
-    satelliteId: process.env.NEXT_PUBLIC_SATELLITE_ID,
-    orbiterId: process.env.NEXT_PUBLIC_ORBITER_ID
-  })
-]);
+await Promise.all([initSatellite(), initOrbiter()]);
 ```
 
 ## Environment variables
@@ -73,14 +65,19 @@ export default withJuno({nextConfig});
 
 ## Options
 
-The plugins can be initialized with the following options:
+The plugin can be customized using the optional `juno` configuration object. This allows you to control how the Juno Docker container is used in your project, especially during local development or end-to-end (E2E) testing.
 
-- `juno.container`: `true` to use [Juno Docker](https://github.com/junobuild/juno-docker) with default options, or specify an object.
+### `juno.container`
 
-The object accepts the following parameters:
+Use the container option to enable, disable, or fine-tune the use of [Juno Docker](https://github.com/junobuild/juno-docker).
 
-- An optional `url` as `string`, representing the container URL including the port, e.g. `http://127.0.0.1:8000`.
-- An optional list of `modes` for which the container should be used.
+You can provide:
+
+- `false` — to disable the container entirely.
+- `true` — to enable the container with default settings (only in development mode), which is also the default behavior.
+- An object with the following fields:
+  - `url` (`string`, optional): A custom container URL, including the port. Example: http://127.0.0.1:8000
+  - `modes` (`string[]`, optional): An array of modes (e.g., ['development', 'test']) during which the container should be used.
 
 By default, the container is mounted only in `development` mode.
 
@@ -92,7 +89,15 @@ const nextConfig = {
   output: 'export'
 };
 
-export default withJuno({nextConfig, juno: {container: true}});
+export default withJuno({
+  nextConfig,
+  juno: {
+    container: {
+      url: 'http://127.0.0.1:8000',
+      modes: ['development', 'test']
+    }
+  }
+});
 ```
 
 ## License
