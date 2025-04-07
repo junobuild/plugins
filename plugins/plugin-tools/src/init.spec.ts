@@ -6,7 +6,8 @@ import {
   DOCKER_SATELLITE_ID,
   ICP_INDEX_ID,
   ICP_LEDGER_ID,
-  INTERNET_IDENTITY_ID
+  INTERNET_IDENTITY_ID,
+  MODE_DEVELOPMENT
 } from './constants';
 import {initConfig} from './init';
 import type {ConfigArgs} from './types';
@@ -47,7 +48,7 @@ describe('init', () => {
 
     const result = await initConfig({
       params: {},
-      mode: 'development'
+      mode: MODE_DEVELOPMENT
     });
 
     expect(result).toEqual({
@@ -89,7 +90,7 @@ describe('init', () => {
 
       const result = await initConfig({
         params: {},
-        mode: 'development'
+        mode: MODE_DEVELOPMENT
       });
 
       expect(result).toEqual({
@@ -112,7 +113,7 @@ describe('init', () => {
 
       const result = await initConfig({
         params: {container: true},
-        mode: 'development'
+        mode: MODE_DEVELOPMENT
       });
 
       expect(result).toEqual({
@@ -159,7 +160,7 @@ describe('init', () => {
 
     const result = await initConfig({
       params: {container: true},
-      mode: 'development'
+      mode: MODE_DEVELOPMENT
     });
 
     expect(result).toEqual({
@@ -193,7 +194,7 @@ describe('init', () => {
         params: {
           container: false
         },
-        mode: 'development'
+        mode: MODE_DEVELOPMENT
       })
     ).rejects.toThrow(/A satellite ID for development must be set/);
   });

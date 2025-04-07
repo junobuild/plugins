@@ -9,7 +9,13 @@ import {
   satelliteId,
   useDockerContainer
 } from './config';
-import {DOCKER_SATELLITE_ID, ICP_INDEX_ID, ICP_LEDGER_ID, INTERNET_IDENTITY_ID} from './constants';
+import {
+  DOCKER_SATELLITE_ID,
+  ICP_INDEX_ID,
+  ICP_LEDGER_ID,
+  INTERNET_IDENTITY_ID,
+  MODE_DEVELOPMENT
+} from './constants';
 import {JunoPluginError} from './error';
 
 vi.mock('@junobuild/config-loader', async () => {
@@ -27,11 +33,11 @@ vi.mock('@junobuild/config-loader', async () => {
 describe('config', () => {
   describe('useDockerContainer', () => {
     it('returns true if container is true and mode is development', () => {
-      expect(useDockerContainer({params: {container: true}, mode: 'development'})).toBe(true);
+      expect(useDockerContainer({params: {container: true}, mode: MODE_DEVELOPMENT})).toBe(true);
     });
 
     it('returns false if container is false', () => {
-      expect(useDockerContainer({params: {container: false}, mode: 'development'})).toBe(false);
+      expect(useDockerContainer({params: {container: false}, mode: MODE_DEVELOPMENT})).toBe(false);
     });
 
     it('returns false in production mode', () => {
@@ -43,10 +49,10 @@ describe('config', () => {
         useDockerContainer({
           params: {
             container: {
-              modes: ['development', 'test']
+              modes: [MODE_DEVELOPMENT, 'test']
             }
           },
-          mode: 'development'
+          mode: MODE_DEVELOPMENT
         })
       ).toBe(true);
     });
@@ -72,13 +78,13 @@ describe('config', () => {
               url: 'http://custom'
             }
           },
-          mode: 'development'
+          mode: MODE_DEVELOPMENT
         })
       ).toBe(true);
     });
 
     it('returns true if container is undefined and mode is development', () => {
-      expect(useDockerContainer({params: {}, mode: 'development'})).toBe(true);
+      expect(useDockerContainer({params: {}, mode: MODE_DEVELOPMENT})).toBe(true);
     });
 
     it('returns false if container is undefined and mode is production', () => {
@@ -86,7 +92,7 @@ describe('config', () => {
     });
 
     it('returns true if params is undefined and mode is development', () => {
-      expect(useDockerContainer({params: undefined, mode: 'development'})).toBe(true);
+      expect(useDockerContainer({params: undefined, mode: MODE_DEVELOPMENT})).toBe(true);
     });
 
     it('returns false if params is undefined and mode is production', () => {
@@ -94,7 +100,7 @@ describe('config', () => {
     });
 
     it('returns true if container is an empty object and mode is development', () => {
-      expect(useDockerContainer({params: {container: {}}, mode: 'development'})).toBe(true);
+      expect(useDockerContainer({params: {container: {}}, mode: MODE_DEVELOPMENT})).toBe(true);
     });
 
     it('returns false if container has empty modes[]', () => {
@@ -105,7 +111,7 @@ describe('config', () => {
               modes: []
             }
           },
-          mode: 'development'
+          mode: MODE_DEVELOPMENT
         })
       ).toBe(false);
     });
@@ -116,11 +122,11 @@ describe('config', () => {
       vi.clearAllMocks();
     });
 
-    describe('development', () => {
+    describe(MODE_DEVELOPMENT, () => {
       it('returns docker satellite ID in dev mode with container true and no config file', async () => {
         vi.spyOn(configLoader, 'junoConfigExist').mockResolvedValue(false);
 
-        const id = await satelliteId({params: {container: true}, mode: 'development'});
+        const id = await satelliteId({params: {container: true}, mode: MODE_DEVELOPMENT});
         expect(id).toBe(DOCKER_SATELLITE_ID);
       });
 
@@ -131,7 +137,7 @@ describe('config', () => {
           satellite: {ids: {development: 'dev-custom-id'}}
         });
 
-        const id = await satelliteId({params: {container: true}, mode: 'development'});
+        const id = await satelliteId({params: {container: true}, mode: MODE_DEVELOPMENT});
         expect(id).toBe('dev-custom-id');
       });
 
@@ -142,7 +148,7 @@ describe('config', () => {
           satellite: {ids: {}}
         });
 
-        const id = await satelliteId({params: {container: true}, mode: 'development'});
+        const id = await satelliteId({params: {container: true}, mode: MODE_DEVELOPMENT});
         expect(id).toBe(DOCKER_SATELLITE_ID);
       });
 
@@ -153,7 +159,7 @@ describe('config', () => {
           satellite: {id: 'prod-id'}
         });
 
-        const id = await satelliteId({params: {container: true}, mode: 'development'});
+        const id = await satelliteId({params: {container: true}, mode: MODE_DEVELOPMENT});
         expect(id).toBe(DOCKER_SATELLITE_ID);
       });
     });
@@ -189,7 +195,7 @@ describe('config', () => {
     });
 
     it('returns undefined if using docker', async () => {
-      const id = await orbiterId({params: {container: true}, mode: 'development'});
+      const id = await orbiterId({params: {container: true}, mode: MODE_DEVELOPMENT});
       expect(id).toBeUndefined();
     });
 
@@ -216,7 +222,7 @@ describe('config', () => {
 
   describe('container', () => {
     it('returns default container URL if container is true', () => {
-      expect(container({params: {container: true}, mode: 'development'})).toBe(
+      expect(container({params: {container: true}, mode: MODE_DEVELOPMENT})).toBe(
         'http://127.0.0.1:5987'
       );
     });
@@ -225,17 +231,17 @@ describe('config', () => {
       expect(
         container({
           params: {container: {url: 'http://custom-url'}},
-          mode: 'development'
+          mode: MODE_DEVELOPMENT
         })
       ).toBe('http://custom-url');
     });
 
     it('returns undefined if not using docker', () => {
-      expect(container({params: {container: false}, mode: 'development'})).toBeUndefined();
+      expect(container({params: {container: false}, mode: MODE_DEVELOPMENT})).toBeUndefined();
     });
 
     it('returns default URL if container is true', () => {
-      const url = container({params: {container: true}, mode: 'development'});
+      const url = container({params: {container: true}, mode: MODE_DEVELOPMENT});
       expect(url).toBe('http://127.0.0.1:5987');
     });
 
@@ -251,7 +257,7 @@ describe('config', () => {
             url: 'http://custom-container.local'
           }
         },
-        mode: 'development'
+        mode: MODE_DEVELOPMENT
       });
       expect(url).toBe('http://custom-container.local');
     });
@@ -260,10 +266,10 @@ describe('config', () => {
       const url = container({
         params: {
           container: {
-            modes: ['development']
+            modes: [MODE_DEVELOPMENT]
           }
         },
-        mode: 'development'
+        mode: MODE_DEVELOPMENT
       });
       expect(url).toBe('http://127.0.0.1:5987');
     });
@@ -273,7 +279,7 @@ describe('config', () => {
         params: {
           container: false
         },
-        mode: 'development'
+        mode: MODE_DEVELOPMENT
       });
       expect(url).toBeUndefined();
     });

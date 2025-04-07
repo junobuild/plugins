@@ -9,7 +9,8 @@ import {
   DOCKER_SATELLITE_ID,
   ICP_INDEX_ID,
   ICP_LEDGER_ID,
-  INTERNET_IDENTITY_ID
+  INTERNET_IDENTITY_ID,
+  MODE_DEVELOPMENT
 } from './constants';
 import {JunoPluginError} from './error';
 import type {ConfigArgs, IcpIds, JunoParams} from './types';
@@ -17,8 +18,8 @@ import type {ConfigArgs, IcpIds, JunoParams} from './types';
 export const useDockerContainer = ({params, mode}: ConfigArgs): boolean =>
   params?.container !== false &&
   (params?.container === undefined || params?.container === true
-    ? mode === 'development'
-    : (params?.container?.modes ?? ['development']).includes(mode));
+    ? mode === MODE_DEVELOPMENT
+    : (params?.container?.modes ?? [MODE_DEVELOPMENT]).includes(mode));
 
 export const satelliteId = async (args: ConfigArgs): Promise<string> => {
   if (useDockerContainer(args)) {
@@ -57,7 +58,7 @@ const containerSatelliteId = async ({mode}: ConfigArgs): Promise<string> => {
     satellite: {ids}
   } = await readJunoConfig({mode});
 
-  return ids?.['development'] ?? DOCKER_SATELLITE_ID;
+  return ids?.[MODE_DEVELOPMENT] ?? DOCKER_SATELLITE_ID;
 };
 
 export const orbiterId = async (args: ConfigArgs): Promise<string | undefined> => {
