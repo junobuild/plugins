@@ -84,7 +84,7 @@ export const container = ({
 
 const JUNO_CONFIG_FILE: {filename: ConfigFilename} = {filename: 'juno.config'};
 
-export const readJunoConfig = async ({mode}: ConfigArgs): Promise<JunoConfig> => {
+const readJunoConfig = async ({mode}: ConfigArgs): Promise<JunoConfig> => {
   const config = (userConfig: JunoConfigFnOrObject): JunoConfig =>
     typeof userConfig === 'function' ? userConfig({mode}) : userConfig;
 
