@@ -33,9 +33,9 @@
   ],
   "homepage": "https://juno.build",
   "dependencies": {
-    "@junobuild/config": "^0.1.3"
+    "@junobuild/config": "^0.1.5"
   },
   "peerDependencies": {
-    "@junobuild/config-loader": "^0.2.0"
+    "@junobuild/config-loader": "^0.2.1"
   }
 }
