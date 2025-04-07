@@ -1,4 +1,9 @@
-import {ConfigArgs, JunoParams, JunoPluginError, initConfig} from '@junobuild/plugin-tools';
+import {
+  type ConfigArgs,
+  type JunoParams,
+  JunoPluginError,
+  initConfig
+} from '@junobuild/plugin-tools';
 import type {NextConfig} from 'next';
 
 /**

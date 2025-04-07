@@ -6,7 +6,7 @@ import {
   satelliteId as satelliteIdConfig,
   useDockerContainer
 } from './config';
-import {ConfigArgs, IcpIds} from './types';
+import type {ConfigArgs, IcpIds} from './types';
 
 export const initConfig = async (
   args: ConfigArgs

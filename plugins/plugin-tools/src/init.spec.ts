@@ -1,6 +1,6 @@
 import type {JunoConfig} from '@junobuild/config';
 import * as configLoader from '@junobuild/config-loader';
-import {beforeEach, describe, expect, it, MockInstance, vi} from 'vitest';
+import {type MockInstance, beforeEach, describe, expect, it, vi} from 'vitest';
 import {
   DOCKER_CONTAINER_URL,
   DOCKER_SATELLITE_ID,
@@ -13,6 +13,7 @@ import {initConfig} from './init';
 import type {ConfigArgs} from './types';
 
 vi.mock('@junobuild/config-loader', async () => {
+  // eslint-disable-next-line @typescript-eslint/consistent-type-imports
   const actual = await vi.importActual<typeof import('@junobuild/config-loader')>(
     '@junobuild/config-loader'
   );
