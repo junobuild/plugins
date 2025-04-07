@@ -2,12 +2,14 @@ import type {JunoConfig} from '@junobuild/config';
 import * as configLoader from '@junobuild/config-loader';
 import {type MockInstance, beforeEach, describe, expect, it, vi} from 'vitest';
 import {
+  CMC_ID,
   DOCKER_CONTAINER_URL,
   DOCKER_SATELLITE_ID,
   ICP_INDEX_ID,
   ICP_LEDGER_ID,
   INTERNET_IDENTITY_ID,
-  MODE_DEVELOPMENT
+  MODE_DEVELOPMENT,
+  NNS_GOVERNANCE_ID
 } from './constants';
 import {initConfig} from './init';
 import type {ConfigArgs} from './types';
@@ -29,6 +31,14 @@ describe('init', () => {
   const args: ConfigArgs = {
     params: {},
     mode: 'production'
+  };
+
+  const expectedIcpIds = {
+    internetIdentityId: INTERNET_IDENTITY_ID,
+    icpLedgerId: ICP_LEDGER_ID,
+    icpIndexId: ICP_INDEX_ID,
+    nnsGovernanceId: NNS_GOVERNANCE_ID,
+    cmcId: CMC_ID
   };
 
   let spyJunoConfigExist: MockInstance;
@@ -55,11 +65,7 @@ describe('init', () => {
     expect(result).toEqual({
       orbiterId: undefined,
       satelliteId: DOCKER_SATELLITE_ID,
-      icpIds: {
-        internetIdentityId: INTERNET_IDENTITY_ID,
-        icpLedgerId: ICP_LEDGER_ID,
-        icpIndexId: ICP_INDEX_ID
-      },
+      icpIds: expectedIcpIds,
       container: DOCKER_CONTAINER_URL
     });
 
@@ -73,11 +79,7 @@ describe('init', () => {
     expect(result).toEqual({
       satelliteId: 'mock-satellite-id',
       orbiterId: 'mock-orbiter-id',
-      icpIds: {
-        internetIdentityId: INTERNET_IDENTITY_ID,
-        icpLedgerId: ICP_LEDGER_ID,
-        icpIndexId: ICP_INDEX_ID
-      },
+      icpIds: expectedIcpIds,
       container: undefined
     });
 
@@ -97,11 +99,7 @@ describe('init', () => {
       expect(result).toEqual({
         orbiterId: undefined,
         satelliteId: DOCKER_SATELLITE_ID,
-        icpIds: {
-          internetIdentityId: INTERNET_IDENTITY_ID,
-          icpLedgerId: ICP_LEDGER_ID,
-          icpIndexId: ICP_INDEX_ID
-        },
+        icpIds: expectedIcpIds,
         container: DOCKER_CONTAINER_URL
       });
 
@@ -120,11 +118,7 @@ describe('init', () => {
       expect(result).toEqual({
         satelliteId: DOCKER_SATELLITE_ID,
         orbiterId: undefined,
-        icpIds: {
-          internetIdentityId: INTERNET_IDENTITY_ID,
-          icpLedgerId: ICP_LEDGER_ID,
-          icpIndexId: ICP_INDEX_ID
-        },
+        icpIds: expectedIcpIds,
         container: DOCKER_CONTAINER_URL
       });
 
@@ -141,11 +135,7 @@ describe('init', () => {
     expect(result).toEqual({
       satelliteId: 'mock-satellite-id',
       orbiterId: 'mock-orbiter-id',
-      icpIds: {
-        internetIdentityId: INTERNET_IDENTITY_ID,
-        icpLedgerId: ICP_LEDGER_ID,
-        icpIndexId: ICP_INDEX_ID
-      },
+      icpIds: expectedIcpIds,
       container: undefined
     });
 
@@ -167,11 +157,7 @@ describe('init', () => {
     expect(result).toEqual({
       satelliteId: 'custom-docker-id',
       orbiterId: undefined,
-      icpIds: {
-        internetIdentityId: INTERNET_IDENTITY_ID,
-        icpLedgerId: ICP_LEDGER_ID,
-        icpIndexId: ICP_INDEX_ID
-      },
+      icpIds: expectedIcpIds,
       container: DOCKER_CONTAINER_URL
     });
 

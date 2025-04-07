@@ -72,4 +72,16 @@ export interface IcpIds {
    * @type {string}
    */
   icpIndexId: string;
+
+  /**
+   * The NNS Governance ID.
+   * @type {string}
+   */
+  nnsGovernanceId: string;
+
+  /**
+   * The CMC (Cycles Minting) ID.
+   * @type {string}
+   */
+  cmcId: string;
 }

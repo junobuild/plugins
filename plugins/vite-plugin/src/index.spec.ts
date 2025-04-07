@@ -15,7 +15,9 @@ describe('vite-plugin-juno', () => {
       icpIds: {
         internetIdentityId: 'ii-id',
         icpLedgerId: 'ledger-id',
-        icpIndexId: 'index-id'
+        icpIndexId: 'index-id',
+        nnsGovernanceId: 'nns-governance-id',
+        cmcId: 'cmc-id'
       },
       container: 'http://localhost:1234'
     });
@@ -40,6 +42,8 @@ describe('vite-plugin-juno', () => {
         'import.meta.env.VITE_INTERNET_IDENTITY_ID': JSON.stringify('ii-id'),
         'import.meta.env.VITE_ICP_LEDGER_ID': JSON.stringify('ledger-id'),
         'import.meta.env.VITE_ICP_INDEX_ID': JSON.stringify('index-id'),
+        'import.meta.env.VITE_NNS_GOVERNANCE_ID': JSON.stringify('nns-governance-id'),
+        'import.meta.env.VITE_CMC_ID': JSON.stringify('cmc-id'),
         'import.meta.env.VITE_CONTAINER': JSON.stringify('http://localhost:1234')
       }
     });

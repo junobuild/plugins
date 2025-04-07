@@ -17,7 +17,9 @@ describe('withJuno', () => {
       icpIds: {
         internetIdentityId: 'ii-id',
         icpLedgerId: 'ledger-id',
-        icpIndexId: 'index-id'
+        icpIndexId: 'index-id',
+        nnsGovernanceId: 'nns-governance-id',
+        cmcId: 'cmc-id'
       },
       container: 'http://localhost:1234'
     });
@@ -37,6 +39,8 @@ describe('withJuno', () => {
         NEXT_PUBLIC_INTERNET_IDENTITY_ID: 'ii-id',
         NEXT_PUBLIC_ICP_LEDGER_ID: 'ledger-id',
         NEXT_PUBLIC_ICP_INDEX_ID: 'index-id',
+        NEXT_PUBLIC_NNS_GOVERNANCE_ID: 'nns-governance-id',
+        NEXT_PUBLIC_CMC_ID: 'cmc-id',
         NEXT_PUBLIC_CONTAINER: 'http://localhost:1234'
       }
     });

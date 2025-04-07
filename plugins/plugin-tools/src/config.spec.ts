@@ -10,11 +10,13 @@ import {
   useDockerContainer
 } from './config';
 import {
+  CMC_ID,
   DOCKER_SATELLITE_ID,
   ICP_INDEX_ID,
   ICP_LEDGER_ID,
   INTERNET_IDENTITY_ID,
-  MODE_DEVELOPMENT
+  MODE_DEVELOPMENT,
+  NNS_GOVERNANCE_ID
 } from './constants';
 import {JunoPluginError} from './error';
 
@@ -216,7 +218,9 @@ describe('config', () => {
       expect(icpIds()).toEqual({
         internetIdentityId: INTERNET_IDENTITY_ID,
         icpLedgerId: ICP_LEDGER_ID,
-        icpIndexId: ICP_INDEX_ID
+        icpIndexId: ICP_INDEX_ID,
+        nnsGovernanceId: NNS_GOVERNANCE_ID,
+        cmcId: CMC_ID
       });
     });
   });
