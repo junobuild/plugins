@@ -9,6 +9,7 @@ import {
   satelliteId,
   useDockerContainer
 } from './config';
+import {DOCKER_SATELLITE_ID, ICP_INDEX_ID, ICP_LEDGER_ID, INTERNET_IDENTITY_ID} from './constants';
 import {JunoPluginError} from './error';
 
 vi.mock('@junobuild/config-loader', async () => {
@@ -115,31 +116,70 @@ describe('config', () => {
       vi.clearAllMocks();
     });
 
-    it('returns docker satellite ID in dev mode with container true', async () => {
-      const id = await satelliteId({params: {container: true}, mode: 'development'});
-      expect(id).toBe('jx5yt-yyaaa-aaaal-abzbq-cai');
-    });
+    describe('development', () => {
+      it('returns docker satellite ID in dev mode with container true and no config file', async () => {
+        vi.spyOn(configLoader, 'junoConfigExist').mockResolvedValue(false);
 
-    it('reads config if not using docker', async () => {
-      vi.spyOn(configLoader, 'junoConfigExist').mockResolvedValue(true);
-
-      vi.spyOn(configLoader, 'readJunoConfig').mockResolvedValue({
-        satellite: {ids: {production: 'prod-sat-id'}}
+        const id = await satelliteId({params: {container: true}, mode: 'development'});
+        expect(id).toBe(DOCKER_SATELLITE_ID);
       });
 
-      const id = await satelliteId({params: {container: false}, mode: 'production'});
-      expect(id).toBe('prod-sat-id');
+      it('returns satellite ID from config if it exists', async () => {
+        vi.spyOn(configLoader, 'junoConfigExist').mockResolvedValue(true);
+
+        vi.spyOn(configLoader, 'readJunoConfig').mockResolvedValue({
+          satellite: {ids: {development: 'dev-custom-id'}}
+        });
+
+        const id = await satelliteId({params: {container: true}, mode: 'development'});
+        expect(id).toBe('dev-custom-id');
+      });
+
+      it('falls back to default docker satellite ID if config exists but development ID is not set', async () => {
+        vi.spyOn(configLoader, 'junoConfigExist').mockResolvedValue(true);
+
+        vi.spyOn(configLoader, 'readJunoConfig').mockResolvedValue({
+          satellite: {ids: {}}
+        });
+
+        const id = await satelliteId({params: {container: true}, mode: 'development'});
+        expect(id).toBe(DOCKER_SATELLITE_ID);
+      });
+
+      it('falls back to default docker satellite ID if config exists but no ids', async () => {
+        vi.spyOn(configLoader, 'junoConfigExist').mockResolvedValue(true);
+
+        vi.spyOn(configLoader, 'readJunoConfig').mockResolvedValue({
+          satellite: {id: 'prod-id'}
+        });
+
+        const id = await satelliteId({params: {container: true}, mode: 'development'});
+        expect(id).toBe(DOCKER_SATELLITE_ID);
+      });
     });
 
-    it('throws if satellite ID is missing', async () => {
-      vi.spyOn(configLoader, 'junoConfigExist').mockResolvedValue(true);
-      vi.spyOn(configLoader, 'readJunoConfig').mockResolvedValue({
-        satellite: {}
-      } as unknown as JunoConfig);
+    describe('no container', () => {
+      it('reads config if not using docker', async () => {
+        vi.spyOn(configLoader, 'junoConfigExist').mockResolvedValue(true);
 
-      await expect(() => satelliteId({params: {}, mode: 'production'})).rejects.toThrow(
-        JunoPluginError
-      );
+        vi.spyOn(configLoader, 'readJunoConfig').mockResolvedValue({
+          satellite: {ids: {production: 'prod-sat-id'}}
+        });
+
+        const id = await satelliteId({params: {container: false}, mode: 'production'});
+        expect(id).toBe('prod-sat-id');
+      });
+
+      it('throws if satellite ID is missing', async () => {
+        vi.spyOn(configLoader, 'junoConfigExist').mockResolvedValue(true);
+        vi.spyOn(configLoader, 'readJunoConfig').mockResolvedValue({
+          satellite: {}
+        } as unknown as JunoConfig);
+
+        await expect(() => satelliteId({params: {}, mode: 'production'})).rejects.toThrow(
+          JunoPluginError
+        );
+      });
     });
   });
 
@@ -167,9 +207,9 @@ describe('config', () => {
   describe('icpIds', () => {
     it('returns static ICP IDs', () => {
       expect(icpIds()).toEqual({
-        internetIdentityId: 'rdmx6-jaaaa-aaaaa-aaadq-cai',
-        icpLedgerId: 'ryjl3-tyaaa-aaaaa-aaaba-cai',
-        icpIndexId: 'qhbym-qaaaa-aaaaa-aaafq-cai'
+        internetIdentityId: INTERNET_IDENTITY_ID,
+        icpLedgerId: ICP_LEDGER_ID,
+        icpIndexId: ICP_INDEX_ID
       });
     });
   });

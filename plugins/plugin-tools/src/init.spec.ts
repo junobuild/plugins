@@ -1,6 +1,13 @@
 import type {JunoConfig} from '@junobuild/config';
 import * as configLoader from '@junobuild/config-loader';
 import {beforeEach, describe, expect, it, MockInstance, vi} from 'vitest';
+import {
+  DOCKER_CONTAINER_URL,
+  DOCKER_SATELLITE_ID,
+  ICP_INDEX_ID,
+  ICP_LEDGER_ID,
+  INTERNET_IDENTITY_ID
+} from './constants';
 import {initConfig} from './init';
 import type {ConfigArgs} from './types';
 
@@ -36,6 +43,8 @@ describe('init', () => {
   });
 
   it('returns config for development', async () => {
+    vi.spyOn(configLoader, 'junoConfigExist').mockResolvedValue(false);
+
     const result = await initConfig({
       params: {},
       mode: 'development'
@@ -43,16 +52,16 @@ describe('init', () => {
 
     expect(result).toEqual({
       orbiterId: undefined,
-      satelliteId: 'jx5yt-yyaaa-aaaal-abzbq-cai',
+      satelliteId: DOCKER_SATELLITE_ID,
       icpIds: {
-        internetIdentityId: 'rdmx6-jaaaa-aaaaa-aaadq-cai',
-        icpLedgerId: 'ryjl3-tyaaa-aaaaa-aaaba-cai',
-        icpIndexId: 'qhbym-qaaaa-aaaaa-aaafq-cai'
+        internetIdentityId: INTERNET_IDENTITY_ID,
+        icpLedgerId: ICP_LEDGER_ID,
+        icpIndexId: ICP_INDEX_ID
       },
-      container: 'http://127.0.0.1:5987'
+      container: DOCKER_CONTAINER_URL
     });
 
-    expect(spyJunoConfigExist).not.toHaveBeenCalled();
+    expect(configLoader.junoConfigExist).toHaveBeenCalled();
     expect(spyReadJunoConfig).not.toHaveBeenCalled();
   });
 
@@ -63,9 +72,9 @@ describe('init', () => {
       satelliteId: 'mock-satellite-id',
       orbiterId: 'mock-orbiter-id',
       icpIds: {
-        internetIdentityId: 'rdmx6-jaaaa-aaaaa-aaadq-cai',
-        icpLedgerId: 'ryjl3-tyaaa-aaaaa-aaaba-cai',
-        icpIndexId: 'qhbym-qaaaa-aaaaa-aaafq-cai'
+        internetIdentityId: INTERNET_IDENTITY_ID,
+        icpLedgerId: ICP_LEDGER_ID,
+        icpIndexId: ICP_INDEX_ID
       },
       container: undefined
     });
@@ -74,24 +83,52 @@ describe('init', () => {
     expect(spyReadJunoConfig).toHaveBeenCalled();
   });
 
-  it('returns config for development when params is not passed', async () => {
-    const result = await initConfig({
-      mode: 'development'
+  describe('no config', () => {
+    it('returns default docker satellite ID in development if config does not exist', async () => {
+      vi.spyOn(configLoader, 'junoConfigExist').mockResolvedValue(false);
+
+      const result = await initConfig({
+        params: {},
+        mode: 'development'
+      });
+
+      expect(result).toEqual({
+        orbiterId: undefined,
+        satelliteId: DOCKER_SATELLITE_ID,
+        icpIds: {
+          internetIdentityId: INTERNET_IDENTITY_ID,
+          icpLedgerId: ICP_LEDGER_ID,
+          icpIndexId: ICP_INDEX_ID
+        },
+        container: DOCKER_CONTAINER_URL
+      });
+
+      expect(configLoader.junoConfigExist).toHaveBeenCalled();
+      expect(spyReadJunoConfig).not.toHaveBeenCalled();
     });
 
-    expect(result).toEqual({
-      satelliteId: 'jx5yt-yyaaa-aaaal-abzbq-cai',
-      orbiterId: undefined,
-      icpIds: {
-        internetIdentityId: 'rdmx6-jaaaa-aaaaa-aaadq-cai',
-        icpLedgerId: 'ryjl3-tyaaa-aaaaa-aaaba-cai',
-        icpIndexId: 'qhbym-qaaaa-aaaaa-aaafq-cai'
-      },
-      container: 'http://127.0.0.1:5987'
-    });
+    it('returns fallback Docker satellite ID when using container and config does not exist and container is specified', async () => {
+      vi.spyOn(configLoader, 'junoConfigExist').mockResolvedValue(false);
 
-    expect(spyJunoConfigExist).not.toHaveBeenCalled();
-    expect(spyReadJunoConfig).not.toHaveBeenCalled();
+      const result = await initConfig({
+        params: {container: true},
+        mode: 'development'
+      });
+
+      expect(result).toEqual({
+        satelliteId: DOCKER_SATELLITE_ID,
+        orbiterId: undefined,
+        icpIds: {
+          internetIdentityId: INTERNET_IDENTITY_ID,
+          icpLedgerId: ICP_LEDGER_ID,
+          icpIndexId: ICP_INDEX_ID
+        },
+        container: DOCKER_CONTAINER_URL
+      });
+
+      expect(configLoader.junoConfigExist).toHaveBeenCalled();
+      expect(spyReadJunoConfig).not.toHaveBeenCalled();
+    });
   });
 
   it('returns config for production when params is not passed', async () => {
@@ -103,9 +140,9 @@ describe('init', () => {
       satelliteId: 'mock-satellite-id',
       orbiterId: 'mock-orbiter-id',
       icpIds: {
-        internetIdentityId: 'rdmx6-jaaaa-aaaaa-aaadq-cai',
-        icpLedgerId: 'ryjl3-tyaaa-aaaaa-aaaba-cai',
-        icpIndexId: 'qhbym-qaaaa-aaaaa-aaafq-cai'
+        internetIdentityId: INTERNET_IDENTITY_ID,
+        icpLedgerId: ICP_LEDGER_ID,
+        icpIndexId: ICP_INDEX_ID
       },
       container: undefined
     });
@@ -114,27 +151,30 @@ describe('init', () => {
     expect(spyReadJunoConfig).toHaveBeenCalled();
   });
 
-  it('skips assertJunoConfig when using Docker container', async () => {
-    const dockerArgs: ConfigArgs = {
-      params: {container: true},
-      mode: 'development'
-    };
-
-    const result = await initConfig(dockerArgs);
-
-    expect(result).toEqual({
-      satelliteId: 'jx5yt-yyaaa-aaaal-abzbq-cai', // fallback to docker const
-      orbiterId: undefined,
-      icpIds: {
-        internetIdentityId: 'rdmx6-jaaaa-aaaaa-aaadq-cai',
-        icpLedgerId: 'ryjl3-tyaaa-aaaaa-aaaba-cai',
-        icpIndexId: 'qhbym-qaaaa-aaaaa-aaafq-cai'
-      },
-      container: 'http://127.0.0.1:5987'
+  it('returns satellite ID from config when using container and config exists', async () => {
+    vi.spyOn(configLoader, 'junoConfigExist').mockResolvedValue(true);
+    vi.spyOn(configLoader, 'readJunoConfig').mockResolvedValue({
+      satellite: {ids: {development: 'custom-docker-id'}}
     });
 
-    expect(spyJunoConfigExist).not.toHaveBeenCalled();
-    expect(spyReadJunoConfig).not.toHaveBeenCalled();
+    const result = await initConfig({
+      params: {container: true},
+      mode: 'development'
+    });
+
+    expect(result).toEqual({
+      satelliteId: 'custom-docker-id',
+      orbiterId: undefined,
+      icpIds: {
+        internetIdentityId: INTERNET_IDENTITY_ID,
+        icpLedgerId: ICP_LEDGER_ID,
+        icpIndexId: ICP_INDEX_ID
+      },
+      container: DOCKER_CONTAINER_URL
+    });
+
+    expect(configLoader.junoConfigExist).toHaveBeenCalled();
+    expect(configLoader.readJunoConfig).toHaveBeenCalled();
   });
 
   it('throws if config does not exist and mode is production', async () => {
