@@ -1,4 +1,4 @@
-import {JunoConfig} from '@junobuild/config';
+import type {JunoConfig} from '@junobuild/config';
 import * as configLoader from '@junobuild/config-loader';
 import {beforeEach, describe, expect, it, vi} from 'vitest';
 import {
@@ -19,6 +19,7 @@ import {
 import {JunoPluginError} from './error';
 
 vi.mock('@junobuild/config-loader', async () => {
+  // eslint-disable-next-line @typescript-eslint/consistent-type-imports
   const actual = await vi.importActual<typeof import('@junobuild/config-loader')>(
     '@junobuild/config-loader'
   );
