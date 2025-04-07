@@ -31,6 +31,8 @@ Those following environment variables are injected by this plugin:
 | NEXT_PUBLIC_INTERNET_IDENTITY_ID | `rdmx6-jaaaa-aaaaa-aaadq-cai` | `rdmx6-jaaaa-aaaaa-aaadq-cai`                                      |
 | NEXT_PUBLIC_ICP_LEDGER_ID        | `ryjl3-tyaaa-aaaaa-aaaba-cai` | `ryjl3-tyaaa-aaaaa-aaaba-cai`                                      |
 | NEXT_PUBLIC_ICP_INDEX_ID         | `qhbym-qaaaa-aaaaa-aaafq-cai` | `qhbym-qaaaa-aaaaa-aaafq-cai`                                      |
+| NEXT_PUBLIC_NNS_GOVERNANCE_ID    | `rrkah-fqaaa-aaaaa-aaaaq-cai` | `rrkah-fqaaa-aaaaa-aaaaq-cai`                                      |
+| NEXT_PUBLIC_CMC_ID               | `rkp4c-7iaaa-aaaaa-aaaca-cai` | `rkp4c-7iaaa-aaaaa-aaaca-cai`                                      |
 
 > Variables prefixed with `NEXT_PUBLIC_` are clearly marked for browser availability, but they are injected into the environment ([documentation](https://nextjs.org/docs/pages/api-reference/next-config-js/env)) by the plugin. If you prefer to remove or change this prefix, it is possible using the option `prefix`.
 

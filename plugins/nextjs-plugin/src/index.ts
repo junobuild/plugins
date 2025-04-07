@@ -53,6 +53,12 @@ export const withJuno = async (params?: {
         ...(icpIds?.icpIndexId !== undefined && {
           [`${prefix}ICP_INDEX_ID`]: icpIds.icpIndexId
         }),
+        ...(icpIds?.nnsGovernanceId !== undefined && {
+          [`${prefix}NNS_GOVERNANCE_ID`]: icpIds.nnsGovernanceId
+        }),
+        ...(icpIds?.cmcId !== undefined && {
+          [`${prefix}CMC_ID`]: icpIds.cmcId
+        }),
         ...(container !== undefined && {
           [`${prefix}CONTAINER`]: container
         })

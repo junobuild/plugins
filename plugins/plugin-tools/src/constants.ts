@@ -6,3 +6,5 @@ export const DOCKER_SATELLITE_ID = 'jx5yt-yyaaa-aaaal-abzbq-cai';
 export const INTERNET_IDENTITY_ID = 'rdmx6-jaaaa-aaaaa-aaadq-cai';
 export const ICP_LEDGER_ID = 'ryjl3-tyaaa-aaaaa-aaaba-cai';
 export const ICP_INDEX_ID = 'qhbym-qaaaa-aaaaa-aaafq-cai';
+export const NNS_GOVERNANCE_ID = 'rrkah-fqaaa-aaaaa-aaaaq-cai';
+export const CMC_ID = 'rkp4c-7iaaa-aaaaa-aaaca-cai';

@@ -38,6 +38,12 @@ export default function Juno(params?: JunoParams): Plugin {
             ...(icpIds?.icpIndexId !== undefined && {
               [`${prefix}ICP_INDEX_ID`]: JSON.stringify(icpIds.icpIndexId)
             }),
+            ...(icpIds?.nnsGovernanceId !== undefined && {
+              [`${prefix}NNS_GOVERNANCE_ID`]: JSON.stringify(icpIds.nnsGovernanceId)
+            }),
+            ...(icpIds?.cmcId !== undefined && {
+              [`${prefix}CMC_ID`]: JSON.stringify(icpIds.cmcId)
+            }),
             ...(container !== undefined && {
               [`${prefix}CONTAINER`]: JSON.stringify(container)
             })

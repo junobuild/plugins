@@ -5,12 +5,14 @@ import {
   type ConfigFilename
 } from '@junobuild/config-loader';
 import {
+  CMC_ID,
   DOCKER_CONTAINER_URL,
   DOCKER_SATELLITE_ID,
   ICP_INDEX_ID,
   ICP_LEDGER_ID,
   INTERNET_IDENTITY_ID,
-  MODE_DEVELOPMENT
+  MODE_DEVELOPMENT,
+  NNS_GOVERNANCE_ID
 } from './constants';
 import {JunoPluginError} from './error';
 import type {ConfigArgs, IcpIds, JunoParams} from './types';
@@ -76,7 +78,9 @@ export const orbiterId = async (args: ConfigArgs): Promise<string | undefined> =
 export const icpIds = (): IcpIds | undefined => ({
   internetIdentityId: INTERNET_IDENTITY_ID,
   icpLedgerId: ICP_LEDGER_ID,
-  icpIndexId: ICP_INDEX_ID
+  icpIndexId: ICP_INDEX_ID,
+  nnsGovernanceId: NNS_GOVERNANCE_ID,
+  cmcId: CMC_ID
 });
 
 export const container = ({

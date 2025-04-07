@@ -31,6 +31,8 @@ Those following environment variables are injected by this plugin:
 | VITE_INTERNET_IDENTITY_ID | `rdmx6-jaaaa-aaaaa-aaadq-cai` | `rdmx6-jaaaa-aaaaa-aaadq-cai`                                      |
 | VITE_ICP_LEDGER_ID        | `ryjl3-tyaaa-aaaaa-aaaba-cai` | `ryjl3-tyaaa-aaaaa-aaaba-cai`                                      |
 | VITE_ICP_INDEX_ID         | `qhbym-qaaaa-aaaaa-aaafq-cai` | `qhbym-qaaaa-aaaaa-aaafq-cai`                                      |
+| VITE_NNS_GOVERNANCE_ID    | `rrkah-fqaaa-aaaaa-aaaaq-cai` | `rrkah-fqaaa-aaaaa-aaaaq-cai`                                      |
+| VITE_CMC_ID               | `rkp4c-7iaaa-aaaaa-aaaca-cai` | `rkp4c-7iaaa-aaaaa-aaaca-cai`                                      |
 
 > `VITE_` is the default prefix used by Vite. It can be customized as described in Vite's [documentation](https://vitejs.dev/guide/env-and-mode).
 
