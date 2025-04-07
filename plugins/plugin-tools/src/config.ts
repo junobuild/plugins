@@ -25,10 +25,10 @@ export const satelliteId = async (args: ConfigArgs): Promise<string> => {
     return DOCKER_SATELLITE_ID;
   }
 
-  return await junoJsonSatelliteId(args);
+  return await junoConfigSatelliteId(args);
 };
 
-const junoJsonSatelliteId = async ({mode}: ConfigArgs): Promise<string> => {
+const junoConfigSatelliteId = async ({mode}: ConfigArgs): Promise<string> => {
   await assertJunoConfig();
 
   const {
