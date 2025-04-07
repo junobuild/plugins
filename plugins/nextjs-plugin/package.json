@@ -29,9 +29,9 @@
     "env",
     "environment",
     "variables",
-    "vite",
-    "vite-plugin",
-    "vitejs"
+    "nextjs",
+    "next",
+    "react"
   ],
   "homepage": "https://juno.build",
   "peerDependencies": {

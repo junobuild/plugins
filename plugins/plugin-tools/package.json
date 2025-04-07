@@ -29,9 +29,7 @@
     "env",
     "environment",
     "variables",
-    "vite",
-    "vite-plugin",
-    "vitejs"
+    "plugin"
   ],
   "homepage": "https://juno.build",
   "dependencies": {
