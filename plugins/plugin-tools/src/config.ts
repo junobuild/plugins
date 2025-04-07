@@ -22,7 +22,7 @@ export const useDockerContainer = ({params, mode}: ConfigArgs): boolean =>
 
 export const satelliteId = async (args: ConfigArgs): Promise<string> => {
   if (useDockerContainer(args)) {
-    return DOCKER_SATELLITE_ID;
+    return await containerSatelliteId(args);
   }
 
   return await junoConfigSatelliteId(args);
@@ -44,6 +44,20 @@ const junoConfigSatelliteId = async ({mode}: ConfigArgs): Promise<string> => {
   }
 
   return satelliteId;
+};
+
+const containerSatelliteId = async ({mode}: ConfigArgs): Promise<string> => {
+  const exist = await junoConfigExist();
+
+  if (!exist) {
+    return DOCKER_SATELLITE_ID;
+  }
+
+  const {
+    satellite: {ids}
+  } = await readJunoConfig({mode});
+
+  return ids?.['development'] ?? DOCKER_SATELLITE_ID;
 };
 
 export const orbiterId = async (args: ConfigArgs): Promise<string | undefined> => {
@@ -95,7 +109,7 @@ const readJunoConfig = async ({mode}: ConfigArgs): Promise<JunoConfig> => {
 };
 
 export const assertJunoConfig = async () => {
-  const exist = await junoConfigExistTools(JUNO_CONFIG_FILE);
+  const exist = await junoConfigExist();
 
   if (!exist) {
     throw new JunoPluginError(
@@ -103,3 +117,5 @@ export const assertJunoConfig = async () => {
     );
   }
 };
+
+const junoConfigExist = (): Promise<boolean> => junoConfigExistTools(JUNO_CONFIG_FILE);
