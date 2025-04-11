@@ -183,16 +183,35 @@ describe('init', () => {
         },
         mode: MODE_DEVELOPMENT
       })
-    ).rejects.toThrow(/A satellite ID for development must be set/);
+    ).rejects.toThrow(
+      'Your configuration is invalid. A Satellite ID for development must be provided.'
+    );
   });
 
-  it('throws if satelliteId is missing in config', async () => {
+  it('throws if satelliteId is missing in config in development', async () => {
+    vi.spyOn(configLoader, 'readJunoConfig').mockResolvedValueOnce({
+      satellite: {}
+    } as unknown as JunoConfig);
+
+    await expect(
+      initConfig({
+        params: {
+          container: false
+        },
+        mode: MODE_DEVELOPMENT
+      })
+    ).rejects.toThrow(
+      'Your configuration is invalid. A Satellite ID for development must be provided.'
+    );
+  });
+
+  it('throws if satelliteId is missing in config in production', async () => {
     vi.spyOn(configLoader, 'readJunoConfig').mockResolvedValueOnce({
       satellite: {}
     } as unknown as JunoConfig);
 
     await expect(initConfig(args)).rejects.toThrow(
-      /Your configuration is invalid. A satellite ID for production must be set in your configuration file./
+      'Your project needs a Satellite for production. Create one at https://console.juno.build and set its ID in your configuration file.'
     );
   });
 });
