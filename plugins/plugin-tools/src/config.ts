@@ -41,8 +41,14 @@ const junoConfigSatelliteId = async ({mode}: ConfigArgs): Promise<string> => {
   const satelliteId = ids?.[mode] ?? id ?? deprecatedSatelliteId;
 
   if (satelliteId === undefined) {
+    if (mode === MODE_DEVELOPMENT) {
+      throw new JunoPluginError(
+        `Your configuration is invalid. A Satellite ID for ${mode} must be provided.`
+      );
+    }
+
     throw new JunoPluginError(
-      `Your configuration is invalid. A satellite ID for ${mode} must be set in your configuration file.`
+      `Your project needs a Satellite for ${mode}. Create one at https://console.juno.build and set its ID in your configuration file.`
     );
   }
 
