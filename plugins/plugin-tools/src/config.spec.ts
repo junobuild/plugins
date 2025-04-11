@@ -189,6 +189,17 @@ describe('config', () => {
           JunoPluginError
         );
       });
+
+      it('throws if config is undefined in satelliteId', async () => {
+        vi.spyOn(configLoader, 'junoConfigExist').mockResolvedValue(true);
+        vi.spyOn(configLoader, 'readJunoConfig').mockResolvedValue(
+          undefined as unknown as JunoConfig
+        );
+
+        await expect(() => satelliteId({params: {}, mode: 'production'})).rejects.toThrow(
+          /No configuration exported/
+        );
+      });
     });
   });
 

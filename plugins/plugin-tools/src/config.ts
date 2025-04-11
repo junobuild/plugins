@@ -34,6 +34,12 @@ export const satelliteId = async (args: ConfigArgs): Promise<string> => {
 const junoConfigSatelliteId = async ({mode}: ConfigArgs): Promise<string> => {
   await assertJunoConfig();
 
+  const config = await readJunoConfig({mode});
+
+  if (config === undefined || !('satellite' in config)) {
+    throw new JunoPluginError(`No configuration exported for ${mode}.`);
+  }
+
   const {
     satellite: {ids, satelliteId: deprecatedSatelliteId, id}
   } = await readJunoConfig({mode});
@@ -62,9 +68,15 @@ const containerSatelliteId = async ({mode}: ConfigArgs): Promise<string> => {
     return DOCKER_SATELLITE_ID;
   }
 
+  const config = await readJunoConfig({mode});
+
+  if (config == undefined || !('satellite' in config)) {
+    return DOCKER_SATELLITE_ID;
+  }
+
   const {
     satellite: {ids}
-  } = await readJunoConfig({mode});
+  } = config;
 
   return ids?.[MODE_DEVELOPMENT] ?? DOCKER_SATELLITE_ID;
 };
