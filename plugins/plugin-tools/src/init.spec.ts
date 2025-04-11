@@ -206,8 +206,8 @@ describe('init', () => {
   });
 
   it('throws if satelliteId is missing in config in production', async () => {
-     
     vi.spyOn(configLoader, 'readJunoConfig').mockImplementation(
+      // eslint-disable-next-line require-await
       async () => ({satellite: {}}) as unknown as JunoConfig
     );
 
