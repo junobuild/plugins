@@ -206,9 +206,10 @@ describe('init', () => {
   });
 
   it('throws if satelliteId is missing in config in production', async () => {
-    vi.spyOn(configLoader, 'readJunoConfig').mockImplementation(async () => {
-      return {satellite: {}} as unknown as JunoConfig;
-    });
+     
+    vi.spyOn(configLoader, 'readJunoConfig').mockImplementation(
+      async () => ({satellite: {}}) as unknown as JunoConfig
+    );
 
     await expect(initConfig(args)).rejects.toThrow(
       'Your project needs a Satellite for production. Create one at https://console.juno.build and set its ID in your configuration file.'
