@@ -208,19 +208,99 @@ describe('config', () => {
       vi.clearAllMocks();
     });
 
-    it('returns undefined if using docker', async () => {
-      const id = await orbiterId({params: {container: true}, mode: MODE_DEVELOPMENT});
-      expect(id).toBeUndefined();
+    describe(MODE_DEVELOPMENT, () => {
+      it('returns undefined in dev mode with container true and no config file', async () => {
+        vi.spyOn(configLoader, 'junoConfigExist').mockResolvedValue(false);
+
+        const id = await orbiterId({params: {container: true}, mode: MODE_DEVELOPMENT});
+        expect(id).toBeUndefined();
+      });
+
+      it('returns orbiter ID from config if it exists', async () => {
+        vi.spyOn(configLoader, 'junoConfigExist').mockResolvedValue(true);
+
+        vi.spyOn(configLoader, 'readJunoConfig').mockResolvedValue({
+          orbiter: {ids: {development: 'orb-dev-id'}}
+        } as unknown as JunoConfig);
+
+        const id = await orbiterId({params: {container: true}, mode: MODE_DEVELOPMENT});
+        expect(id).toBe('orb-dev-id');
+      });
+
+      it('returns undefined if config exists but development ID is not set', async () => {
+        vi.spyOn(configLoader, 'junoConfigExist').mockResolvedValue(true);
+
+        vi.spyOn(configLoader, 'readJunoConfig').mockResolvedValue({
+          orbiter: {ids: {}}
+        } as unknown as JunoConfig);
+
+        const id = await orbiterId({params: {container: true}, mode: MODE_DEVELOPMENT});
+        expect(id).toBeUndefined();
+      });
+
+      it('returns undefined if config exists but only ID is set', async () => {
+        vi.spyOn(configLoader, 'junoConfigExist').mockResolvedValue(true);
+
+        vi.spyOn(configLoader, 'readJunoConfig').mockResolvedValue({
+          orbiter: {id: 'orb-id'}
+        } as unknown as JunoConfig);
+
+        const id = await orbiterId({params: {container: true}, mode: MODE_DEVELOPMENT});
+        expect(id).toBeUndefined();
+      });
+
+      it('returns undefined if config exists but no ids', async () => {
+        vi.spyOn(configLoader, 'junoConfigExist').mockResolvedValue(true);
+
+        vi.spyOn(configLoader, 'readJunoConfig').mockResolvedValue({
+          orbiter: {}
+        } as unknown as JunoConfig);
+
+        const id = await orbiterId({params: {container: true}, mode: MODE_DEVELOPMENT});
+        expect(id).toBeUndefined();
+      });
     });
 
-    it('returns orbiter ID from config', async () => {
-      vi.spyOn(configLoader, 'junoConfigExist').mockResolvedValue(true);
-      vi.spyOn(configLoader, 'readJunoConfig').mockResolvedValue({
-        orbiter: {id: 'orb-id'}
-      } as unknown as JunoConfig);
+    describe('no container', () => {
+      it('reads config and returns orbiter ID', async () => {
+        vi.spyOn(configLoader, 'junoConfigExist').mockResolvedValue(true);
 
-      const id = await orbiterId({params: {}, mode: 'production'});
-      expect(id).toBe('orb-id');
+        vi.spyOn(configLoader, 'readJunoConfig').mockResolvedValue({
+          orbiter: {id: 'orb-id'}
+        } as unknown as JunoConfig);
+
+        const id = await orbiterId({params: {container: false}, mode: 'production'});
+        expect(id).toBe('orb-id');
+      });
+
+      it('falls back to `orbiterId` if `id` is not present', async () => {
+        vi.spyOn(configLoader, 'junoConfigExist').mockResolvedValue(true);
+
+        vi.spyOn(configLoader, 'readJunoConfig').mockResolvedValue({
+          orbiter: {orbiterId: 'fallback-id'}
+        } as unknown as JunoConfig);
+
+        const id = await orbiterId({params: {}, mode: 'production'});
+        expect(id).toBe('fallback-id');
+      });
+
+      it('returns undefined if config has no orbiter key', async () => {
+        vi.spyOn(configLoader, 'junoConfigExist').mockResolvedValue(true);
+        vi.spyOn(configLoader, 'readJunoConfig').mockResolvedValue({} as unknown as JunoConfig);
+
+        const id = await orbiterId({params: {}, mode: 'production'});
+        expect(id).toBeUndefined();
+      });
+
+      it('returns undefined if config is undefined', async () => {
+        vi.spyOn(configLoader, 'junoConfigExist').mockResolvedValue(true);
+        vi.spyOn(configLoader, 'readJunoConfig').mockResolvedValue(
+          undefined as unknown as JunoConfig
+        );
+
+        const id = await orbiterId({params: {}, mode: 'production'});
+        expect(id).toBeUndefined();
+      });
     });
   });
 
