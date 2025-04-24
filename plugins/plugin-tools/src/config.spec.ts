@@ -36,15 +36,15 @@ vi.mock('@junobuild/config-loader', async () => {
 describe('config', () => {
   describe('useDockerContainer', () => {
     it('returns true if container is true and mode is development', () => {
-      expect(useDockerContainer({params: {container: true}, mode: MODE_DEVELOPMENT})).toBe(true);
+      expect(useDockerContainer({params: {container: true}, mode: MODE_DEVELOPMENT})).toBeTruthy();
     });
 
     it('returns false if container is false', () => {
-      expect(useDockerContainer({params: {container: false}, mode: MODE_DEVELOPMENT})).toBe(false);
+      expect(useDockerContainer({params: {container: false}, mode: MODE_DEVELOPMENT})).toBeFalsy();
     });
 
     it('returns false in production mode', () => {
-      expect(useDockerContainer({params: {container: true}, mode: 'production'})).toBe(false);
+      expect(useDockerContainer({params: {container: true}, mode: 'production'})).toBeFalsy();
     });
 
     it('returns true if container has matching mode in modes[]', () => {
@@ -57,7 +57,7 @@ describe('config', () => {
           },
           mode: MODE_DEVELOPMENT
         })
-      ).toBe(true);
+      ).toBeTruthy();
     });
 
     it('returns false if container has non-matching mode in modes[]', () => {
@@ -70,7 +70,7 @@ describe('config', () => {
           },
           mode: 'production'
         })
-      ).toBe(false);
+      ).toBeFalsy();
     });
 
     it('returns true if container has no modes[] (default to development)', () => {
@@ -83,27 +83,27 @@ describe('config', () => {
           },
           mode: MODE_DEVELOPMENT
         })
-      ).toBe(true);
+      ).toBeTruthy();
     });
 
     it('returns true if container is undefined and mode is development', () => {
-      expect(useDockerContainer({params: {}, mode: MODE_DEVELOPMENT})).toBe(true);
+      expect(useDockerContainer({params: {}, mode: MODE_DEVELOPMENT})).toBeTruthy();
     });
 
     it('returns false if container is undefined and mode is production', () => {
-      expect(useDockerContainer({params: {}, mode: 'production'})).toBe(false);
+      expect(useDockerContainer({params: {}, mode: 'production'})).toBeFalsy();
     });
 
     it('returns true if params is undefined and mode is development', () => {
-      expect(useDockerContainer({params: undefined, mode: MODE_DEVELOPMENT})).toBe(true);
+      expect(useDockerContainer({params: undefined, mode: MODE_DEVELOPMENT})).toBeTruthy();
     });
 
     it('returns false if params is undefined and mode is production', () => {
-      expect(useDockerContainer({params: undefined, mode: 'production'})).toBe(false);
+      expect(useDockerContainer({params: undefined, mode: 'production'})).toBeFalsy();
     });
 
     it('returns true if container is an empty object and mode is development', () => {
-      expect(useDockerContainer({params: {container: {}}, mode: MODE_DEVELOPMENT})).toBe(true);
+      expect(useDockerContainer({params: {container: {}}, mode: MODE_DEVELOPMENT})).toBeTruthy();
     });
 
     it('returns false if container has empty modes[]', () => {
@@ -116,7 +116,7 @@ describe('config', () => {
           },
           mode: MODE_DEVELOPMENT
         })
-      ).toBe(false);
+      ).toBeFalsy();
     });
   });
 
@@ -125,11 +125,12 @@ describe('config', () => {
       vi.clearAllMocks();
     });
 
-    describe(MODE_DEVELOPMENT, () => {
+    describe(`${MODE_DEVELOPMENT}`, () => {
       it('returns docker satellite ID in dev mode with container true and no config file', async () => {
         vi.spyOn(configLoader, 'junoConfigExist').mockResolvedValue(false);
 
         const id = await satelliteId({params: {container: true}, mode: MODE_DEVELOPMENT});
+
         expect(id).toBe(DOCKER_SATELLITE_ID);
       });
 
@@ -141,6 +142,7 @@ describe('config', () => {
         });
 
         const id = await satelliteId({params: {container: true}, mode: MODE_DEVELOPMENT});
+
         expect(id).toBe('dev-custom-id');
       });
 
@@ -152,6 +154,7 @@ describe('config', () => {
         });
 
         const id = await satelliteId({params: {container: true}, mode: MODE_DEVELOPMENT});
+
         expect(id).toBe(DOCKER_SATELLITE_ID);
       });
 
@@ -163,6 +166,7 @@ describe('config', () => {
         });
 
         const id = await satelliteId({params: {container: true}, mode: MODE_DEVELOPMENT});
+
         expect(id).toBe(DOCKER_SATELLITE_ID);
       });
     });
@@ -176,6 +180,7 @@ describe('config', () => {
         });
 
         const id = await satelliteId({params: {container: false}, mode: 'production'});
+
         expect(id).toBe('prod-sat-id');
       });
 
@@ -208,11 +213,12 @@ describe('config', () => {
       vi.clearAllMocks();
     });
 
-    describe(MODE_DEVELOPMENT, () => {
+    describe(`${MODE_DEVELOPMENT}`, () => {
       it('returns undefined in dev mode with container true and no config file', async () => {
         vi.spyOn(configLoader, 'junoConfigExist').mockResolvedValue(false);
 
         const id = await orbiterId({params: {container: true}, mode: MODE_DEVELOPMENT});
+
         expect(id).toBeUndefined();
       });
 
@@ -224,6 +230,7 @@ describe('config', () => {
         } as unknown as JunoConfig);
 
         const id = await orbiterId({params: {container: true}, mode: MODE_DEVELOPMENT});
+
         expect(id).toBe('orb-dev-id');
       });
 
@@ -235,6 +242,7 @@ describe('config', () => {
         } as unknown as JunoConfig);
 
         const id = await orbiterId({params: {container: true}, mode: MODE_DEVELOPMENT});
+
         expect(id).toBeUndefined();
       });
 
@@ -246,6 +254,7 @@ describe('config', () => {
         } as unknown as JunoConfig);
 
         const id = await orbiterId({params: {container: true}, mode: MODE_DEVELOPMENT});
+
         expect(id).toBeUndefined();
       });
 
@@ -257,6 +266,7 @@ describe('config', () => {
         } as unknown as JunoConfig);
 
         const id = await orbiterId({params: {container: true}, mode: MODE_DEVELOPMENT});
+
         expect(id).toBeUndefined();
       });
     });
@@ -274,6 +284,7 @@ describe('config', () => {
         } as unknown as JunoConfig);
 
         const id = await orbiterId({params: {container: false}, mode: 'production'});
+
         expect(id).toBe('orb-prod-id');
       });
 
@@ -285,6 +296,7 @@ describe('config', () => {
         } as unknown as JunoConfig);
 
         const id = await orbiterId({params: {container: false}, mode: 'production'});
+
         expect(id).toBe('orb-id');
       });
 
@@ -296,6 +308,7 @@ describe('config', () => {
         } as unknown as JunoConfig);
 
         const id = await orbiterId({params: {}, mode: 'production'});
+
         expect(id).toBe('fallback-id');
       });
 
@@ -304,6 +317,7 @@ describe('config', () => {
         vi.spyOn(configLoader, 'readJunoConfig').mockResolvedValue({} as unknown as JunoConfig);
 
         const id = await orbiterId({params: {}, mode: 'production'});
+
         expect(id).toBeUndefined();
       });
 
@@ -314,6 +328,7 @@ describe('config', () => {
         );
 
         const id = await orbiterId({params: {}, mode: 'production'});
+
         expect(id).toBeUndefined();
       });
     });
@@ -353,11 +368,13 @@ describe('config', () => {
 
     it('returns default URL if container is true', () => {
       const url = container({params: {container: true}, mode: MODE_DEVELOPMENT});
+
       expect(url).toBe('http://127.0.0.1:5987');
     });
 
     it('returns undefined in production when container is true', () => {
       const url = container({params: {container: true}, mode: 'production'});
+
       expect(url).toBeUndefined();
     });
 
@@ -370,6 +387,7 @@ describe('config', () => {
         },
         mode: MODE_DEVELOPMENT
       });
+
       expect(url).toBe('http://custom-container.local');
     });
 
@@ -382,6 +400,7 @@ describe('config', () => {
         },
         mode: MODE_DEVELOPMENT
       });
+
       expect(url).toBe('http://127.0.0.1:5987');
     });
 
@@ -392,6 +411,7 @@ describe('config', () => {
         },
         mode: MODE_DEVELOPMENT
       });
+
       expect(url).toBeUndefined();
     });
   });
@@ -403,11 +423,13 @@ describe('config', () => {
 
     it('throws if config does not exist', async () => {
       vi.spyOn(configLoader, 'junoConfigExist').mockResolvedValue(false);
+
       await expect(assertJunoConfig()).rejects.toThrow(JunoPluginError);
     });
 
     it('resolves if config exists', async () => {
       vi.spyOn(configLoader, 'junoConfigExist').mockResolvedValue(true);
+
       await expect(assertJunoConfig()).resolves.toBeUndefined();
     });
   });
