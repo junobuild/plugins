@@ -98,13 +98,13 @@ const containerOrbiterId = async ({mode}: ConfigArgs): Promise<string | undefine
 
   const config = await readJunoConfig({mode});
 
-  if (config == undefined || !('orbiter' in config)) {
+  if (config === undefined || !('orbiter' in config)) {
     return undefined;
   }
 
   const {orbiter} = config;
 
-  if (orbiter == undefined) {
+  if (orbiter === undefined) {
     return undefined;
   }
 
