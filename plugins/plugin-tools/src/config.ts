@@ -86,6 +86,10 @@ export const orbiterId = async (args: ConfigArgs): Promise<string | undefined> =
     return undefined;
   }
 
+  return await junoConfigOrbiterId(args);
+};
+
+const junoConfigOrbiterId = async (args: ConfigArgs): Promise<string | undefined> => {
   await assertJunoConfig();
 
   const config = await readJunoConfig(args);
