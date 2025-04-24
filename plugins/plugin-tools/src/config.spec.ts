@@ -262,6 +262,21 @@ describe('config', () => {
     });
 
     describe('no container', () => {
+      it('returns orbiter ID from orbiter.ids[mode] if set', async () => {
+        vi.spyOn(configLoader, 'junoConfigExist').mockResolvedValue(true);
+
+        vi.spyOn(configLoader, 'readJunoConfig').mockResolvedValue({
+          orbiter: {
+            ids: {
+              production: 'orb-prod-id'
+            }
+          }
+        } as unknown as JunoConfig);
+
+        const id = await orbiterId({params: {container: false}, mode: 'production'});
+        expect(id).toBe('orb-prod-id');
+      });
+
       it('reads config and returns orbiter ID', async () => {
         vi.spyOn(configLoader, 'junoConfigExist').mockResolvedValue(true);
 

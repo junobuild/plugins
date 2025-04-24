@@ -113,12 +113,12 @@ const containerOrbiterId = async ({mode}: ConfigArgs): Promise<string | undefine
   return ids?.[MODE_DEVELOPMENT];
 };
 
-const junoConfigOrbiterId = async (args: ConfigArgs): Promise<string | undefined> => {
+const junoConfigOrbiterId = async ({mode}: ConfigArgs): Promise<string | undefined> => {
   await assertJunoConfig();
 
-  const config = await readJunoConfig(args);
+  const config = await readJunoConfig({mode});
 
-  return config?.orbiter?.id ?? config?.orbiter?.orbiterId;
+  return config?.orbiter?.ids?.[mode] ?? config?.orbiter?.id ?? config?.orbiter?.orbiterId;
 };
 
 export const icpIds = (): IcpIds | undefined => ({
