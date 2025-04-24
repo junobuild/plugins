@@ -83,10 +83,34 @@ const containerSatelliteId = async ({mode}: ConfigArgs): Promise<string> => {
 
 export const orbiterId = async (args: ConfigArgs): Promise<string | undefined> => {
   if (useDockerContainer(args)) {
-    return undefined;
+    return await containerOrbiterId(args);
   }
 
   return await junoConfigOrbiterId(args);
+};
+
+const containerOrbiterId = async ({mode}: ConfigArgs): Promise<string | undefined> => {
+  const exist = await junoConfigExist();
+
+  if (!exist) {
+    return undefined;
+  }
+
+  const config = await readJunoConfig({mode});
+
+  if (config === undefined || !('orbiter' in config)) {
+    return undefined;
+  }
+
+  const {orbiter} = config;
+
+  if (orbiter === undefined) {
+    return undefined;
+  }
+
+  const {ids} = orbiter;
+
+  return ids?.[MODE_DEVELOPMENT];
 };
 
 const junoConfigOrbiterId = async (args: ConfigArgs): Promise<string | undefined> => {
