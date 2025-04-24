@@ -70,7 +70,7 @@ const containerSatelliteId = async ({mode}: ConfigArgs): Promise<string> => {
 
   const config = await readJunoConfig({mode});
 
-  if (config == undefined || !('satellite' in config)) {
+  if (config === undefined || !('satellite' in config)) {
     return DOCKER_SATELLITE_ID;
   }
 
