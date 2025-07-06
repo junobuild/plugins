@@ -4,17 +4,18 @@ import {
   JunoPluginError,
   initConfig
 } from '@junobuild/plugin-tools';
-import {type Plugin, type UserConfig} from 'vite';
+import type {Plugin, UserConfig} from 'vite';
 
 /**
  * A Vite plugin to integrate Juno.
  * @param {JunoParams} [params] - The Juno configuration parameters.
  * @returns {Plugin} The Vite plugin.
  */
+// eslint-disable-next-line prefer-arrow/prefer-arrow-functions
 export default function Juno(params?: JunoParams): Plugin {
   return {
     name: 'vite-plugin-juno',
-    // eslint-disable-next-line local-rules/prefer-object-params
+    // eslint-disable-next-line local-rules/prefer-object-params, prefer-arrow/prefer-arrow-functions
     async config({envPrefix}: UserConfig, {mode}: {mode: string; command: string}) {
       try {
         const args: ConfigArgs = {params, mode};
