@@ -300,18 +300,6 @@ describe('config', () => {
         expect(id).toBe('orb-id');
       });
 
-      it('falls back to `orbiterId` if `id` is not present', async () => {
-        vi.spyOn(configLoader, 'junoConfigExist').mockResolvedValue(true);
-
-        vi.spyOn(configLoader, 'readJunoConfig').mockResolvedValue({
-          orbiter: {orbiterId: 'fallback-id'}
-        } as unknown as JunoConfig);
-
-        const id = await orbiterId({params: {}, mode: 'production'});
-
-        expect(id).toBe('fallback-id');
-      });
-
       it('returns undefined if config has no orbiter key', async () => {
         vi.spyOn(configLoader, 'junoConfigExist').mockResolvedValue(true);
         vi.spyOn(configLoader, 'readJunoConfig').mockResolvedValue({} as unknown as JunoConfig);

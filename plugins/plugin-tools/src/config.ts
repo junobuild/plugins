@@ -41,10 +41,10 @@ const junoConfigSatelliteId = async ({mode}: ConfigArgs): Promise<string> => {
   }
 
   const {
-    satellite: {ids, satelliteId: deprecatedSatelliteId, id}
+    satellite: {ids, id}
   } = await readJunoConfig({mode});
 
-  const satelliteId = ids?.[mode] ?? id ?? deprecatedSatelliteId;
+  const satelliteId = ids?.[mode] ?? id;
 
   if (satelliteId === undefined) {
     if (mode === MODE_DEVELOPMENT) {
@@ -118,7 +118,7 @@ const junoConfigOrbiterId = async ({mode}: ConfigArgs): Promise<string | undefin
 
   const config = await readJunoConfig({mode});
 
-  return config?.orbiter?.ids?.[mode] ?? config?.orbiter?.id ?? config?.orbiter?.orbiterId;
+  return config?.orbiter?.ids?.[mode] ?? config?.orbiter?.id;
 };
 
 export const icpIds = (): IcpIds | undefined => ({
