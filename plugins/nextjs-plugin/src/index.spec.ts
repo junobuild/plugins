@@ -60,7 +60,7 @@ describe('withJuno', () => {
     expect(result.env?.NEXT_PUBLIC_SATELLITE_ID).toBeUndefined();
   });
 
-  it('merges with existing nextConfig', async () => {
+  it('merges with existing nextConfig and set output export', async () => {
     vi.spyOn(pluginTools, 'initConfig').mockResolvedValue({
       satelliteId: 'sat-id',
       orbiterId: undefined,
@@ -78,7 +78,7 @@ describe('withJuno', () => {
     });
 
     expect(result).toEqual({
-      output: 'standalone',
+      output: 'export',
       env: {
         FOO: 'bar',
         NEXT_PUBLIC_SATELLITE_ID: 'sat-id'
@@ -92,12 +92,10 @@ describe('withJuno', () => {
       new JunoPluginError('Juno config missing')
     );
 
-    const result = await withJuno({
-      nextConfig: {output: 'standalone'}
-    });
+    const result = await withJuno();
 
     expect(warn).toHaveBeenCalledWith('Juno config missing');
-    expect(result).toEqual({output: 'standalone'});
+    expect(result).toEqual({output: 'export'});
   });
 
   it('throws unknown errors', async () => {
