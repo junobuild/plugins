@@ -8,7 +8,7 @@ import {
   orbiterId,
   satelliteId,
   useDockerContainer
-} from './config';
+} from '../config';
 import {
   CMC_ID,
   DOCKER_SATELLITE_ID,
@@ -17,8 +17,8 @@ import {
   INTERNET_IDENTITY_ID,
   MODE_DEVELOPMENT,
   NNS_GOVERNANCE_ID
-} from './constants';
-import {JunoPluginError} from './error';
+} from '../constants';
+import {JunoPluginError} from '../error';
 
 vi.mock('@junobuild/config-loader', async () => {
   // eslint-disable-next-line @typescript-eslint/consistent-type-imports
