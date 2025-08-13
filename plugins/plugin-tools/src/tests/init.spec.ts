@@ -10,9 +10,9 @@ import {
   INTERNET_IDENTITY_ID,
   MODE_DEVELOPMENT,
   NNS_GOVERNANCE_ID
-} from './constants';
-import {initConfig} from './init';
-import type {ConfigArgs} from './types';
+} from '../constants';
+import {initConfig} from '../init';
+import type {ConfigArgs} from '../types';
 
 vi.mock('@junobuild/config-loader', async () => {
   // eslint-disable-next-line @typescript-eslint/consistent-type-imports

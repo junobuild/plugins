@@ -1,7 +1,7 @@
 import * as pluginTools from '@junobuild/plugin-tools';
 import type {UserConfig} from 'vite';
 
-import Juno from './index';
+import Juno from '../index';
 
 describe('vite-plugin-juno', () => {
   beforeEach(() => {
