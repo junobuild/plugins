@@ -4,6 +4,7 @@ export default defineConfig({
   test: {
     watch: false,
     passWithNoTests: true,
+    globals: true,
     typecheck: {
       tsconfig: 'tsconfig.spec.json'
     }

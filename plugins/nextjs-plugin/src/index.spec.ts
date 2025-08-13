@@ -1,6 +1,6 @@
 import * as pluginTools from '@junobuild/plugin-tools';
 import {JunoPluginError} from '@junobuild/plugin-tools';
-import {beforeEach, describe, expect, it, vi} from 'vitest';
+
 import {withJuno} from './index';
 
 describe('withJuno', () => {
