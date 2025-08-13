@@ -1,6 +1,6 @@
 import type {JunoConfig} from '@junobuild/config';
 import * as configLoader from '@junobuild/config-loader';
-import {beforeEach, describe, expect, it, vi} from 'vitest';
+
 import {
   assertJunoConfig,
   container,

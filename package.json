@@ -18,11 +18,11 @@
   "author": "",
   "license": "MIT",
   "devDependencies": {
-    "@dfinity/eslint-config-oisy-wallet": "^0.1.14",
-    "@types/node": "^24.0.10",
-    "jiti": "^2.4.2",
+    "@dfinity/eslint-config-oisy-wallet": "^0.2.2",
+    "@types/node": "^24.2.1",
+    "jiti": "^2.5.1",
     "prettier": "^3.6.2",
-    "prettier-plugin-organize-imports": "^4.1.0",
+    "prettier-plugin-organize-imports": "^4.2.0",
     "typescript": "^5.8.3",
     "vitest": "^3.2.4"
   }

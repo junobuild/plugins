@@ -1,6 +1,6 @@
 import type {JunoConfig} from '@junobuild/config';
 import * as configLoader from '@junobuild/config-loader';
-import {type MockInstance, beforeEach, describe, expect, it, vi} from 'vitest';
+import type {MockInstance} from 'vitest';
 import {
   CMC_ID,
   DOCKER_CONTAINER_URL,
