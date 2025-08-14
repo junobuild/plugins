@@ -36,6 +36,6 @@
     "@junobuild/config-loader": "^0.4.1"
   },
   "dependencies": {
-    "@junobuild/config": "^1.1.3"
+    "@junobuild/config": "^2.0.0"
   }
 }
