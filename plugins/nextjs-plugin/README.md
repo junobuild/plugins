@@ -24,20 +24,21 @@ await Promise.all([initSatellite(), initOrbiter()]);
 
 Those following environment variables are injected by this plugin:
 
-| Environment variable             | Value                                                    |
-| -------------------------------- | -------------------------------------------------------- |
-| NEXT_PUBLIC_SATELLITE_ID         | Satellite ID from Juno config (per `mode`)               |
-| NEXT_PUBLIC_ORBITER_ID           | `undefined` in development, Orbiter ID from Juno config. |
-| NEXT_PUBLIC_INTERNET_IDENTITY_ID | `rdmx6-jaaaa-aaaaa-aaadq-cai`                            |
-| NEXT_PUBLIC_ICP_LEDGER_ID        | `ryjl3-tyaaa-aaaaa-aaaba-cai`                            |
-| NEXT_PUBLIC_ICP_INDEX_ID         | `qhbym-qaaaa-aaaaa-aaafq-cai`                            |
-| NEXT_PUBLIC_NNS_GOVERNANCE_ID    | `rrkah-fqaaa-aaaaa-aaaaq-cai`                            |
-| NEXT_PUBLIC_CMC_ID               | `rkp4c-7iaaa-aaaaa-aaaca-cai`                            |
-| NEXT_PUBLIC_REGISTRY_ID          | `rwlgt-iiaaa-aaaaa-aaaaa-cai`                            |
-| NEXT_PUBLIC_CYCLES_LEDGER_ID     | `um5iw-rqaaa-aaaaq-qaaba-cai`                            |
-| NEXT_PUBLIC_CYCLES_INDEX_ID      | `ul4oc-4iaaa-aaaaq-qaabq-cai`                            |
-| NEXT_PUBLIC_SNS_WASM_ID          | `qaa6y-5yaaa-aaaaa-aaafa-cai`                            |
-| NEXT_PUBLIC_NNS_DAPP_ID          | `qoctq-giaaa-aaaaa-aaaea-cai`                            |
+| Environment variable             | Value                                                                    |
+| -------------------------------- | ------------------------------------------------------------------------ |
+| NEXT_PUBLIC_SATELLITE_ID         | Satellite ID from Juno config (per `mode`)                               |
+| NEXT_PUBLIC_ORBITER_ID           | `undefined` in development, Orbiter ID from Juno config.                 |
+| NEXT_PUBLIC_INTERNET_IDENTITY_ID | `rdmx6-jaaaa-aaaaa-aaadq-cai`                                            |
+| NEXT_PUBLIC_ICP_LEDGER_ID        | `ryjl3-tyaaa-aaaaa-aaaba-cai`                                            |
+| NEXT_PUBLIC_ICP_INDEX_ID         | `qhbym-qaaaa-aaaaa-aaafq-cai`                                            |
+| NEXT_PUBLIC_NNS_GOVERNANCE_ID    | `rrkah-fqaaa-aaaaa-aaaaq-cai`                                            |
+| NEXT_PUBLIC_CMC_ID               | `rkp4c-7iaaa-aaaaa-aaaca-cai`                                            |
+| NEXT_PUBLIC_REGISTRY_ID          | `rwlgt-iiaaa-aaaaa-aaaaa-cai`                                            |
+| NEXT_PUBLIC_CYCLES_LEDGER_ID     | `um5iw-rqaaa-aaaaq-qaaba-cai`                                            |
+| NEXT_PUBLIC_CYCLES_INDEX_ID      | `ul4oc-4iaaa-aaaaq-qaabq-cai`                                            |
+| NEXT_PUBLIC_SNS_WASM_ID          | `qaa6y-5yaaa-aaaaa-aaafa-cai`                                            |
+| NEXT_PUBLIC_NNS_DAPP_ID          | `qoctq-giaaa-aaaaa-aaaea-cai`                                            |
+| NEXT_PUBLIC_CONTAINER            | Container URL (emulator or custom); `undefined` by default in production |
 
 > Variables prefixed with `NEXT_PUBLIC_` are clearly marked for browser availability, but they are injected into the environment ([documentation](https://nextjs.org/docs/pages/api-reference/next-config-js/env)) by the plugin. If you prefer to remove or change this prefix, it is possible using the option `prefix`.
 
