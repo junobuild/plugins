@@ -3,13 +3,18 @@ import * as configLoader from '@junobuild/config-loader';
 import type {MockInstance} from 'vitest';
 import {
   CMC_ID,
+  CYCLES_INDEX_ID,
+  CYCLES_LEDGER_ID,
   DOCKER_CONTAINER_URL,
   DOCKER_SATELLITE_ID,
   ICP_INDEX_ID,
   ICP_LEDGER_ID,
   INTERNET_IDENTITY_ID,
   MODE_DEVELOPMENT,
-  NNS_GOVERNANCE_ID
+  NNS_DAPP_ID,
+  NNS_GOVERNANCE_ID,
+  REGISTRY_ID,
+  SNS_WASM_ID
 } from '../constants';
 import {initConfig} from '../init';
 import type {ConfigArgs} from '../types';
@@ -38,7 +43,12 @@ describe('init', () => {
     icpLedgerId: ICP_LEDGER_ID,
     icpIndexId: ICP_INDEX_ID,
     nnsGovernanceId: NNS_GOVERNANCE_ID,
-    cmcId: CMC_ID
+    cmcId: CMC_ID,
+    registryId: REGISTRY_ID,
+    cyclesLedgerId: CYCLES_LEDGER_ID,
+    cyclesIndexId: CYCLES_INDEX_ID,
+    snsWasmId: SNS_WASM_ID,
+    nnsDappId: NNS_DAPP_ID
   };
 
   let spyJunoConfigExist: MockInstance;

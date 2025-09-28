@@ -19,7 +19,12 @@ describe('withJuno', () => {
         icpLedgerId: 'ledger-id',
         icpIndexId: 'index-id',
         nnsGovernanceId: 'nns-governance-id',
-        cmcId: 'cmc-id'
+        cmcId: 'cmc-id',
+        registryId: 'registry-id',
+        cyclesLedgerId: 'cycles-ledger-id',
+        cyclesIndexId: 'cycles-index-id',
+        snsWasmId: 'sns-wasm-id',
+        nnsDappId: 'nns-dapp-id'
       },
       container: 'http://localhost:1234'
     });
@@ -41,6 +46,11 @@ describe('withJuno', () => {
         NEXT_PUBLIC_ICP_INDEX_ID: 'index-id',
         NEXT_PUBLIC_NNS_GOVERNANCE_ID: 'nns-governance-id',
         NEXT_PUBLIC_CMC_ID: 'cmc-id',
+        NEXT_PUBLIC_REGISTRY_ID: 'registry-id',
+        NEXT_PUBLIC_CYCLES_INDEX_ID: 'cycles-index-id',
+        NEXT_PUBLIC_CYCLES_LEDGER_ID: 'cycles-ledger-id',
+        NEXT_PUBLIC_SNS_WASM_ID: 'sns-wasm-id',
+        NEXT_PUBLIC_NNS_DAPP_ID: 'nns-dapp-id',
         NEXT_PUBLIC_CONTAINER: 'http://localhost:1234'
       }
     });

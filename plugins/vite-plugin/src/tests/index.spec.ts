@@ -17,7 +17,12 @@ describe('vite-plugin-juno', () => {
         icpLedgerId: 'ledger-id',
         icpIndexId: 'index-id',
         nnsGovernanceId: 'nns-governance-id',
-        cmcId: 'cmc-id'
+        cmcId: 'cmc-id',
+        registryId: 'registry-id',
+        cyclesLedgerId: 'cycles-ledger-id',
+        cyclesIndexId: 'cycles-index-id',
+        snsWasmId: 'sns-wasm-id',
+        nnsDappId: 'nns-dapp-id'
       },
       container: 'http://localhost:1234'
     });
@@ -44,6 +49,11 @@ describe('vite-plugin-juno', () => {
         'import.meta.env.VITE_ICP_INDEX_ID': JSON.stringify('index-id'),
         'import.meta.env.VITE_NNS_GOVERNANCE_ID': JSON.stringify('nns-governance-id'),
         'import.meta.env.VITE_CMC_ID': JSON.stringify('cmc-id'),
+        'import.meta.env.VITE_REGISTRY_ID': JSON.stringify('registry-id'),
+        'import.meta.env.VITE_CYCLES_INDEX_ID': JSON.stringify('cycles-index-id'),
+        'import.meta.env.VITE_CYCLES_LEDGER_ID': JSON.stringify('cycles-ledger-id'),
+        'import.meta.env.VITE_SNS_WASM_ID': JSON.stringify('sns-wasm-id'),
+        'import.meta.env.VITE_NNS_DAPP_ID': JSON.stringify('nns-dapp-id'),
         'import.meta.env.VITE_CONTAINER': JSON.stringify('http://localhost:1234')
       }
     });
