@@ -24,15 +24,20 @@ await Promise.all([initSatellite(), initOrbiter()]);
 
 Those following environment variables are injected by this plugin:
 
-| Environment variable      | Value in mode `development`   | Value for other modes                                              |
-| ------------------------- | ----------------------------- | ------------------------------------------------------------------ |
-| VITE_SATELLITE_ID         | `jx5yt-yyaaa-aaaal-abzbq-cai` | The Satellite ID for the `mode` from your Juno configuration file. |
-| VITE_ORBITER_ID           | `undefined`                   | The Orbiter ID from your Juno configuration file.                  |
-| VITE_INTERNET_IDENTITY_ID | `rdmx6-jaaaa-aaaaa-aaadq-cai` | `rdmx6-jaaaa-aaaaa-aaadq-cai`                                      |
-| VITE_ICP_LEDGER_ID        | `ryjl3-tyaaa-aaaaa-aaaba-cai` | `ryjl3-tyaaa-aaaaa-aaaba-cai`                                      |
-| VITE_ICP_INDEX_ID         | `qhbym-qaaaa-aaaaa-aaafq-cai` | `qhbym-qaaaa-aaaaa-aaafq-cai`                                      |
-| VITE_NNS_GOVERNANCE_ID    | `rrkah-fqaaa-aaaaa-aaaaq-cai` | `rrkah-fqaaa-aaaaa-aaaaq-cai`                                      |
-| VITE_CMC_ID               | `rkp4c-7iaaa-aaaaa-aaaca-cai` | `rkp4c-7iaaa-aaaaa-aaaca-cai`                                      |
+| Environment variable      | Value                                                    |
+| ------------------------- | -------------------------------------------------------- |
+| VITE_SATELLITE_ID         | Satellite ID from Juno config (per `mode`)               |
+| VITE_ORBITER_ID           | `undefined` in development, Orbiter ID from Juno config. |
+| VITE_INTERNET_IDENTITY_ID | `rdmx6-jaaaa-aaaaa-aaadq-cai`                            |
+| VITE_ICP_LEDGER_ID        | `ryjl3-tyaaa-aaaaa-aaaba-cai`                            |
+| VITE_ICP_INDEX_ID         | `qhbym-qaaaa-aaaaa-aaafq-cai`                            |
+| VITE_NNS_GOVERNANCE_ID    | `rrkah-fqaaa-aaaaa-aaaaq-cai`                            |
+| VITE_CMC_ID               | `rkp4c-7iaaa-aaaaa-aaaca-cai`                            |
+| VITE_REGISTRY_ID          | `rwlgt-iiaaa-aaaaa-aaaaa-cai`                            |
+| VITE_CYCLES_LEDGER_ID     | `um5iw-rqaaa-aaaaq-qaaba-cai`                            |
+| VITE_CYCLES_INDEX_ID      | `ul4oc-4iaaa-aaaaq-qaabq-cai`                            |
+| VITE_SNS_WASM_ID          | `qaa6y-5yaaa-aaaaa-aaafa-cai`                            |
+| VITE_NNS_DAPP_ID          | `qoctq-giaaa-aaaaa-aaaea-cai`                            |
 
 > `VITE_` is the default prefix used by Vite. It can be customized as described in Vite's [documentation](https://vitejs.dev/guide/env-and-mode).
 
