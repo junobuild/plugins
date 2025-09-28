@@ -84,4 +84,34 @@ export interface IcpIds {
    * @type {string}
    */
   cmcId: string;
+
+  /**
+   * The Registry ID.
+   * @type {string}
+   */
+  registryId: string;
+
+  /**
+   * The Cycles Ledger ID.
+   * @type {string}
+   */
+  cyclesLedgerId: string;
+
+  /**
+   * The Cycles Index ID.
+   * @type {string}
+   */
+  cyclesIndexId: string;
+
+  /**
+   * The SNS-W ID.
+   * @type {string}
+   */
+  snsWasmId: string;
+
+  /**
+   * The NNS-dapp ID.
+   * @type {string}
+   */
+  nnsDappId: string;
 }

@@ -80,6 +80,21 @@ export const withJuno = async (params?: {
         ...(icpIds?.cmcId !== undefined && {
           [`${prefix}CMC_ID`]: icpIds.cmcId
         }),
+        ...(icpIds?.registryId !== undefined && {
+          [`${prefix}REGISTRY_ID`]: icpIds.registryId
+        }),
+        ...(icpIds?.cyclesLedgerId !== undefined && {
+          [`${prefix}CYCLES_LEDGER_ID`]: icpIds.cyclesLedgerId
+        }),
+        ...(icpIds?.cyclesIndexId !== undefined && {
+          [`${prefix}CYCLES_INDEX_ID`]: icpIds.cyclesIndexId
+        }),
+        ...(icpIds?.snsWasmId !== undefined && {
+          [`${prefix}SNS_WASM_ID`]: icpIds.snsWasmId
+        }),
+        ...(icpIds?.nnsDappId !== undefined && {
+          [`${prefix}NNS_DAPP_ID`]: icpIds.nnsDappId
+        }),
         ...(container !== undefined && {
           [`${prefix}CONTAINER`]: container
         })

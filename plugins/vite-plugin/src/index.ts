@@ -45,6 +45,21 @@ export default function Juno(params?: JunoParams): Plugin {
             ...(icpIds?.cmcId !== undefined && {
               [`${prefix}CMC_ID`]: JSON.stringify(icpIds.cmcId)
             }),
+            ...(icpIds?.registryId !== undefined && {
+              [`${prefix}REGISTRY_ID`]: JSON.stringify(icpIds.registryId)
+            }),
+            ...(icpIds?.cyclesLedgerId !== undefined && {
+              [`${prefix}CYCLES_LEDGER_ID`]: JSON.stringify(icpIds.cyclesLedgerId)
+            }),
+            ...(icpIds?.cyclesIndexId !== undefined && {
+              [`${prefix}CYCLES_INDEX_ID`]: JSON.stringify(icpIds.cyclesIndexId)
+            }),
+            ...(icpIds?.snsWasmId !== undefined && {
+              [`${prefix}SNS_WASM_ID`]: JSON.stringify(icpIds.snsWasmId)
+            }),
+            ...(icpIds?.nnsDappId !== undefined && {
+              [`${prefix}NNS_DAPP_ID`]: JSON.stringify(icpIds.nnsDappId)
+            }),
             ...(container !== undefined && {
               [`${prefix}CONTAINER`]: JSON.stringify(container)
             })

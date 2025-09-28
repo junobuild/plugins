@@ -6,13 +6,18 @@ import {
 } from '@junobuild/config-loader';
 import {
   CMC_ID,
+  CYCLES_INDEX_ID,
+  CYCLES_LEDGER_ID,
   DOCKER_CONTAINER_URL,
   DOCKER_SATELLITE_ID,
   ICP_INDEX_ID,
   ICP_LEDGER_ID,
   INTERNET_IDENTITY_ID,
   MODE_DEVELOPMENT,
-  NNS_GOVERNANCE_ID
+  NNS_DAPP_ID,
+  NNS_GOVERNANCE_ID,
+  REGISTRY_ID,
+  SNS_WASM_ID
 } from './constants';
 import {JunoPluginError} from './error';
 import type {ConfigArgs, IcpIds, JunoParams} from './types';
@@ -121,12 +126,19 @@ const junoConfigOrbiterId = async ({mode}: ConfigArgs): Promise<string | undefin
   return config?.orbiter?.ids?.[mode] ?? config?.orbiter?.id;
 };
 
+// For simplicity, we currently provide all IDs, even in development.
+// So, we do not check the emulator configuration or defaults, we keep it simple here.
 export const icpIds = (): IcpIds | undefined => ({
   internetIdentityId: INTERNET_IDENTITY_ID,
   icpLedgerId: ICP_LEDGER_ID,
   icpIndexId: ICP_INDEX_ID,
   nnsGovernanceId: NNS_GOVERNANCE_ID,
-  cmcId: CMC_ID
+  cmcId: CMC_ID,
+  registryId: REGISTRY_ID,
+  cyclesLedgerId: CYCLES_LEDGER_ID,
+  cyclesIndexId: CYCLES_INDEX_ID,
+  snsWasmId: SNS_WASM_ID,
+  nnsDappId: NNS_DAPP_ID
 });
 
 export const container = ({
