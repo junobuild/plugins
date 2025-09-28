@@ -18,16 +18,6 @@ const REQUIRED_NEXT_CONFIG: Required<Pick<NextConfig, 'output'>> = {
  * - Injects them into the `env` field of the returned Next.js configuration.
  * - Ensures the `output` field is always set to `"export"` for static site generation.
  *
- * The following environment variables will be added (prefixed by the `prefix` value):
- * - `SATELLITE_ID`
- * - `ORBITER_ID` (if defined)
- * - `INTERNET_IDENTITY_ID` (if defined)
- * - `ICP_LEDGER_ID` (if defined)
- * - `ICP_INDEX_ID` (if defined)
- * - `NNS_GOVERNANCE_ID` (if defined)
- * - `CMC_ID` (if defined)
- * - `CONTAINER` (if defined)
- *
  * If the `juno.config` cannot be loaded and the environment is not production,
  * the error is logged and the original config is returned (with `output: "export"`).
  *
