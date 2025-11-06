@@ -1,9 +1,3 @@
-import type {JunoConfig, JunoConfigFnOrObject} from '@junobuild/config';
-import {
-  junoConfigExist as junoConfigExistTools,
-  readJunoConfig as readJunoConfigTools,
-  type ConfigFilename
-} from '@junobuild/config-loader';
 import {
   CMC_ID,
   CYCLES_INDEX_ID,
@@ -20,6 +14,7 @@ import {
   SNS_WASM_ID
 } from './constants';
 import {JunoPluginError} from './error';
+import {assertJunoConfig, junoConfigExist, readJunoConfig} from './fs';
 import type {ConfigArgs, IcpIds, JunoParams} from './types';
 
 export const useDockerContainer = ({params, mode}: ConfigArgs): boolean =>
@@ -158,27 +153,3 @@ export const container = ({
 
   return undefined;
 };
-
-const JUNO_CONFIG_FILE: {filename: ConfigFilename} = {filename: 'juno.config'};
-
-const readJunoConfig = async ({mode}: ConfigArgs): Promise<JunoConfig> => {
-  const config = (userConfig: JunoConfigFnOrObject): JunoConfig =>
-    typeof userConfig === 'function' ? userConfig({mode}) : userConfig;
-
-  return await readJunoConfigTools({
-    ...JUNO_CONFIG_FILE,
-    config
-  });
-};
-
-export const assertJunoConfig = async () => {
-  const exist = await junoConfigExist();
-
-  if (!exist) {
-    throw new JunoPluginError(
-      `No Juno configuration found. Run "juno init" to configure your dapp.`
-    );
-  }
-};
-
-const junoConfigExist = (): Promise<boolean> => junoConfigExistTools(JUNO_CONFIG_FILE);
