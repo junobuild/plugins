@@ -43,7 +43,7 @@ export const withJuno = async (params?: {
   try {
     const args: ConfigArgs = {params: junoParams, mode};
 
-    const {satelliteId, orbiterId, icpIds, container} = await initConfig(args);
+    const {satelliteId, orbiterId, icpIds, container, authClientIds} = await initConfig(args);
 
     const prefix = prefixParam ?? 'NEXT_PUBLIC_';
 
@@ -87,6 +87,9 @@ export const withJuno = async (params?: {
         }),
         ...(container !== undefined && {
           [`${prefix}CONTAINER`]: container
+        }),
+        ...(authClientIds?.google !== undefined && {
+          [`${prefix}GOOGLE_CLIENT_ID`]: authClientIds.google
         })
       },
       ...REQUIRED_NEXT_CONFIG

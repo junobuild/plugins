@@ -51,6 +51,8 @@ describe('init', () => {
     nnsDappId: NNS_DAPP_ID
   };
 
+  const mockGoogleClientId = '1234567890-abcdef.apps.googleusercontent.com';
+
   let spyJunoConfigExist: MockInstance;
   let spyReadJunoConfig: MockInstance;
 
@@ -59,13 +61,16 @@ describe('init', () => {
 
     spyJunoConfigExist = vi.spyOn(configLoader, 'junoConfigExist').mockResolvedValue(true);
     spyReadJunoConfig = vi.spyOn(configLoader, 'readJunoConfig').mockResolvedValue({
-      satellite: {ids: {production: 'mock-satellite-id'}},
+      satellite: {
+        ids: {production: 'mock-satellite-id'},
+        authentication: {google: {clientId: mockGoogleClientId}}
+      },
       orbiter: {id: 'mock-orbiter-id'}
     });
   });
 
   it('returns config for development', async () => {
-    vi.spyOn(configLoader, 'junoConfigExist').mockResolvedValue(false);
+    vi.spyOn(configLoader, 'junoConfigExist').mockResolvedValue(true);
 
     const result = await initConfig({
       params: {},
@@ -75,12 +80,13 @@ describe('init', () => {
     expect(result).toEqual({
       orbiterId: undefined,
       satelliteId: DOCKER_SATELLITE_ID,
+      authClientIds: {google: mockGoogleClientId},
       icpIds: expectedIcpIds,
       container: DOCKER_CONTAINER_URL
     });
 
-    expect(configLoader.junoConfigExist).toHaveBeenCalled();
-    expect(spyReadJunoConfig).not.toHaveBeenCalled();
+    expect(configLoader.junoConfigExist).toHaveResolvedTimes(3);
+    expect(spyReadJunoConfig).toHaveBeenCalledTimes(3);
   });
 
   it('returns config without container for production', async () => {
@@ -89,6 +95,7 @@ describe('init', () => {
     expect(result).toEqual({
       satelliteId: 'mock-satellite-id',
       orbiterId: 'mock-orbiter-id',
+      authClientIds: {google: mockGoogleClientId},
       icpIds: expectedIcpIds,
       container: undefined
     });
@@ -145,6 +152,7 @@ describe('init', () => {
     expect(result).toEqual({
       satelliteId: 'mock-satellite-id',
       orbiterId: 'mock-orbiter-id',
+      authClientIds: {google: mockGoogleClientId},
       icpIds: expectedIcpIds,
       container: undefined
     });

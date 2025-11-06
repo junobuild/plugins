@@ -115,3 +115,15 @@ export interface IcpIds {
    */
   nnsDappId: string;
 }
+
+/**
+ * Represent the provider client IDs for the OpenID authentication resolved
+ * from the juno.config file for the corresponding mode.
+ */
+export interface AuthClientIds {
+  /**
+   * Google client ID.
+   * @type {string}
+   */
+  google: string;
+}
