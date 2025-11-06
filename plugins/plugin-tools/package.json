@@ -33,7 +33,7 @@
   ],
   "homepage": "https://juno.build",
   "peerDependencies": {
-    "@junobuild/config-loader": "^0.4.5-next-2025-11-05"
+    "@junobuild/config-loader": "^0.4.5-next-2025-11-05.2"
   },
   "dependencies": {
     "@junobuild/config": "^2.5.0-next-2025-11-05.2"
