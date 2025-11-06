@@ -14,6 +14,9 @@ describe('withJuno', () => {
     const spy = vi.spyOn(pluginTools, 'initConfig').mockResolvedValue({
       satelliteId: 'sat-id',
       orbiterId: 'orb-id',
+      authClientIds: {
+        google: 'google-client-id-123'
+      },
       icpIds: {
         internetIdentityId: 'ii-id',
         icpLedgerId: 'ledger-id',
@@ -51,7 +54,8 @@ describe('withJuno', () => {
         NEXT_PUBLIC_CYCLES_LEDGER_ID: 'cycles-ledger-id',
         NEXT_PUBLIC_SNS_WASM_ID: 'sns-wasm-id',
         NEXT_PUBLIC_NNS_DAPP_ID: 'nns-dapp-id',
-        NEXT_PUBLIC_CONTAINER: 'http://localhost:1234'
+        NEXT_PUBLIC_CONTAINER: 'http://localhost:1234',
+        NEXT_PUBLIC_GOOGLE_CLIENT_ID: 'google-client-id-123'
       }
     });
   });
@@ -60,6 +64,7 @@ describe('withJuno', () => {
     vi.spyOn(pluginTools, 'initConfig').mockResolvedValue({
       satelliteId: 'sat-id',
       orbiterId: undefined,
+      authClientIds: undefined,
       icpIds: undefined,
       container: undefined
     });
@@ -74,13 +79,13 @@ describe('withJuno', () => {
     vi.spyOn(pluginTools, 'initConfig').mockResolvedValue({
       satelliteId: 'sat-id',
       orbiterId: undefined,
+      authClientIds: undefined,
       icpIds: undefined,
       container: undefined
     });
 
     const result = await withJuno({
       nextConfig: {
-        output: 'standalone',
         env: {
           FOO: 'bar'
         }

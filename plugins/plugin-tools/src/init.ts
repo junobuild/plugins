@@ -1,4 +1,5 @@
 import {
+  authClientIds as authClientIdsConfig,
   container as containerConfig,
   icpIds as icpIdsConfig,
   orbiterId as orbiterIdConfig,
@@ -6,13 +7,14 @@ import {
   useDockerContainer
 } from './config';
 import {assertJunoConfig} from './fs';
-import type {ConfigArgs, IcpIds} from './types';
+import type {AuthClientIds, ConfigArgs, IcpIds} from './types';
 
 export const initConfig = async (
   args: ConfigArgs
 ): Promise<{
   satelliteId: string;
   orbiterId: string | undefined;
+  authClientIds: AuthClientIds | undefined;
   icpIds: IcpIds | undefined;
   container: string | undefined;
 }> => {
@@ -22,9 +24,10 @@ export const initConfig = async (
     await assertJunoConfig();
   }
 
-  const [satelliteId, orbiterId, icpIds, container] = await Promise.all([
+  const [satelliteId, orbiterId, authClientIds, icpIds, container] = await Promise.all([
     satelliteIdConfig(args),
     orbiterIdConfig(args),
+    authClientIdsConfig(args),
     Promise.resolve(icpIdsConfig()),
     Promise.resolve(containerConfig(args))
   ]);
@@ -32,6 +35,7 @@ export const initConfig = async (
   return {
     satelliteId,
     orbiterId,
+    authClientIds,
     icpIds,
     container
   };

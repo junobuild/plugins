@@ -1,7 +1,14 @@
 import type {JunoConfig} from '@junobuild/config';
 import * as configLoader from '@junobuild/config-loader';
 
-import {container, icpIds, orbiterId, satelliteId, useDockerContainer} from '../config';
+import {
+  authClientIds,
+  container,
+  icpIds,
+  orbiterId,
+  satelliteId,
+  useDockerContainer
+} from '../config';
 import {
   CMC_ID,
   CYCLES_INDEX_ID,
@@ -404,6 +411,77 @@ describe('config', () => {
       });
 
       expect(url).toBeUndefined();
+    });
+  });
+
+  describe('authClientIds', () => {
+    beforeEach(() => {
+      vi.clearAllMocks();
+    });
+
+    it('returns undefined if no config file exists', async () => {
+      vi.spyOn(configLoader, 'junoConfigExist').mockResolvedValue(false);
+
+      const ids = await authClientIds({params: {}, mode: MODE_DEVELOPMENT});
+
+      expect(ids).toBeUndefined();
+    });
+
+    it('returns undefined if config is undefined', async () => {
+      vi.spyOn(configLoader, 'junoConfigExist').mockResolvedValue(true);
+      vi.spyOn(configLoader, 'readJunoConfig').mockResolvedValue(
+        undefined as unknown as JunoConfig
+      );
+
+      const ids = await authClientIds({params: {}, mode: MODE_DEVELOPMENT});
+
+      expect(ids).toBeUndefined();
+    });
+
+    it('returns undefined if config has no satellite key', async () => {
+      vi.spyOn(configLoader, 'junoConfigExist').mockResolvedValue(true);
+      vi.spyOn(configLoader, 'readJunoConfig').mockResolvedValue({} as unknown as JunoConfig);
+
+      const ids = await authClientIds({params: {}, mode: MODE_DEVELOPMENT});
+
+      expect(ids).toBeUndefined();
+    });
+
+    it('returns undefined if satellite.authentication is undefined', async () => {
+      vi.spyOn(configLoader, 'junoConfigExist').mockResolvedValue(true);
+      vi.spyOn(configLoader, 'readJunoConfig').mockResolvedValue({
+        satellite: {}
+      } as unknown as JunoConfig);
+
+      const ids = await authClientIds({params: {}, mode: MODE_DEVELOPMENT});
+
+      expect(ids).toBeUndefined();
+    });
+
+    it('returns undefined if authentication.google is undefined', async () => {
+      vi.spyOn(configLoader, 'junoConfigExist').mockResolvedValue(true);
+      vi.spyOn(configLoader, 'readJunoConfig').mockResolvedValue({
+        satellite: {authentication: {}}
+      } as unknown as JunoConfig);
+
+      const ids = await authClientIds({params: {}, mode: MODE_DEVELOPMENT});
+
+      expect(ids).toBeUndefined();
+    });
+
+    it('returns google clientId when set', async () => {
+      vi.spyOn(configLoader, 'junoConfigExist').mockResolvedValue(true);
+      vi.spyOn(configLoader, 'readJunoConfig').mockResolvedValue({
+        satellite: {
+          authentication: {
+            google: {clientId: 'google-client-id-123'}
+          }
+        }
+      } as unknown as JunoConfig);
+
+      const ids = await authClientIds({params: {}, mode: 'production'});
+
+      expect(ids).toEqual({google: 'google-client-id-123'});
     });
   });
 });

@@ -12,6 +12,9 @@ describe('vite-plugin-juno', () => {
     const spyInitConfig = vi.spyOn(pluginTools, 'initConfig').mockResolvedValue({
       satelliteId: 'sat-id',
       orbiterId: 'orb-id',
+      authClientIds: {
+        google: 'google-client-id-123'
+      },
       icpIds: {
         internetIdentityId: 'ii-id',
         icpLedgerId: 'ledger-id',
@@ -54,7 +57,8 @@ describe('vite-plugin-juno', () => {
         'import.meta.env.VITE_CYCLES_LEDGER_ID': JSON.stringify('cycles-ledger-id'),
         'import.meta.env.VITE_SNS_WASM_ID': JSON.stringify('sns-wasm-id'),
         'import.meta.env.VITE_NNS_DAPP_ID': JSON.stringify('nns-dapp-id'),
-        'import.meta.env.VITE_CONTAINER': JSON.stringify('http://localhost:1234')
+        'import.meta.env.VITE_CONTAINER': JSON.stringify('http://localhost:1234'),
+        'import.meta.env.VITE_GOOGLE_CLIENT_ID': JSON.stringify('google-client-id-123')
       }
     });
   });

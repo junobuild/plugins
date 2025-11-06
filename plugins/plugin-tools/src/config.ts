@@ -1,3 +1,4 @@
+import type {JunoConfig} from '@junobuild/config';
 import {
   CMC_ID,
   CYCLES_INDEX_ID,
@@ -15,7 +16,7 @@ import {
 } from './constants';
 import {JunoPluginError} from './error';
 import {assertJunoConfig, junoConfigExist, readJunoConfig} from './fs';
-import type {ConfigArgs, IcpIds, JunoParams} from './types';
+import type {AuthClientIds, ConfigArgs, IcpIds, JunoParams} from './types';
 
 export const useDockerContainer = ({params, mode}: ConfigArgs): boolean =>
   params?.container !== false &&
@@ -152,4 +153,38 @@ export const container = ({
   }
 
   return undefined;
+};
+
+export const authClientIds = async ({mode}: ConfigArgs): Promise<AuthClientIds | undefined> => {
+  const exist = await junoConfigExist();
+
+  if (!exist) {
+    return undefined;
+  }
+
+  const config: JunoConfig = await readJunoConfig({mode});
+
+  if (config === undefined || !('satellite' in config)) {
+    return undefined;
+  }
+
+  const {
+    satellite: {authentication}
+  } = config;
+
+  if (authentication === undefined) {
+    return undefined;
+  }
+
+  const {google} = authentication;
+
+  if (google === undefined) {
+    return undefined;
+  }
+
+  const {clientId} = google;
+
+  return {
+    google: clientId
+  };
 };
