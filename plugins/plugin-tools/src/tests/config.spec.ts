@@ -1,14 +1,7 @@
 import type {JunoConfig} from '@junobuild/config';
 import * as configLoader from '@junobuild/config-loader';
 
-import {
-  assertJunoConfig,
-  container,
-  icpIds,
-  orbiterId,
-  satelliteId,
-  useDockerContainer
-} from '../config';
+import {container, icpIds, orbiterId, satelliteId, useDockerContainer} from '../config';
 import {
   CMC_ID,
   CYCLES_INDEX_ID,
@@ -411,24 +404,6 @@ describe('config', () => {
       });
 
       expect(url).toBeUndefined();
-    });
-  });
-
-  describe('assertJunoConfig', () => {
-    beforeEach(() => {
-      vi.clearAllMocks();
-    });
-
-    it('throws if config does not exist', async () => {
-      vi.spyOn(configLoader, 'junoConfigExist').mockResolvedValue(false);
-
-      await expect(assertJunoConfig()).rejects.toThrow(JunoPluginError);
-    });
-
-    it('resolves if config exists', async () => {
-      vi.spyOn(configLoader, 'junoConfigExist').mockResolvedValue(true);
-
-      await expect(assertJunoConfig()).resolves.toBeUndefined();
     });
   });
 });

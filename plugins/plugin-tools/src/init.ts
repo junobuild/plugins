@@ -1,11 +1,11 @@
 import {
-  assertJunoConfig,
   container as containerConfig,
   icpIds as icpIdsConfig,
   orbiterId as orbiterIdConfig,
   satelliteId as satelliteIdConfig,
   useDockerContainer
 } from './config';
+import {assertJunoConfig} from './fs';
 import type {ConfigArgs, IcpIds} from './types';
 
 export const initConfig = async (
