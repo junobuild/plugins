@@ -29,8 +29,5 @@
   "engines": {
     "node": ">=24",
     "npm": ">=11.5.1 <12.0.0"
-  },
-  "dependencies": {
-    "@junobuild/config": "^2.5.0-next-2025-11-05.2"
   }
 }
