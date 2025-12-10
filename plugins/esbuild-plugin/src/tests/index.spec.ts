@@ -1,7 +1,7 @@
 import * as pluginTools from '@junobuild/plugin-tools';
 import {JunoPluginError} from '@junobuild/plugin-tools';
 import type {PluginBuild} from 'esbuild';
-import {type JunoOptions, juno} from '../index';
+import juno, {type JunoOptions} from '../index';
 
 describe('esbuild-plugin-juno', () => {
   let mockBuild: PluginBuild;

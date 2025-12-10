@@ -11,7 +11,9 @@ export interface JunoOptions {
   envPrefix?: string;
 }
 
-export const juno = (options?: JunoOptions): Plugin => ({
+// eslint-disable-next-line prefer-arrow/prefer-arrow-functions
+export default function juno(options?: JunoOptions): Plugin {
+  return {
     name: 'esbuild-plugin-juno',
     // eslint-disable-next-line prefer-arrow/prefer-arrow-functions
     setup(build: PluginBuild) {
@@ -92,4 +94,5 @@ export const juno = (options?: JunoOptions): Plugin => ({
 
       build.onStart(defineConfig);
     }
-  });
+  };
+}
