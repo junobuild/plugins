@@ -33,7 +33,7 @@
   ],
   "homepage": "https://juno.build",
   "dependencies": {
-    "@junobuild/config": "^2.6.0"
+    "@junobuild/config": "^2.7.0"
   },
   "peerDependencies": {
     "@junobuild/config-loader": "^0.4.6"
