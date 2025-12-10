@@ -1,0 +1,39 @@
+{
+  "name": "@junobuild/esbuild-plugin",
+  "version": "0.0.1",
+  "description": "An esbuild plugin for Juno",
+  "author": "David Dal Busco (https://daviddalbusco.com)",
+  "license": "MIT",
+  "type": "module",
+  "main": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "rmdir": "node ../../scripts/rmdir.mjs",
+    "ts-declaration": "tsc --emitDeclarationOnly --outDir dist",
+    "build": "tsc --noEmit && npm run rmdir && mkdir -p dist && node esbuild.mjs && npm run ts-declaration"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/junobuild/plugins.git",
+    "directory": "plugins/esbuild-plugin"
+  },
+  "bugs": {
+    "url": "https://github.com/junobuild/plugins"
+  },
+  "keywords": [
+    "env",
+    "environment",
+    "variables",
+    "esbuild",
+    "esbuild-plugin"
+  ],
+  "homepage": "https://juno.build",
+  "dependencies": {
+    "@junobuild/plugin-tools": "*"
+  }
+}
