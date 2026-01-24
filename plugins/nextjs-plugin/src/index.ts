@@ -90,6 +90,9 @@ export const withJuno = async (params?: {
         }),
         ...(authClientIds?.google !== undefined && {
           [`${prefix}GOOGLE_CLIENT_ID`]: authClientIds.google
+        }),
+        ...(authClientIds?.github !== undefined && {
+          [`${prefix}GITHUB_CLIENT_ID`]: authClientIds.github
         })
       },
       ...REQUIRED_NEXT_CONFIG

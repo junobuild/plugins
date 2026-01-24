@@ -15,7 +15,8 @@ describe('withJuno', () => {
       satelliteId: 'sat-id',
       orbiterId: 'orb-id',
       authClientIds: {
-        google: 'google-client-id-123'
+        google: 'google-client-id-123',
+        github: 'github-client-id-123'
       },
       icpIds: {
         internetIdentityId: 'ii-id',
@@ -55,7 +56,8 @@ describe('withJuno', () => {
         NEXT_PUBLIC_SNS_WASM_ID: 'sns-wasm-id',
         NEXT_PUBLIC_NNS_DAPP_ID: 'nns-dapp-id',
         NEXT_PUBLIC_CONTAINER: 'http://localhost:1234',
-        NEXT_PUBLIC_GOOGLE_CLIENT_ID: 'google-client-id-123'
+        NEXT_PUBLIC_GOOGLE_CLIENT_ID: 'google-client-id-123',
+        NEXT_PUBLIC_GITHUB_CLIENT_ID: 'github-client-id-123'
       }
     });
   });
