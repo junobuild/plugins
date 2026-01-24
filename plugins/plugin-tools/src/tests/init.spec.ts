@@ -85,8 +85,8 @@ describe('init', () => {
       container: DOCKER_CONTAINER_URL
     });
 
-    expect(configLoader.junoConfigExist).toHaveResolvedTimes(3);
-    expect(spyReadJunoConfig).toHaveBeenCalledTimes(3);
+    expect(configLoader.junoConfigExist).toHaveResolvedTimes(4);
+    expect(spyReadJunoConfig).toHaveBeenCalledTimes(4);
   });
 
   it('returns config without container for production', async () => {

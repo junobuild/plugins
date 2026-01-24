@@ -28,7 +28,8 @@ describe('vite-plugin-juno', () => {
         snsWasmId: 'sns-wasm-id',
         nnsDappId: 'nns-dapp-id'
       },
-      container: 'http://localhost:1234'
+      container: 'http://localhost:1234',
+      apiUrl: 'http://localhost:3000'
     });
 
     const plugin = Juno() as unknown as {
@@ -59,6 +60,7 @@ describe('vite-plugin-juno', () => {
         'import.meta.env.VITE_SNS_WASM_ID': JSON.stringify('sns-wasm-id'),
         'import.meta.env.VITE_NNS_DAPP_ID': JSON.stringify('nns-dapp-id'),
         'import.meta.env.VITE_CONTAINER': JSON.stringify('http://localhost:1234'),
+        'import.meta.env.VITE_JUNO_API_URL': JSON.stringify('http://localhost:3000'),
         'import.meta.env.VITE_GOOGLE_CLIENT_ID': JSON.stringify('google-client-id-123'),
         'import.meta.env.VITE_GITHUB_CLIENT_ID': JSON.stringify('github-client-id-123')
       }
