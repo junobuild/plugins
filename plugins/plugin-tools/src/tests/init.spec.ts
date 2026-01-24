@@ -52,6 +52,7 @@ describe('init', () => {
   };
 
   const mockGoogleClientId = '1234567890-abcdef.apps.googleusercontent.com';
+  const mockGithubClientId = 'Iv23libmVo99AakddYDv';
 
   let spyJunoConfigExist: MockInstance;
   let spyReadJunoConfig: MockInstance;
@@ -63,7 +64,10 @@ describe('init', () => {
     spyReadJunoConfig = vi.spyOn(configLoader, 'readJunoConfig').mockResolvedValue({
       satellite: {
         ids: {production: 'mock-satellite-id'},
-        authentication: {google: {clientId: mockGoogleClientId}}
+        authentication: {
+          google: {clientId: mockGoogleClientId},
+          github: {clientId: mockGithubClientId}
+        }
       },
       orbiter: {id: 'mock-orbiter-id'}
     });
@@ -80,9 +84,10 @@ describe('init', () => {
     expect(result).toEqual({
       orbiterId: undefined,
       satelliteId: DOCKER_SATELLITE_ID,
-      authClientIds: {google: mockGoogleClientId},
+      authClientIds: {google: mockGoogleClientId, github: mockGithubClientId},
       icpIds: expectedIcpIds,
-      container: DOCKER_CONTAINER_URL
+      container: DOCKER_CONTAINER_URL,
+      apiUrl: undefined
     });
 
     expect(configLoader.junoConfigExist).toHaveResolvedTimes(4);
@@ -95,13 +100,37 @@ describe('init', () => {
     expect(result).toEqual({
       satelliteId: 'mock-satellite-id',
       orbiterId: 'mock-orbiter-id',
-      authClientIds: {google: mockGoogleClientId},
+      authClientIds: {google: mockGoogleClientId, github: mockGithubClientId},
       icpIds: expectedIcpIds,
-      container: undefined
+      container: undefined,
+      apiUrl: undefined
     });
 
     expect(spyJunoConfigExist).toHaveBeenCalled();
     expect(spyReadJunoConfig).toHaveBeenCalled();
+  });
+
+  it('returns config with apiUrl if set', async () => {
+    vi.spyOn(configLoader, 'readJunoConfig').mockResolvedValue({
+      satellite: {
+        ids: {production: 'mock-satellite-id'}
+      },
+      orbiter: {id: 'mock-orbiter-id'},
+      api: {
+        url: 'http://localhost:3000'
+      }
+    });
+
+    const result = await initConfig(args);
+
+    expect(result).toEqual({
+      satelliteId: 'mock-satellite-id',
+      orbiterId: 'mock-orbiter-id',
+      authClientIds: undefined,
+      icpIds: expectedIcpIds,
+      container: undefined,
+      apiUrl: 'http://localhost:3000'
+    });
   });
 
   describe('no config', () => {
@@ -117,7 +146,8 @@ describe('init', () => {
         orbiterId: undefined,
         satelliteId: DOCKER_SATELLITE_ID,
         icpIds: expectedIcpIds,
-        container: DOCKER_CONTAINER_URL
+        container: DOCKER_CONTAINER_URL,
+        apiUrl: undefined
       });
 
       expect(configLoader.junoConfigExist).toHaveBeenCalled();
@@ -136,7 +166,8 @@ describe('init', () => {
         satelliteId: DOCKER_SATELLITE_ID,
         orbiterId: undefined,
         icpIds: expectedIcpIds,
-        container: DOCKER_CONTAINER_URL
+        container: DOCKER_CONTAINER_URL,
+        apiUrl: undefined
       });
 
       expect(configLoader.junoConfigExist).toHaveBeenCalled();
@@ -152,9 +183,10 @@ describe('init', () => {
     expect(result).toEqual({
       satelliteId: 'mock-satellite-id',
       orbiterId: 'mock-orbiter-id',
-      authClientIds: {google: mockGoogleClientId},
+      authClientIds: {google: mockGoogleClientId, github: mockGithubClientId},
       icpIds: expectedIcpIds,
-      container: undefined
+      container: undefined,
+      apiUrl: undefined
     });
 
     expect(spyJunoConfigExist).toHaveBeenCalled();
@@ -176,7 +208,8 @@ describe('init', () => {
       satelliteId: 'custom-docker-id',
       orbiterId: undefined,
       icpIds: expectedIcpIds,
-      container: DOCKER_CONTAINER_URL
+      container: DOCKER_CONTAINER_URL,
+      apiUrl: undefined
     });
 
     expect(configLoader.junoConfigExist).toHaveBeenCalled();
