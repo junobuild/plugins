@@ -458,10 +458,21 @@ describe('config', () => {
       expect(ids).toBeUndefined();
     });
 
-    it('returns undefined if authentication.google is undefined', async () => {
+    it('returns undefined if authentication empty object', async () => {
       vi.spyOn(configLoader, 'junoConfigExist').mockResolvedValue(true);
       vi.spyOn(configLoader, 'readJunoConfig').mockResolvedValue({
         satellite: {authentication: {}}
+      } as unknown as JunoConfig);
+
+      const ids = await authClientIds({params: {}, mode: MODE_DEVELOPMENT});
+
+      expect(ids).toBeUndefined();
+    });
+
+    it('returns undefined if authentication when google and github are undefined', async () => {
+      vi.spyOn(configLoader, 'junoConfigExist').mockResolvedValue(true);
+      vi.spyOn(configLoader, 'readJunoConfig').mockResolvedValue({
+        satellite: {authentication: {github: undefined, google: undefined}}
       } as unknown as JunoConfig);
 
       const ids = await authClientIds({params: {}, mode: MODE_DEVELOPMENT});
@@ -482,6 +493,37 @@ describe('config', () => {
       const ids = await authClientIds({params: {}, mode: 'production'});
 
       expect(ids).toEqual({google: 'google-client-id-123'});
+    });
+
+    it('returns github clientId when set', async () => {
+      vi.spyOn(configLoader, 'junoConfigExist').mockResolvedValue(true);
+      vi.spyOn(configLoader, 'readJunoConfig').mockResolvedValue({
+        satellite: {
+          authentication: {
+            github: {clientId: 'github-client-id-123'}
+          }
+        }
+      } as unknown as JunoConfig);
+
+      const ids = await authClientIds({params: {}, mode: 'production'});
+
+      expect(ids).toEqual({github: 'github-client-id-123'});
+    });
+
+    it('returns google and github clientIds when set', async () => {
+      vi.spyOn(configLoader, 'junoConfigExist').mockResolvedValue(true);
+      vi.spyOn(configLoader, 'readJunoConfig').mockResolvedValue({
+        satellite: {
+          authentication: {
+            google: {clientId: 'google-client-id-123'},
+            github: {clientId: 'github-client-id-123'}
+          }
+        }
+      } as unknown as JunoConfig);
+
+      const ids = await authClientIds({params: {}, mode: 'production'});
+
+      expect(ids).toEqual({google: 'google-client-id-123', github: 'github-client-id-123'});
     });
   });
 });

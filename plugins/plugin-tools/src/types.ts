@@ -125,5 +125,11 @@ export interface AuthClientIds {
    * Google client ID.
    * @type {string}
    */
-  google: string;
+  google?: string;
+
+  /**
+   * GitHub client ID.
+   * @type {string}
+   */
+  github?: string;
 }

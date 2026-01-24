@@ -176,15 +176,14 @@ export const authClientIds = async ({mode}: ConfigArgs): Promise<AuthClientIds |
     return undefined;
   }
 
-  const {google} = authentication;
+  const {google, github} = authentication;
 
-  if (google === undefined) {
+  if (google === undefined && github === undefined) {
     return undefined;
   }
 
-  const {clientId} = google;
-
   return {
-    google: clientId
+    ...(google?.clientId !== undefined && {google: google.clientId}),
+    ...(github?.clientId !== undefined && {github: github.clientId})
   };
 };

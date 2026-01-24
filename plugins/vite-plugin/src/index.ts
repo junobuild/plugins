@@ -65,6 +65,9 @@ export default function Juno(params?: JunoParams): Plugin {
             }),
             ...(authClientIds?.google !== undefined && {
               [`${prefix}GOOGLE_CLIENT_ID`]: JSON.stringify(authClientIds.google)
+            }),
+            ...(authClientIds?.github !== undefined && {
+              [`${prefix}GITHUB_CLIENT_ID`]: JSON.stringify(authClientIds.github)
             })
           }
         };
