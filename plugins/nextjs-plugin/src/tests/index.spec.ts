@@ -30,7 +30,8 @@ describe('withJuno', () => {
         snsWasmId: 'sns-wasm-id',
         nnsDappId: 'nns-dapp-id'
       },
-      container: 'http://localhost:1234'
+      container: 'http://localhost:1234',
+      apiUrl: 'http://localhost:3000'
     });
 
     const result = await withJuno();
@@ -56,6 +57,7 @@ describe('withJuno', () => {
         NEXT_PUBLIC_SNS_WASM_ID: 'sns-wasm-id',
         NEXT_PUBLIC_NNS_DAPP_ID: 'nns-dapp-id',
         NEXT_PUBLIC_CONTAINER: 'http://localhost:1234',
+        NEXT_PUBLIC_JUNO_API_URL: 'http://localhost:3000',
         NEXT_PUBLIC_GOOGLE_CLIENT_ID: 'google-client-id-123',
         NEXT_PUBLIC_GITHUB_CLIENT_ID: 'github-client-id-123'
       }
@@ -68,7 +70,8 @@ describe('withJuno', () => {
       orbiterId: undefined,
       authClientIds: undefined,
       icpIds: undefined,
-      container: undefined
+      container: undefined,
+      apiUrl: undefined
     });
 
     const result = await withJuno({prefix: 'TEST_'});
@@ -83,7 +86,8 @@ describe('withJuno', () => {
       orbiterId: undefined,
       authClientIds: undefined,
       icpIds: undefined,
-      container: undefined
+      container: undefined,
+      apiUrl: undefined
     });
 
     const result = await withJuno({

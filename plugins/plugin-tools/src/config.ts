@@ -187,3 +187,15 @@ export const authClientIds = async ({mode}: ConfigArgs): Promise<AuthClientIds |
     ...(github?.clientId !== undefined && {github: github.clientId})
   };
 };
+
+export const apiUrl = async ({mode}: ConfigArgs): Promise<string | undefined> => {
+  const exist = await junoConfigExist();
+
+  if (!exist) {
+    return undefined;
+  }
+
+  const config = await readJunoConfig({mode});
+
+  return config?.api?.url;
+};

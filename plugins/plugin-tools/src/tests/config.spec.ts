@@ -2,6 +2,7 @@ import type {JunoConfig} from '@junobuild/config';
 import * as configLoader from '@junobuild/config-loader';
 
 import {
+  apiUrl,
   authClientIds,
   container,
   icpIds,
@@ -524,6 +525,75 @@ describe('config', () => {
       const ids = await authClientIds({params: {}, mode: 'production'});
 
       expect(ids).toEqual({google: 'google-client-id-123', github: 'github-client-id-123'});
+    });
+  });
+
+  describe('apiUrl', () => {
+    beforeEach(() => {
+      vi.clearAllMocks();
+    });
+
+    it('returns undefined if no config file exists', async () => {
+      vi.spyOn(configLoader, 'junoConfigExist').mockResolvedValue(false);
+
+      const url = await apiUrl({params: {}, mode: MODE_DEVELOPMENT});
+
+      expect(url).toBeUndefined();
+    });
+
+    it('returns undefined if config is undefined', async () => {
+      vi.spyOn(configLoader, 'junoConfigExist').mockResolvedValue(true);
+      vi.spyOn(configLoader, 'readJunoConfig').mockResolvedValue(
+        undefined as unknown as JunoConfig
+      );
+
+      const url = await apiUrl({params: {}, mode: MODE_DEVELOPMENT});
+
+      expect(url).toBeUndefined();
+    });
+
+    it('returns undefined if config has no api key', async () => {
+      vi.spyOn(configLoader, 'junoConfigExist').mockResolvedValue(true);
+      vi.spyOn(configLoader, 'readJunoConfig').mockResolvedValue({} as unknown as JunoConfig);
+
+      const url = await apiUrl({params: {}, mode: MODE_DEVELOPMENT});
+
+      expect(url).toBeUndefined();
+    });
+
+    it('returns undefined if api empty object', async () => {
+      vi.spyOn(configLoader, 'junoConfigExist').mockResolvedValue(true);
+      vi.spyOn(configLoader, 'readJunoConfig').mockResolvedValue({
+        api: {}
+      } as unknown as JunoConfig);
+
+      const url = await apiUrl({params: {}, mode: MODE_DEVELOPMENT});
+
+      expect(url).toBeUndefined();
+    });
+
+    it('returns undefined if api.url is undefined', async () => {
+      vi.spyOn(configLoader, 'junoConfigExist').mockResolvedValue(true);
+      vi.spyOn(configLoader, 'readJunoConfig').mockResolvedValue({
+        api: {url: undefined}
+      } as unknown as JunoConfig);
+
+      const url = await apiUrl({params: {}, mode: MODE_DEVELOPMENT});
+
+      expect(url).toBeUndefined();
+    });
+
+    it('returns api url when set', async () => {
+      vi.spyOn(configLoader, 'junoConfigExist').mockResolvedValue(true);
+      vi.spyOn(configLoader, 'readJunoConfig').mockResolvedValue({
+        api: {
+          url: 'http://localhost:3000'
+        }
+      } as unknown as JunoConfig);
+
+      const url = await apiUrl({params: {}, mode: 'production'});
+
+      expect(url).toEqual('http://localhost:3000');
     });
   });
 });

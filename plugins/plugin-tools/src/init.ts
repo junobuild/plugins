@@ -1,4 +1,5 @@
 import {
+  apiUrl as apiUrlConfig,
   authClientIds as authClientIdsConfig,
   container as containerConfig,
   icpIds as icpIdsConfig,
@@ -17,6 +18,7 @@ export const initConfig = async (
   authClientIds: AuthClientIds | undefined;
   icpIds: IcpIds | undefined;
   container: string | undefined;
+  apiUrl: string | undefined;
 }> => {
   // We perform the checks in advance to throw the potential error only once.
   // We also assert the config file exists only if the Docker container should not be used given that the file won't be required otherwise.
@@ -24,12 +26,13 @@ export const initConfig = async (
     await assertJunoConfig();
   }
 
-  const [satelliteId, orbiterId, authClientIds, icpIds, container] = await Promise.all([
+  const [satelliteId, orbiterId, authClientIds, icpIds, container, apiUrl] = await Promise.all([
     satelliteIdConfig(args),
     orbiterIdConfig(args),
     authClientIdsConfig(args),
     Promise.resolve(icpIdsConfig()),
-    Promise.resolve(containerConfig(args))
+    Promise.resolve(containerConfig(args)),
+    apiUrlConfig(args)
   ]);
 
   return {
@@ -37,6 +40,7 @@ export const initConfig = async (
     orbiterId,
     authClientIds,
     icpIds,
-    container
+    container,
+    apiUrl
   };
 };

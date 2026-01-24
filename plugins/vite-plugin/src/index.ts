@@ -20,7 +20,8 @@ export default function Juno(params?: JunoParams): Plugin {
       try {
         const args: ConfigArgs = {params, mode};
 
-        const {satelliteId, orbiterId, icpIds, container, authClientIds} = await initConfig(args);
+        const {satelliteId, orbiterId, icpIds, container, authClientIds, apiUrl} =
+          await initConfig(args);
 
         const prefix = `import.meta.env.${envPrefix ?? 'VITE_'}`;
 
@@ -62,6 +63,9 @@ export default function Juno(params?: JunoParams): Plugin {
             }),
             ...(container !== undefined && {
               [`${prefix}CONTAINER`]: JSON.stringify(container)
+            }),
+            ...(apiUrl !== undefined && {
+              [`${prefix}JUNO_API_URL`]: JSON.stringify(apiUrl)
             }),
             ...(authClientIds?.google !== undefined && {
               [`${prefix}GOOGLE_CLIENT_ID`]: JSON.stringify(authClientIds.google)
