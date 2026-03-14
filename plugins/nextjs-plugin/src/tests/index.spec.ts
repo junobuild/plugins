@@ -1,6 +1,5 @@
 import * as pluginTools from '@junobuild/plugin-tools';
 import {JunoPluginError} from '@junobuild/plugin-tools';
-
 import {withJuno} from '../index';
 
 describe('withJuno', () => {

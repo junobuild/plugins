@@ -1,6 +1,5 @@
 import type {JunoConfig} from '@junobuild/config';
 import * as configLoader from '@junobuild/config-loader';
-
 import {
   apiUrl,
   authClientIds,
