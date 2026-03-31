@@ -6,7 +6,8 @@
   "workspaces": [
     "plugins/plugin-tools",
     "plugins/vite-plugin",
-    "plugins/nextjs-plugin"
+    "plugins/nextjs-plugin",
+    "plugins/esbuild-plugin"
   ],
   "scripts": {
     "build": "npm run build --workspaces",
